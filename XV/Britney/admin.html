@@ -7,7 +7,7 @@
     <title>Panel de Control — XV Britney</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -41,9 +41,9 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             width: 100%;
-            max-width: 720px;
+            max-width: 760px;
         }
 
         header h1 {
@@ -93,12 +93,87 @@
             transform: translateY(-2px);
         }
 
+        /* --- BARRA DE CONEXIÓN EN VIVO CON GOOGLE SHEETS --- */
+        .sheets-sync-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 22px;
+            width: 100%;
+            max-width: 620px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 115, 130, 0.08);
+            border-left: 5px solid var(--turquesa);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sync-status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sync-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sync-badge.loading { color: var(--alerta); }
+        .sync-badge.connected { color: var(--exito); }
+        .sync-badge.error { color: var(--peligro); }
+
+        .sheets-url-input-wrap {
+            display: flex;
+            gap: 8px;
+        }
+
+        .sheets-url-input {
+            flex: 1;
+            padding: 9px 14px;
+            border: 1.5px solid #b2ebf2;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-family: monospace;
+            outline: none;
+            color: var(--azul-profundo);
+        }
+
+        .sheets-url-input:focus {
+            border-color: var(--turquesa);
+        }
+
+        .btn-sync-action {
+            background: var(--turquesa);
+            color: white;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-sync-action:hover {
+            background: var(--turquesa-oscuro);
+        }
+
+        /* --- Panel de Creación de Pases --- */
         .panel-box {
             background: white;
             border-radius: 26px;
             padding: 38px 32px;
             width: 100%;
-            max-width: 560px;
+            max-width: 620px;
             box-shadow: 0 20px 45px rgba(0, 115, 130, 0.12);
             border-top: 6px solid var(--turquesa);
             margin-bottom: 30px;
@@ -106,7 +181,7 @@
 
         .panel-heading {
             font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--turquesa);
@@ -153,28 +228,31 @@
             padding: 16px;
             border-radius: 50px;
             font-size: 0.9rem;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
             box-shadow: 0 8px 25px rgba(0, 151, 167, 0.3);
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .btn-generate:hover {
             transform: translateY(-2px);
-            filter: brightness(1.05);
             box-shadow: 0 12px 30px rgba(0, 151, 167, 0.45);
         }
 
-        /* Resultado Generado */
+        /* --- Resultado de Invitación --- */
         #resultCard {
             display: none;
             background: white;
             border-radius: 26px;
             padding: 35px 28px;
             width: 100%;
-            max-width: 560px;
+            max-width: 620px;
             box-shadow: 0 20px 50px rgba(0, 115, 130, 0.15);
             border-top: 6px solid #2e7d32;
             margin-bottom: 35px;
@@ -236,7 +314,7 @@
         .btn-wa { background: #25d366; color: white; grid-column: span 2; }
         .btn-wa:hover { background: #1eb956; }
 
-        /* Lista de Invitados */
+        /* --- Tabla de Invitados --- */
         .guests-table-panel {
             width: 100%;
             max-width: 900px;
@@ -355,13 +433,26 @@
 
     <header>
         <h1>Britney</h1>
-        <p>Generador de Pases VIP & WhatsApp</p>
+        <p>Generador de Pases VIP & Sincronización Google Sheets</p>
         <div class="header-links">
             <a href="index.html" class="link-pill" target="_blank">👁️ Ver Invitación</a>
             <a href="confirmados.html" class="link-pill">📊 Dashboard de Confirmados</a>
         </div>
     </header>
 
+    <!-- BARRA DE CONEXIÓN CON GOOGLE SHEETS -->
+    <div class="sheets-sync-bar">
+        <div class="sync-status-row">
+            <span class="sync-badge" id="syncStatusBadge">⏳ Verificando Google Sheets...</span>
+            <button class="btn-sync-action" onclick="cargarDesdeGoogleSheets(true)">🔄 Recargar de Sheets</button>
+        </div>
+        <div class="sheets-url-input-wrap">
+            <input type="text" id="inpSheetsUrl" class="sheets-url-input" placeholder="Pega aquí la URL de tu Google Apps Script (/exec)...">
+            <button class="btn-sync-action" onclick="guardarNuevaUrlSheets()">Guardar URL</button>
+        </div>
+    </div>
+
+    <!-- Panel de creación -->
     <div class="panel-box">
         <h2 class="panel-heading">✦ Nuevo Pase de Invitado ✦</h2>
 
@@ -380,7 +471,7 @@
         </button>
     </div>
 
-    <!-- Resultado -->
+    <!-- Resultado Generado -->
     <div id="resultCard">
         <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e7d32; letter-spacing: 2px;">¡Invitación Creada con Éxito!</h3>
 
@@ -401,16 +492,16 @@
         </div>
     </div>
 
-    <!-- Tabla -->
+    <!-- Tabla de Invitados -->
     <div class="guests-table-panel">
         <div class="table-head-bar">
             <div>
-                <h3 style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--turquesa); letter-spacing: 2px;">Invitados Registrados</h3>
-                <p style="font-size: 0.75rem; color: var(--plata-texto);">Historial de pases generados</p>
+                <h3 style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--turquesa); letter-spacing: 2px;">Lista de Invitados</h3>
+                <p style="font-size: 0.75rem; color: var(--plata-texto);">Sincronizada con Google Sheets</p>
             </div>
             <div class="table-badges">
                 <span class="badge-stat" id="statFamilias">0 Familias</span>
-                <span class="badge-stat" id="statPases">0 Pases en Total</span>
+                <span class="badge-stat" id="statPases">0 Pases</span>
                 <span class="badge-stat" style="background: #e8f5e9; color: #2e7d32;" id="statConfirmados">0 Confirmados</span>
             </div>
         </div>
@@ -438,15 +529,12 @@
 
     <script>
         // =========================================================================
-        // 📝 CONFIGURACIÓN DE GOOGLE APPS SCRIPT PARA ESTE CLIENTE
-        // Modifica la siguiente URL cuando utilices este panel para otro cliente:
+        // 📝 CONFIGURACIÓN DE GOOGLE APPS SCRIPT
         // =========================================================================
-        const CONFIG_ADMIN = {
-            GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzt82an0oeBTjo4TncRopBnd85Yvm5AaUqfQKWCSJwy_ZhN8G5wBvWGoJXBl3h61ZAWSg/exec',
-            WHATSAPP_PHONE: '528446082601',
-            NOMBRE_FESTEJADA: 'Britney'
-        };
-        // =========================================================================
+        const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzt82an0oeBTjo4TncRopBnd85Yvm5AaUqfQKWCSJwy_ZhN8G5wBvWGoJXBl3h61ZAWSg/exec';
+        
+        let SHEETS_URL = localStorage.getItem('xv_sheets_url_custom') || DEFAULT_SHEETS_URL;
+        document.getElementById('inpSheetsUrl').value = SHEETS_URL;
 
         function getBaseUrl() {
             const href = window.location.href;
@@ -454,12 +542,60 @@
         }
 
         const BASE_INVITE_URL = getBaseUrl();
-        let invitados = JSON.parse(localStorage.getItem('xv_britney_invitados') || '[]');
+        let invitados = [];
         let currentLink = '';
         let currentFamilia = '';
         let currentPases = 1;
 
-        renderTabla();
+        function guardarNuevaUrlSheets() {
+            const nueva = document.getElementById('inpSheetsUrl').value.trim();
+            if (!nueva) {
+                alert('Ingresa una URL válida de Google Apps Script');
+                return;
+            }
+            SHEETS_URL = nueva;
+            localStorage.setItem('xv_sheets_url_custom', nueva);
+            mostrarToast('URL de Google Sheets guardada');
+            cargarDesdeGoogleSheets(true);
+        }
+
+        // CARGA AUTOMÁTICA DESDE GOOGLE SHEETS
+        async function cargarDesdeGoogleSheets(manual = false) {
+            const badge = document.getElementById('syncStatusBadge');
+            badge.className = 'sync-badge loading';
+            badge.innerText = '⏳ Conectando con Google Sheets...';
+
+            try {
+                if (SHEETS_URL && SHEETS_URL.includes('script.google.com')) {
+                    const resp = await fetch(SHEETS_URL);
+                    const data = await resp.json();
+
+                    if (Array.isArray(data)) {
+                        invitados = data.map(item => ({
+                            familia: item.familia || item.Familia || '',
+                            pases: parseInt(item.pases || item.Pases) || 1,
+                            confirmado: item.confirmado || item.Confirmado || 'Pendiente',
+                            link: `${BASE_INVITE_URL}?n=${encodeURIComponent(item.familia || item.Familia)}&p=${item.pases || item.Pases || 1}`
+                        })).filter(i => i.familia !== '');
+
+                        localStorage.setItem('xv_britney_invitados', JSON.stringify(invitados));
+                        badge.className = 'sync-badge connected';
+                        badge.innerText = `🟢 Conectado a Sheets: ${invitados.length} invitados cargados`;
+                        renderTabla();
+                        if (manual) mostrarToast('¡Datos sincronizados con Google Sheets!');
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.warn('Error leyendo Google Sheets, cargando memoria local:', err);
+            }
+
+            // Fallback a localStorage
+            invitados = JSON.parse(localStorage.getItem('xv_britney_invitados') || '[]');
+            badge.className = 'sync-badge error';
+            badge.innerText = `⚠️ Modo Local (${invitados.length} invitados). Verifica tu Apps Script.`;
+            renderTabla();
+        }
 
         function crearPase() {
             const familia = document.getElementById('inpFamilia').value.trim();
@@ -481,12 +617,13 @@
             document.getElementById('resultCard').style.display = 'block';
             document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
+            // Actualizar local
             const idx = invitados.findIndex(i => i.familia.toLowerCase() === familia.toLowerCase());
             if (idx >= 0) {
                 invitados[idx].pases = pases;
                 invitados[idx].link = currentLink;
             } else {
-                invitados.push({
+                invitados.unshift({
                     familia: familia,
                     pases: pases,
                     link: currentLink,
@@ -497,20 +634,20 @@
             localStorage.setItem('xv_britney_invitados', JSON.stringify(invitados));
             renderTabla();
 
-            // Sincronizar en Google Sheets
-            if (CONFIG_ADMIN.GOOGLE_SHEETS_URL) {
+            // ENVIAR A GOOGLE SHEETS
+            if (SHEETS_URL && SHEETS_URL.includes('script.google.com')) {
                 const payload = JSON.stringify({
-                    action: 'add_guest',
                     familia: familia,
                     pases: pases,
                     confirmado: 'Pendiente'
                 });
-                fetch(CONFIG_ADMIN.GOOGLE_SHEETS_URL, {
+
+                fetch(SHEETS_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: payload
-                }).catch(() => {
-                    fetch(CONFIG_ADMIN.GOOGLE_SHEETS_URL, {
+                }).catch(err => {
+                    fetch(SHEETS_URL, {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -521,9 +658,7 @@
         }
 
         function copiarEnlace() {
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(currentLink);
-            }
+            if (navigator.clipboard) navigator.clipboard.writeText(currentLink);
             mostrarToast('¡Enlace copiado al portapapeles!');
         }
 
@@ -556,7 +691,7 @@
             document.getElementById('statConfirmados').innerText = `${totalConfirmados} Confirmados`;
 
             if (filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #94a3b8; padding: 25px;">No hay invitados registrados.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #94a3b8; padding: 25px;">No hay invitados registrados aún. Escribe arriba para agregar uno o pulsa "Recargar de Sheets".</td></tr>`;
                 return;
             }
 
@@ -581,8 +716,7 @@
         }
 
         function filtrarLista() {
-            const val = document.getElementById('inpBuscar').value;
-            renderTabla(val);
+            renderTabla(document.getElementById('inpBuscar').value);
         }
 
         function copiarFila(url) {
@@ -591,7 +725,7 @@
         }
 
         function eliminarFila(fam) {
-            if (confirm(`¿Eliminar a "${fam}" de la lista?`)) {
+            if (confirm(`¿Eliminar a "${fam}" de la lista local?`)) {
                 invitados = invitados.filter(i => i.familia !== fam);
                 localStorage.setItem('xv_britney_invitados', JSON.stringify(invitados));
                 renderTabla();
@@ -605,6 +739,9 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
+
+        // Cargar en cuanto cargue el DOM
+        cargarDesdeGoogleSheets();
     </script>
 </body>
 
