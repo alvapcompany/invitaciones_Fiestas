@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Pases VIP — Lucia's 30th Gala</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #120e06;
+            --oro: #d4af37;
+            --oro-champagne: #fef08a;
+            --esmeralda: #0b533b;
+            --texto: #fefce8;
+            --plata: #a8a29e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #120e06 0%, #241c0b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 16px 80px;
+            color: var(--texto);
+        }
+
+        header { text-align: center; margin-bottom: 30px; width: 100%; max-width: 680px; }
+        header h1 { font-family: 'Cinzel', serif; font-size: 2.6rem; font-weight: 800; color: var(--oro-champagne); line-height: 1.1; text-transform: uppercase; letter-spacing: 2px; }
+        header p { font-size: 0.85rem; letter-spacing: 3px; color: var(--oro); text-transform: uppercase; font-weight: 700; margin-top: 6px; }
+
+        .header-links { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+        .link-pill {
+            background: rgba(255, 255, 255, 0.08); border: 1.5px solid var(--oro); padding: 8px 20px; border-radius: 50px;
+            font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--oro-champagne); text-decoration: none;
+            transition: all 0.3s;
+        }
+        .link-pill:hover { background: var(--oro); color: #120e06; transform: translateY(-2px); }
+
+        .panel-box {
+            background: rgba(26, 20, 10, 0.9); border-radius: 26px; padding: 38px 32px; width: 100%; max-width: 580px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6); border-top: 6px solid var(--oro); border-bottom: 2px solid var(--esmeralda); margin-bottom: 30px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--oro); margin-bottom: 8px; font-weight: 700; }
+        .form-group input { width: 100%; padding: 14px 18px; border: 1.5px solid rgba(212, 175, 55, 0.3); background: rgba(18, 14, 6, 0.8); color: white; border-radius: 14px; font-size: 1rem; outline: none; font-family: inherit; }
+
+        .btn-generate {
+            width: 100%; background: linear-gradient(135deg, var(--oro), #b38728);
+            color: #1a1202; border: none; padding: 16px; border-radius: 50px; font-family: 'Cinzel', serif; font-size: 0.9rem;
+            font-weight: 800; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4); transition: all 0.3s;
+        }
+        .btn-generate:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        #resultCard {
+            display: none; background: rgba(26, 20, 10, 0.95); border-radius: 26px; padding: 35px 28px; width: 100%; max-width: 580px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); border-top: 6px solid #22c55e; margin-bottom: 35px; text-align: center;
+        }
+
+        .preview-box { background: rgba(18, 14, 6, 0.7); border: 2px dashed var(--oro); border-radius: 20px; padding: 24px; margin: 20px 0; }
+        .link-output { background: rgba(26, 20, 10, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 12px; font-size: 0.78rem; word-break: break-all; color: var(--oro-champagne); margin: 14px 0 20px; font-family: monospace; }
+
+        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .btn-act { padding: 13px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; cursor: pointer; border: none; text-decoration: none; text-align: center; }
+        .btn-copy { background: rgba(212, 175, 55, 0.2); color: var(--oro-champagne); }
+        .btn-view { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .btn-wa { background: #25d366; color: white; grid-column: span 2; font-size: 0.85rem; padding: 15px; }
+
+        .guests-table-panel { width: 100%; max-width: 900px; background: rgba(26, 20, 10, 0.9); border-radius: 26px; padding: 35px 28px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5); }
+        .table-head-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 16px; }
+        .guests-tbl { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .guests-tbl th { text-align: left; padding: 12px 14px; background: rgba(18, 14, 6, 0.6); color: var(--oro-champagne); font-size: 0.72rem; text-transform: uppercase; border-bottom: 2px solid rgba(212, 175, 55, 0.2); }
+        .guests-tbl td { padding: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+        .toast-popup {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: var(--oro); color: #120e06; padding: 12px 28px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; transition: transform 0.3s; z-index: 999;
+        }
+        .toast-popup.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Lucía 30th Gala</h1>
+        <p>Generador de Pases VIP & WhatsApp</p>
+        <div class="header-links">
+            <a href="index.html" class="link-pill" target="_blank">👁️ Ver Invitación</a>
+            <a href="confirmados.html" class="link-pill">📊 Lista de Asistencia</a>
+        </div>
+    </header>
+
+    <div class="panel-box">
+        <h2 style="font-family: 'Cinzel', serif; font-size: 1.15rem; letter-spacing: 3px; text-transform: uppercase; color: var(--oro); margin-bottom: 24px; text-align: center; font-weight: 800;">✦ Generar Pase de Gala ✦</h2>
+
+        <div class="form-group">
+            <label for="inpFamilia">Nombre del Invitado / Grupo</label>
+            <input type="text" id="inpFamilia" placeholder="Ej: Arq. Rodrigo Elizondo & Pareja" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="inpPases">Número de Lugares</label>
+            <input type="number" id="inpPases" placeholder="Ej: 2" min="1" max="20" value="2">
+        </div>
+
+        <button class="btn-generate" onclick="crearPase()">
+            <span>✨ Generar Invitación de Gala</span>
+        </button>
+    </div>
+
+    <div id="resultCard">
+        <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #4ade80; letter-spacing: 2px; text-transform: uppercase; font-weight: 800;">¡Pase de Gala Generado!</h3>
+
+        <div class="preview-box">
+            <p style="font-size: 0.72rem; letter-spacing: 2px; color: var(--oro); text-transform: uppercase; font-weight: 700;">Invitación para:</p>
+            <div id="resFamilia" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 800; color: white; margin: 6px 0;">Invitado —</div>
+            <p style="font-size: 0.78rem; color: var(--plata);">Lugares reservados:</p>
+            <div id="resPases" style="font-family: 'Cinzel', serif; font-size: 2.8rem; font-weight: 900; color: var(--oro-champagne); line-height: 1;">2</div>
+        </div>
+
+        <p style="font-size: 0.72rem; letter-spacing: 1px; color: var(--plata); text-transform: uppercase;">Enlace personalizado:</p>
+        <div class="link-output" id="resLink" onclick="copiarEnlace()">—</div>
+
+        <div class="actions-grid">
+            <button class="btn-act btn-copy" onclick="copiarEnlace()">📋 Copiar Link</button>
+            <a href="#" id="btnVer" class="btn-act btn-view" target="_blank">👁️ Ver</a>
+            <button class="btn-act btn-wa" onclick="compartirWhatsApp()">💬 Enviar Invitación por WhatsApp</button>
+        </div>
+    </div>
+
+    <div class="guests-table-panel">
+        <div class="table-head-bar">
+            <div>
+                <h3 style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--oro); letter-spacing: 2px; font-weight: 800;">Lista de Invitados de Gala</h3>
+                <p style="font-size: 0.75rem; color: var(--plata);">Control de reservaciones de la velada</p>
+            </div>
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--oro);" id="statFamilias">0 Invitados</div>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table class="guests-tbl">
+                <thead>
+                    <tr>
+                        <th>Invitado / Grupo</th>
+                        <th>Lugares</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="guestsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="toast-popup" id="toastBox">¡Enlace copiado al portapapeles!</div>
+
+    <script>
+        const GOOGLE_SHEETS_URL = '';
+        const NOMBRE_EVENTO = "Lucia's 30th Birthday Gala";
+
+        function getBaseUrl() {
+            const href = window.location.href;
+            return href.substring(0, href.lastIndexOf('/') + 1) + 'index.html';
+        }
+
+        const BASE_INVITE_URL = getBaseUrl();
+        let invitados = JSON.parse(localStorage.getItem('fiesta_lucia_invitados') || '[]');
+        let currentLink = '';
+        let currentFamilia = '';
+        let currentPases = 2;
+
+        function crearPase() {
+            const familia = document.getElementById('inpFamilia').value.trim();
+            const pases = parseInt(document.getElementById('inpPases').value) || 2;
+            if (!familia) return alert('Por favor ingresa el nombre del invitado.');
+
+            currentFamilia = familia;
+            currentPases = pases;
+            currentLink = `${BASE_INVITE_URL}?n=${encodeURIComponent(familia)}&p=${pases}`;
+
+            document.getElementById('resFamilia').innerText = familia;
+            document.getElementById('resPases').innerText = pases;
+            document.getElementById('resLink').innerText = currentLink;
+            document.getElementById('btnVer').href = currentLink;
+            document.getElementById('resultCard').style.display = 'block';
+
+            invitados.unshift({ familia, pases, link: currentLink, confirmado: 'Pendiente' });
+            localStorage.setItem('fiesta_lucia_invitados', JSON.stringify(invitados));
+            renderTabla();
+        }
+
+        function copiarEnlace() {
+            if (navigator.clipboard) navigator.clipboard.writeText(currentLink);
+            const toast = document.getElementById('toastBox');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function compartirWhatsApp() {
+            const msg = `✨ ¡Hola ${currentFamilia}! ✨\n\nCon enorme alegría te invito a celebrar mis 30 años en una noche de gala, jazz y cóctel en Il Mercato Gentiloni Saltillo 🥂.\n\nTienes reservados especialmente para ti *${currentPases} lugar${currentPases > 1 ? 'es' : ''}*.\n\nPuedes consultar el itinerario y confirmar aquí:\n👉 ${currentLink}\n\n¡Será un honor brindar juntos! — Lucía Villarreal`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function renderTabla() {
+            const tbody = document.getElementById('guestsBody');
+            tbody.innerHTML = '';
+            document.getElementById('statFamilias').innerText = `${invitados.length} Invitados`;
+
+            if (invitados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #94a3b8; padding: 25px;">No hay invitados registrados aún. Escribe arriba para generar el primer pase.</td></tr>`;
+                return;
+            }
+
+            invitados.forEach(inv => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight: 600;">${inv.familia}</td>
+                    <td><strong>${inv.pases}</strong></td>
+                    <td><span style="background: rgba(245, 158, 11, 0.2); color: #fcd34d; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700;">${inv.confirmado}</span></td>
+                    <td><button style="padding: 5px 12px; border-radius: 50px; border: none; background: rgba(212, 175, 55, 0.2); color: var(--oro-champagne); font-weight: 700; cursor: pointer;" onclick="navigator.clipboard.writeText('${inv.link}'); alert('Enlace copiado!');">📋 Copiar</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        renderTabla();
+    </script>
+</body>
+
+</html>

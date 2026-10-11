@@ -7,7 +7,7 @@ Este tutorial te guía paso a paso para conectar tu hoja de Google Sheets en men
 ## 📌 Paso 1: Crear tu Hoja en Google Drive
 
 1. Ve a [Google Sheets (drive.google.com)](https://sheets.google.com) y crea una **Hoja de cálculo en blanco**.
-2. Dale un nombre arriba a la izquierda, por ejemplo: `Invitados XV Britney`.
+2. Dale un nombre arriba a la izquierda, por ejemplo: `Invitados XV Evento`.
 3. *(Opcional)* No necesitas escribir los encabezados; el script los creará automáticamente si está vacía. Si deseas escribirlos tú mismo, escribe en la fila 1:
    * **Columna A:** `Familia`
    * **Columna B:** `Pases`
@@ -124,8 +124,8 @@ function doPost(e) {
 Tienes dos formas súper sencillas:
 
 ### Opción A (Sin tocar código, directamente desde tu navegador):
-1. Abre tu Panel Admin:  
-   👉 `https://alvapcompany.github.io/invitaciones_Fiestas/XV/Britney/admin.html`
+1. Abre tu Super Admin o Panel del Evento:  
+   👉 `https://alvapcompany.github.io/invitaciones_Fiestas/superadmin.html`
 2. En la barra superior verás el campo:  
    `[ Pega aquí la URL de tu Google Apps Script (/exec)... ]`
 3. Pega tu enlace y haz clic en **"Guardar URL"**.

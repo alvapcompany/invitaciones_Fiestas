@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Invitaciones Digitales — Alva P Company</title>
+    <title>Colección de Invitaciones Digitales — Alva P Company</title>
 
-    <meta name="description" content="Plataforma de invitaciones digitales interactivas para XV Años, Bodas y Fiestas.">
+    <meta name="description" content="Catálogo exclusivo de invitaciones digitales interactivas para XV Años, Bodas y Eventos Sociales de Gala.">
     <meta name="theme-color" content="#041220">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,30 +16,26 @@
     <style>
         :root {
             --bg-night: #041220;
-            --bg-card: rgba(7, 29, 50, 0.75);
-            --border-glow: rgba(77, 208, 225, 0.25);
-            --turquesa: #0097a7;
-            --cyan-glow: #4dd0e1;
+            --bg-card: rgba(10, 25, 45, 0.75);
+            --border-card: rgba(212, 175, 55, 0.25);
             --oro: #d4af37;
+            --oro-suave: #fef08a;
             --oro-gradiente: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
+            --cyan-glow: #38bdf8;
             --plata-texto: #94a3b8;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: radial-gradient(circle at 10% 10%, #071d32 0%, #041220 50%, #020912 100%);
+            background: radial-gradient(circle at 10% 10%, #0a1f33 0%, #041220 50%, #020810 100%);
             min-height: 100vh;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 50px 20px 80px;
+            padding: 60px 20px 90px;
             position: relative;
             overflow-x: hidden;
         }
@@ -47,35 +43,35 @@
         /* Ambient Glows */
         .ambient-glow-1 {
             position: absolute;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(77, 208, 225, 0.18), transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12), transparent 70%);
             top: 5%;
-            left: 10%;
-            filter: blur(50px);
+            left: 5%;
+            filter: blur(60px);
             pointer-events: none;
         }
 
         .ambient-glow-2 {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 151, 167, 0.15), transparent 70%);
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.12), transparent 70%);
             bottom: 10%;
-            right: 10%;
-            filter: blur(60px);
+            right: 5%;
+            filter: blur(70px);
             pointer-events: none;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             width: 100%;
             z-index: 2;
             text-align: center;
         }
 
         header {
-            margin-bottom: 40px;
+            margin-bottom: 45px;
         }
 
         .brand-badge {
@@ -83,48 +79,48 @@
             font-size: 0.8rem;
             letter-spacing: 6px;
             text-transform: uppercase;
-            color: var(--cyan-glow);
+            color: var(--oro);
             margin-bottom: 12px;
             display: inline-block;
         }
 
         h1 {
             font-family: 'Cinzel', serif;
-            font-size: 3rem;
+            font-size: 3.4rem;
             font-weight: 800;
             letter-spacing: 3px;
             margin-bottom: 14px;
-            background: linear-gradient(135deg, #ffffff 40%, var(--cyan-glow) 100%);
+            background: linear-gradient(135deg, #ffffff 40%, var(--oro-suave) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         p.lead {
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: var(--plata-texto);
-            max-width: 640px;
+            max-width: 680px;
             margin: 0 auto;
             line-height: 1.6;
         }
 
-        /* Barra de Pestañas de Categoría */
+        /* Pestañas de Filtro */
         .category-tabs {
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin: 35px 0 25px;
+            margin: 40px 0 30px;
             flex-wrap: wrap;
         }
 
         .tab-btn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1.5px solid rgba(77, 208, 225, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
             color: #cbd5e1;
-            padding: 10px 22px;
+            padding: 12px 26px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             cursor: pointer;
             transition: all 0.3s;
@@ -133,32 +129,32 @@
         .tab-btn:hover {
             background: rgba(255, 255, 255, 0.12);
             color: white;
-            border-color: var(--cyan-glow);
+            border-color: var(--oro);
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, var(--turquesa), #00acc1);
-            color: #041220;
+            background: var(--oro-gradiente);
+            color: #1a1202;
             font-weight: 800;
-            border-color: var(--cyan-glow);
-            box-shadow: 0 4px 20px rgba(0, 151, 167, 0.4);
+            border-color: var(--oro);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
         }
 
-        /* Buscador en Vivo */
+        /* Buscador */
         .search-container {
-            max-width: 460px;
-            margin: 0 auto 40px;
+            max-width: 480px;
+            margin: 0 auto 50px;
             position: relative;
         }
 
         .search-field {
             width: 100%;
-            padding: 14px 24px;
+            padding: 15px 26px;
             border-radius: 50px;
-            border: 1.5px solid rgba(77, 208, 225, 0.3);
-            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.04);
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             font-family: inherit;
             outline: none;
             backdrop-filter: blur(10px);
@@ -166,61 +162,84 @@
         }
 
         .search-field:focus {
-            border-color: var(--cyan-glow);
-            box-shadow: 0 0 20px rgba(77, 208, 225, 0.25);
+            border-color: var(--oro);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* Grid de Tarjetas de Clientes */
+        /* Grid de Invitaciones */
         .events-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
             text-align: left;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         .event-card {
             background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid var(--border-glow);
-            border-radius: 26px;
-            padding: 34px 28px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
-            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid var(--border-card);
+            border-radius: 28px;
             overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
         }
 
         .event-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--cyan-glow);
-            box-shadow: 0 25px 60px rgba(0, 151, 167, 0.35);
+            transform: translateY(-10px);
+            border-color: var(--oro);
+            box-shadow: 0 30px 65px rgba(212, 175, 55, 0.3);
         }
 
-        .event-badge {
+        .card-img-wrap {
+            width: 100%;
+            height: 380px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.6s ease;
+        }
+
+        .event-card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-img-gradient {
             position: absolute;
-            top: 22px;
-            right: 22px;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(4, 18, 32, 0.85) 80%, #041220 100%);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             background: var(--oro-gradiente);
             color: #1a1202;
-            font-size: 0.65rem;
+            font-size: 0.68rem;
             font-weight: 800;
             letter-spacing: 1.5px;
-            padding: 5px 14px;
+            padding: 6px 16px;
             border-radius: 50px;
             text-transform: uppercase;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
 
-        .event-folder-path {
-            font-size: 0.72rem;
-            font-family: monospace;
-            color: var(--cyan-glow);
-            margin-bottom: 6px;
-            opacity: 0.85;
+        .card-content {
+            padding: 24px 28px 32px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .event-category-label {
@@ -228,125 +247,75 @@
             font-size: 0.75rem;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--cyan-glow);
+            color: var(--oro);
             margin-bottom: 6px;
         }
 
         .event-name {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.4rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
             color: #ffffff;
-            line-height: 1.1;
-            margin-bottom: 4px;
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+        .event-location {
+            font-size: 0.85rem;
+            color: var(--plata-texto);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .event-date-text {
-            font-size: 0.82rem;
-            color: var(--plata-texto);
+            font-size: 0.85rem;
+            color: #cbd5e1;
             margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .event-actions {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            font-weight: 500;
         }
 
         .btn-open-main {
-            background: linear-gradient(135deg, var(--turquesa), #00acc1);
-            color: #041220;
-            text-decoration: none;
-            padding: 14px 20px;
+            margin-top: auto;
+            width: 100%;
+            background: var(--oro-gradiente);
+            color: #1a1202;
+            padding: 16px;
             border-radius: 50px;
-            font-size: 0.82rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            text-align: center;
+            text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 6px 20px rgba(0, 151, 167, 0.35);
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35);
             transition: all 0.3s;
         }
 
         .btn-open-main:hover {
             transform: translateY(-2px);
             filter: brightness(1.1);
-            box-shadow: 0 10px 25px rgba(77, 208, 225, 0.5);
-        }
-
-        .btn-sub-link {
-            background: rgba(255, 255, 255, 0.06);
-            color: #e2e8f0;
-            text-decoration: none;
-            padding: 10px 18px;
-            border-radius: 50px;
-            font-size: 0.74rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.25s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .btn-sub-link:hover {
-            background: rgba(255, 255, 255, 0.14);
-            color: var(--cyan-glow);
-            border-color: var(--cyan-glow);
-        }
-
-        /* Guía para Nuevos Clientes */
-        .guide-box {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px dashed rgba(77, 208, 225, 0.3);
-            border-radius: 24px;
-            padding: 30px;
-            max-width: 820px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .guide-box h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
-            color: var(--oro);
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .guide-box ol {
-            padding-left: 20px;
-            color: #cbd5e1;
-            font-size: 0.85rem;
-            line-height: 1.8;
-        }
-
-        .guide-box code {
-            background: rgba(77, 208, 225, 0.15);
-            color: var(--cyan-glow);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.5);
         }
 
         footer {
             margin-top: 40px;
-            font-size: 0.75rem;
+            font-size: 0.82rem;
             color: var(--plata-texto);
             letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .card-img-wrap { height: 320px; }
         }
     </style>
 </head>
@@ -358,127 +327,145 @@
 
     <div class="container">
         <header>
-            <span class="brand-badge">Alva P Company • Studio</span>
+            <span class="brand-badge">Alva P Company • Colección Exclusiva</span>
             <h1>Invitaciones de Gala</h1>
-            <p class="lead">Accede a las invitaciones digitales activas, administra listas de pases personalizados para WhatsApp y consulta confirmaciones en tiempo real sincronizadas con Google Sheets.</p>
+            <p class="lead">Experiencias interactivas de alta gama para Quinceañeras, Bodas y Eventos Sociales en Saltillo, Coahuila.</p>
         </header>
 
         <!-- Filtros por Categoría -->
         <div class="category-tabs">
-            <button class="tab-btn active" onclick="filtrarCategoria('todas', this)">✨ Todos los Eventos</button>
-            <button class="tab-btn" onclick="filtrarCategoria('xv', this)">👑 XV Años (XV/)</button>
-            <button class="tab-btn" onclick="filtrarCategoria('bodas', this)">💍 Bodas (Bodas/)</button>
-            <button class="tab-btn" onclick="filtrarCategoria('fiestas', this)">🎉 Fiestas (Fiestas/)</button>
+            <button class="tab-btn active" onclick="filtrarCategoria('todas', this)">✨ Todas las Invitaciones</button>
+            <button class="tab-btn" onclick="filtrarCategoria('xv', this)">👑 XV Años</button>
+            <button class="tab-btn" onclick="filtrarCategoria('bodas', this)">💍 Bodas</button>
+            <button class="tab-btn" onclick="filtrarCategoria('fiestas', this)">🎉 Fiestas & Galas</button>
         </div>
 
         <!-- Buscador -->
         <div class="search-container">
-            <input type="text" id="buscador" class="search-field" placeholder="🔍 Buscar por nombre del evento o cliente..." oninput="filtrarTexto()">
+            <input type="text" id="buscador" class="search-field" placeholder="🔍 Buscar por festejados o lugar en Saltillo..." oninput="filtrarTexto()">
         </div>
 
-        <!-- Tarjetas de Eventos Organizadas por Categoría -->
+        <!-- Galería de Invitaciones -->
         <div class="events-grid" id="eventsGrid">
 
-            <!-- 1. XV BRITNEY (FLAGSHIP ACTIVO) -->
-            <div class="event-card" data-category="xv" data-name="britney quince años xv saltillo">
-                <span class="event-badge">⭐ Activo</span>
-                <span class="event-folder-path">📁 XV/Britney/</span>
-                <p class="event-category-label">Quince Años</p>
-                <h2 class="event-name">Britney</h2>
-                <p class="event-date-text">📅 24 de Julio de 2026 • Saltillo, Coahuila</p>
+            <!-- 1. XV VALERIA -->
+            <div class="event-card" data-category="xv" data-name="valeria quince años xv villa ferre catedral santiago saltillo">
+                <div class="card-img-wrap">
+                    <img src="XV/Valeria/fotos/valeria.jpg" alt="Valeria XV Años" class="card-img">
+                    <div class="card-img-gradient"></div>
+                    <span class="card-badge">👑 XV Años</span>
+                </div>
+                <div class="card-content">
+                    <p class="event-category-label">Quince Años • Gala Esmeralda</p>
+                    <h2 class="event-name">Valeria</h2>
+                    <p class="event-location">📍 Villa Ferré & Catedral de Santiago</p>
+                    <p class="event-date-text">📅 17 de Octubre de 2026 • Saltillo, Coah.</p>
 
-                <div class="event-actions">
-                    <a href="XV/Britney/index.html" class="btn-open-main">
-                        <span>👑 Ver Invitación Digital</span>
-                    </a>
-                    <a href="XV/Britney/admin.html" class="btn-sub-link">
-                        <span>⚙️ Panel de Pases VIP & WhatsApp</span>
-                    </a>
-                    <a href="XV/Britney/confirmados.html" class="btn-sub-link">
-                        <span>📊 Dashboard de Confirmados</span>
+                    <a href="XV/Valeria/index.html" target="_blank" class="btn-open-main">
+                        <span>✨ Abrir Invitación</span>
                     </a>
                 </div>
             </div>
 
-            <!-- 2. PLANTILLA BASE XV AÑOS -->
-            <div class="event-card" data-category="xv" data-name="plantilla xv años base quinceañera">
-                <span class="event-badge" style="background: rgba(255,255,255,0.15); color: #fff;">📋 Plantilla</span>
-                <span class="event-folder-path">📁 XV/Plantilla/</span>
-                <p class="event-category-label">XV Años (Plantilla Reutilizable)</p>
-                <h2 class="event-name" style="font-size: 2.8rem;">XV Plantilla</h2>
-                <p class="event-date-text">📅 Fecha Configurable • Duplicar para nuevo cliente</p>
+            <!-- 2. XV VALENTINA -->
+            <div class="event-card" data-category="xv" data-name="valentina quince años xv hacienda el mimbre fatima saltillo">
+                <div class="card-img-wrap">
+                    <img src="XV/Valentina/fotos/valentina.jpg" alt="Valentina XV Años" class="card-img">
+                    <div class="card-img-gradient"></div>
+                    <span class="card-badge">👑 XV Años</span>
+                </div>
+                <div class="card-content">
+                    <p class="event-category-label">Quince Años • Blush Princess</p>
+                    <h2 class="event-name">Valentina</h2>
+                    <p class="event-location">📍 Hacienda El Mimbre & Parroquia Fátima</p>
+                    <p class="event-date-text">📅 14 de Noviembre de 2026 • Saltillo, Coah.</p>
 
-                <div class="event-actions">
-                    <a href="XV/Plantilla/index.html" class="btn-open-main" style="background: linear-gradient(135deg, #00838f, #006064); color: white;">
-                        <span>Ver Plantilla XV</span>
-                    </a>
-                    <a href="XV/Plantilla/admin.html" class="btn-sub-link">
-                        <span>Panel Admin</span>
-                    </a>
-                    <a href="XV/Plantilla/confirmados.html" class="btn-sub-link">
-                        <span>Dashboard</span>
+                    <a href="XV/Valentina/index.html" target="_blank" class="btn-open-main">
+                        <span>✨ Abrir Invitación</span>
                     </a>
                 </div>
             </div>
 
-            <!-- 3. PLANTILLA BASE BODAS -->
-            <div class="event-card" data-category="bodas" data-name="bodas boda plantilla matrimonio novios">
-                <span class="event-badge" style="background: rgba(255,255,255,0.15); color: #fff;">📋 Plantilla</span>
-                <span class="event-folder-path">📁 Bodas/Plantilla/</span>
-                <p class="event-category-label">Bodas (Plantilla Reutilizable)</p>
-                <h2 class="event-name" style="font-size: 2.8rem;">Boda Plantilla</h2>
-                <p class="event-date-text">📅 Fecha Configurable • Duplicar para nueva boda</p>
+            <!-- 3. BODA SOFÍA & MATEO -->
+            <div class="event-card" data-category="bodas" data-name="sofia mateo boda hacienda los gonzalez san juan nepomuceno saltillo">
+                <div class="card-img-wrap">
+                    <img src="Bodas/Sofia_y_Mateo/fotos/pareja.jpg" alt="Boda Sofía y Mateo" class="card-img">
+                    <div class="card-img-gradient"></div>
+                    <span class="card-badge">💍 Boda</span>
+                </div>
+                <div class="card-content">
+                    <p class="event-category-label">Enlace Nupcial • Hacienda</p>
+                    <h2 class="event-name">Sofía & Mateo</h2>
+                    <p class="event-location">📍 Hacienda Los González & San Juan Nepomuceno</p>
+                    <p class="event-date-text">📅 5 de Diciembre de 2026 • Saltillo, Coah.</p>
 
-                <div class="event-actions">
-                    <a href="Bodas/Plantilla/index.html" class="btn-open-main" style="background: linear-gradient(135deg, #bf953f, #aa771c); color: #041220;">
-                        <span>Ver Plantilla Boda</span>
-                    </a>
-                    <a href="Bodas/Plantilla/admin.html" class="btn-sub-link">
-                        <span>Panel Admin</span>
-                    </a>
-                    <a href="Bodas/Plantilla/confirmados.html" class="btn-sub-link">
-                        <span>Dashboard</span>
+                    <a href="Bodas/Sofia_y_Mateo/index.html" target="_blank" class="btn-open-main">
+                        <span>✨ Abrir Invitación</span>
                     </a>
                 </div>
             </div>
 
-            <!-- 4. PLANTILLA BASE FIESTAS & SOCIALES -->
-            <div class="event-card" data-category="fiestas" data-name="fiestas fiesta cumpleaños aniversario party">
-                <span class="event-badge" style="background: rgba(255,255,255,0.15); color: #fff;">📋 Plantilla</span>
-                <span class="event-folder-path">📁 Fiestas/Plantilla/</span>
-                <p class="event-category-label">Fiestas & Eventos (Plantilla)</p>
-                <h2 class="event-name" style="font-size: 2.8rem;">Fiesta Plantilla</h2>
-                <p class="event-date-text">📅 Fecha Configurable • Cumpleaños y eventos sociales</p>
+            <!-- 4. BODA ELENA & CARLOS -->
+            <div class="event-card" data-category="bodas" data-name="elena carlos boda casino de saltillo catedral santiago centro historico">
+                <div class="card-img-wrap">
+                    <img src="Bodas/Elena_y_Carlos/fotos/pareja.jpg" alt="Boda Elena y Carlos" class="card-img">
+                    <div class="card-img-gradient"></div>
+                    <span class="card-badge">💍 Boda</span>
+                </div>
+                <div class="card-content">
+                    <p class="event-category-label">Boda de Gala • Imperial</p>
+                    <h2 class="event-name">Elena & Carlos</h2>
+                    <p class="event-location">📍 Casino de Saltillo & Catedral de Santiago</p>
+                    <p class="event-date-text">📅 23 de Enero de 2027 • Saltillo, Coah.</p>
 
-                <div class="event-actions">
-                    <a href="Fiestas/Plantilla/index.html" class="btn-open-main" style="background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white;">
-                        <span>Ver Plantilla Fiesta</span>
-                    </a>
-                    <a href="Fiestas/Plantilla/admin.html" class="btn-sub-link">
-                        <span>Panel Admin</span>
-                    </a>
-                    <a href="Fiestas/Plantilla/confirmados.html" class="btn-sub-link">
-                        <span>Dashboard</span>
+                    <a href="Bodas/Elena_y_Carlos/index.html" target="_blank" class="btn-open-main">
+                        <span>✨ Abrir Invitación</span>
                     </a>
                 </div>
             </div>
 
-        </div>
+            <!-- 5. FIESTA ALEX 25TH -->
+            <div class="event-card" data-category="fiestas" data-name="alex fiesta cumpleaños 25th rooftop parque centro neon glow saltillo">
+                <div class="card-img-wrap">
+                    <img src="Fiestas/Alex_Neon_Party/fotos/fiesta.jpg" alt="Alex 25th Birthday" class="card-img">
+                    <div class="card-img-gradient"></div>
+                    <span class="card-badge">⚡ VIP Party</span>
+                </div>
+                <div class="card-content">
+                    <p class="event-category-label">Birthday Bash • Neon Glow</p>
+                    <h2 class="event-name">Alex 25th</h2>
+                    <p class="event-location">📍 Sky Rooftop Lounge @ Parque Centro</p>
+                    <p class="event-date-text">📅 28 de Noviembre de 2026 • Saltillo, Coah.</p>
 
-        <!-- Guía Rápida para Agregar Nuevos Clientes -->
-        <div class="guide-box">
-            <h3>💡 ¿Cómo agregar un nuevo cliente por carpeta?</h3>
-            <ol>
-                <li><strong>Elige la categoría:</strong> Entra a <code>XV/</code>, <code>Bodas/</code> o <code>Fiestas/</code>.</li>
-                <li><strong>Duplica la carpeta <code>Plantilla</code></strong> y dale el nombre de tu cliente (ejemplo: <code>XV/Valeria/</code> o <code>Bodas/Sofia_y_Andres/</code>).</li>
-                <li><strong>Reemplaza los archivos multimedia:</strong> Coloca sus fotos en <code>fotos/</code> y su canción en <code>musica.mp3</code>.</li>
-                <li><strong>Vincula Google Sheets:</strong> En <code>index.html</code>, cambia <code>GOOGLE_SHEETS_URL</code> por el Apps Script de tu cliente.</li>
-                <li><strong>Sube con Git:</strong> Ejecuta <code>git add .</code>, <code>git commit -m "nuevo cliente"</code> y <code>git push</code>. ¡Estará en vivo en GitHub Pages al instante!</li>
-            </ol>
+                    <a href="Fiestas/Alex_Neon_Party/index.html" target="_blank" class="btn-open-main">
+                        <span>✨ Abrir Invitación</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6. FIESTA LUCÍA 30TH -->
+            <div class="event-card" data-category="fiestas" data-name="lucia fiesta 30th gala coctel jazz il mercato gentiloni parque centro saltillo">
+                <div class="card-img-wrap">
+                    <img src="Fiestas/Lucia_Cocktail_Party/fotos/fiesta.jpg" alt="Lucia 30th Birthday" class="card-img">
+                    <div class="card-img-gradient"></div>
+                    <span class="card-badge">🥂 Gala Night</span>
+                </div>
+                <div class="card-content">
+                    <p class="event-category-label">Birthday Gala • Art Deco & Jazz</p>
+                    <h2 class="event-name">Lucía 30th</h2>
+                    <p class="event-location">📍 Il Mercato Gentiloni (Cava & Terraza)</p>
+                    <p class="event-date-text">📅 12 de Diciembre de 2026 • Saltillo, Coah.</p>
+
+                    <a href="Fiestas/Lucia_Cocktail_Party/index.html" target="_blank" class="btn-open-main">
+                        <span>✨ Abrir Invitación</span>
+                    </a>
+                </div>
+            </div>
+
         </div>
 
         <footer>
-            <p>Repositorio <strong>invitaciones_Fiestas</strong> • Administrado por <strong>alvapcompany</strong> • Desplegado en GitHub Pages</p>
+            <p>Alva P Company • Diseño & Desarrollo de Invitaciones Digitales de Alta Gama</p>
         </footer>
     </div>
 

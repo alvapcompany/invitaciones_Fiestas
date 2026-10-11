@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Nuestra Boda | Elena & Carlos 💍</title>
+
+    <meta name="description" content="Con inmensa devoción y alegría, acompáñanos a nuestro enlace matrimonial en el Casino de Saltillo y Catedral de Santiago.">
+    <meta property="og:title" content="Nuestra Boda | Elena & Carlos 💍✨">
+    <meta property="og:description" content="Estás cordialmente invitado a nuestra noche de gala nupcial en el Centro Histórico de Saltillo.">
+    <meta property="og:image" content="fotos/pareja.jpg">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#0a192f">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Great+Vibes&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --navy-imperial: #0a192f;
+            --navy-profundo: #071324;
+            --oro-champagne: #d4af37;
+            --oro-suave: #fef08a;
+            --oro-gradiente: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
+            --perla: #f8fafc;
+            --gris-texto: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(10, 25, 47, 0.1) 0%, transparent 45%),
+                radial-gradient(rgba(10, 25, 47, 0.06) 1.5px, transparent 1.5px);
+            background-size: 100% 100%, 100% 100%, 32px 32px;
+            color: #0a192f;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Sobre Nupcial */
+        .royal-envelope-overlay {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at center, #0f2442 0%, #050d18 100%);
+            z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .royal-envelope-overlay.opened { opacity: 0; transform: scale(1.08); pointer-events: none; }
+
+        .envelope-container {
+            max-width: 500px; width: 100%;
+            background: linear-gradient(135deg, #0e274a 0%, #051224 100%);
+            border-radius: 28px; padding: 50px 32px 42px; text-align: center;
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7), 0 0 45px rgba(212, 175, 55, 0.3);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+        }
+
+        .envelope-couple { font-family: 'Great Vibes', cursive; font-size: 4.5rem; color: #ffffff; line-height: 1.1; margin: 12px 0; }
+
+        .wax-seal-btn {
+            background: var(--oro-gradiente); color: #1a1202; border: none;
+            padding: 18px 44px; border-radius: 50px; font-family: 'Cinzel', serif;
+            font-size: 0.95rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+            transition: all 0.35s ease;
+        }
+        .wax-seal-btn:hover { transform: translateY(-4px) scale(1.03); }
+
+        /* Reproductor Flotante */
+        .music-widget {
+            position: fixed; bottom: 24px; left: 24px; z-index: 1000;
+            background: rgba(10, 25, 47, 0.92); backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(212, 175, 55, 0.5); padding: 8px 18px 8px 10px;
+            border-radius: 50px; display: flex; align-items: center; gap: 12px;
+            cursor: pointer; color: white;
+        }
+        .vinyl-record {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: radial-gradient(circle, #0a192f 30%, #1e3a5f 68%, #d4af37 70%, #050d18 100%);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .music-widget.playing .vinyl-record { animation: spin-vinyl 3s linear infinite; }
+        @keyframes spin-vinyl { to { transform: rotate(360deg); } }
+        .vinyl-dot { width: 10px; height: 10px; background: var(--oro-champagne); border-radius: 50%; border: 2px solid white; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; align-items: flex-end; justify-content: center;
+            position: relative; overflow: hidden; background: var(--navy-imperial);
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-image: url('fotos/pareja.jpg');
+            background-size: cover; background-position: center top; opacity: 0.88;
+        }
+        .hero-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(10, 25, 47, 0.35) 0%, rgba(10, 25, 47, 0.7) 65%, rgba(10, 25, 47, 0.98) 100%);
+        }
+        .hero-content { position: relative; z-index: 3; text-align: center; color: white; padding: 60px 20px 85px; max-width: 900px; width: 100%; }
+        .hero-title { font-family: 'Great Vibes', cursive; font-size: 6.8rem; line-height: 1.1; margin-bottom: 8px; color: #ffffff; text-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+
+        /* Secciones */
+        .section { position: relative; z-index: 2; padding: 90px 20px; max-width: 1120px; margin: 0 auto; text-align: center; }
+        h2.section-heading { font-family: 'Great Vibes', cursive; font-size: 4.8rem; color: #0a192f; margin-bottom: 6px; }
+        .section-tagline { font-family: 'Cinzel', serif; font-size: 0.88rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gris-texto); margin-bottom: 45px; font-weight: 700; }
+        .gold-separator { width: 140px; height: 2px; background: linear-gradient(90deg, transparent, var(--oro-champagne), transparent); margin: -25px auto 45px; }
+
+        /* Pase VIP */
+        .vip-pass-card {
+            max-width: 580px; margin: -70px auto 45px;
+            background: white; border-radius: 28px; padding: 40px 32px;
+            box-shadow: 0 30px 65px rgba(10, 25, 47, 0.18);
+            border-top: 6px solid #0a192f; border-bottom: 6px solid var(--oro-champagne);
+            display: none;
+        }
+        .vip-family-title { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: #0a192f; font-weight: 700; margin: 8px 0 14px; }
+        .vip-seats-circle {
+            width: 82px; height: 82px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--oro-champagne), #b38728);
+            color: #1a1202; display: flex; align-items: center; justify-content: center;
+            font-family: 'Cinzel', serif; font-size: 2.4rem; font-weight: 800;
+            margin: 18px auto; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.35);
+        }
+
+        /* Galería Pareja */
+        .portrait-wrap {
+            max-width: 460px; margin: 0 auto 35px; border-radius: 30px; padding: 12px;
+            background: var(--oro-gradiente); box-shadow: 0 25px 60px rgba(10, 25, 47, 0.2);
+        }
+        .portrait-img { width: 100%; border-radius: 20px; display: block; object-fit: cover; aspect-ratio: 3/4; }
+
+        /* Contador */
+        .countdown-boxes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; max-width: 720px; margin: 0 auto; }
+        .countdown-item {
+            background: white; border-radius: 22px; padding: 26px 14px;
+            box-shadow: 0 15px 35px rgba(10, 25, 47, 0.08); border-top: 4px solid var(--oro-champagne);
+            font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gris-texto); font-weight: 700;
+        }
+        .countdown-number { font-size: 3.2rem; font-weight: 800; color: #0a192f; display: block; line-height: 1; margin-bottom: 6px; }
+
+        /* Familia */
+        .family-section-bg { background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(241,245,249,0.95) 100%); padding: 80px 20px; }
+        .family-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; }
+        .family-person-card {
+            background: white; border-radius: 22px; padding: 30px 24px;
+            box-shadow: 0 15px 35px rgba(10, 25, 47, 0.08); border-top: 4px solid #0a192f;
+        }
+
+        /* Itinerario */
+        .roadmap-timeline { max-width: 760px; margin: 0 auto; position: relative; padding-left: 36px; text-align: left; }
+        .roadmap-timeline::before { content: ''; position: absolute; left: 16px; top: 10px; bottom: 10px; width: 3px; background: linear-gradient(180deg, #0a192f, var(--oro-champagne)); border-radius: 10px; }
+        .roadmap-step { position: relative; margin-bottom: 45px; }
+        .roadmap-marker {
+            position: absolute; left: -36px; top: 0; width: 34px; height: 34px; border-radius: 50%;
+            background: var(--oro-gradiente); display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); font-size: 1rem;
+        }
+        .roadmap-card {
+            background: white; border-radius: 24px; padding: 30px;
+            box-shadow: 0 15px 35px rgba(10, 25, 47, 0.08); border-left: 5px solid #0a192f;
+        }
+        .btn-gps-app {
+            display: inline-flex; align-items: center; gap: 8px; background: #0a192f; color: white;
+            padding: 12px 24px; border-radius: 50px; text-decoration: none; font-size: 0.8rem;
+            font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s;
+        }
+        .btn-gps-app:hover { background: #1e3a5f; transform: translateY(-2px); }
+
+        /* Vestimenta */
+        .dress-code-section { background: var(--navy-imperial); color: white; padding: 90px 20px; text-align: center; }
+        .dress-cards-container { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; max-width: 750px; margin: 30px auto 0; }
+        .dress-spec-card {
+            background: rgba(255, 255, 255, 0.06); border: 1.5px solid rgba(212, 175, 55, 0.3);
+            border-radius: 22px; padding: 30px; flex: 1; min-width: 250px;
+        }
+
+        .btn-rsvp-magic {
+            background: var(--oro-gradiente); color: #1a1202; border: none;
+            padding: 18px 46px; border-radius: 50px; font-family: 'Cinzel', serif;
+            font-size: 0.95rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+            transition: all 0.35s ease;
+        }
+        .btn-rsvp-magic:hover { transform: translateY(-3px) scale(1.02); }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 5rem; }
+            .countdown-boxes { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sobre Nupcial -->
+    <div class="royal-envelope-overlay" id="royalEnvelopeOverlay">
+        <div class="envelope-container" data-aos="zoom-in">
+            <div style="font-size: 2.8rem; margin-bottom: 8px;">💍</div>
+            <p style="font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 5px; text-transform: uppercase; color: var(--oro-suave);">Enlace Matrimonial</p>
+            <h1 class="envelope-couple">Elena & Carlos</h1>
+            <p style="color: #cbd5e1; font-size: 0.88rem; letter-spacing: 2px; text-transform: uppercase;">Nuestra Boda • Centro Histórico Saltillo</p>
+
+            <div class="envelope-guest-badge" id="envelopeGuestBadge" style="display: none; background: rgba(255,255,255,0.08); border: 1px dashed rgba(212,175,55,0.5); border-radius: 16px; padding: 14px 20px; margin: 15px auto 28px; max-width: 380px;">
+                <p style="font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: #cbd5e1;">Pase Nupcial Para:</p>
+                <div id="envelopeGuestName" style="font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--oro-suave); font-weight: 700;">Familia</div>
+            </div>
+
+            <button class="wax-seal-btn" onclick="abrirSobreReal()">
+                <span>Abrir Invitación ✉️</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Reproductor Música -->
+    <div class="music-widget" id="musicWidget" onclick="toggleAudio()" title="Música">
+        <div class="vinyl-record"><div class="vinyl-dot"></div></div>
+        <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 1px;" id="musicText">MÚSICA 🎶</span>
+    </div>
+
+    <audio id="eventoAudio" loop preload="auto">
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg" id="heroParallax"></div>
+        <div class="hero-content" data-aos="fade-down">
+            <span style="font-family: 'Cinzel', serif; font-size: 1.15rem; letter-spacing: 10px; text-transform: uppercase; color: var(--oro-suave);">Nuestra Boda</span>
+            <h1 class="hero-title">Elena & Carlos</h1>
+            <p style="font-family: 'Playfair Display', serif; font-size: 1.4rem; letter-spacing: 6px; text-transform: uppercase;">23 de Enero de 2027 • Saltillo, Coahuila</p>
+        </div>
+    </section>
+
+    <!-- Pase VIP -->
+    <div class="section" style="padding-top: 0; padding-bottom: 20px;">
+        <div id="vipPassCard" class="vip-pass-card" data-aos="zoom-in">
+            <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; letter-spacing: 4px; color: #0a192f; text-transform: uppercase;">Pase Nupcial de Gala</h3>
+            <div class="vip-family-title" id="vipGuestName">Familia —</div>
+            <p style="color: var(--gris-texto); font-size: 0.88rem;">Hemos reservado con gran aprecio para ustedes:</p>
+            <div class="vip-seats-circle" id="vipSeatsQty">2</div>
+            <p style="font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 4px; font-weight: 800; color: #0a192f;">Lugares Reservados</p>
+        </div>
+    </div>
+
+    <!-- Retrato Pareja -->
+    <section class="section" data-aos="fade-up">
+        <h2 class="section-heading">Nuestra Historia</h2>
+        <p class="section-tagline">El inicio de nuestra vida juntos</p>
+        <div class="gold-separator"></div>
+
+        <div class="portrait-wrap">
+            <img src="fotos/pareja.jpg" alt="Elena y Carlos Boda" class="portrait-img">
+        </div>
+        <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.25rem; color: #0a192f; max-width: 620px; margin: 0 auto;">"Dos vidas que se unen en un solo camino con la promesa de amarse, respetarse y caminar siempre juntos."</p>
+    </section>
+
+    <!-- Contador -->
+    <section class="section" data-aos="fade-up" style="background: rgba(255,255,255,0.6); border-radius: 30px; margin-bottom: 40px;">
+        <h2 class="section-heading">Esperando la Gran Noche</h2>
+        <p class="section-tagline">Contando cada instante</p>
+        <div class="gold-separator"></div>
+
+        <div class="countdown-boxes">
+            <div class="countdown-item"><span class="countdown-number" id="cdDays">00</span>Días</div>
+            <div class="countdown-item"><span class="countdown-number" id="cdHours">00</span>Horas</div>
+            <div class="countdown-item"><span class="countdown-number" id="cdMins">00</span>Minutos</div>
+            <div class="countdown-item"><span class="countdown-number" id="cdSecs">00</span>Segundos</div>
+        </div>
+    </section>
+
+    <!-- Padres -->
+    <section class="family-section-bg">
+        <div class="section" style="padding: 0;">
+            <h2 class="section-heading" data-aos="fade-up">Con la bendición de nuestros padres</h2>
+            <p class="section-tagline" data-aos="fade-up">Nuestra mayor inspiración</p>
+            <div class="gold-separator"></div>
+
+            <div class="family-grid" data-aos="fade-up">
+                <div class="family-person-card">
+                    <p style="font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gris-texto); font-weight: 700;">Padres de la Novia</p>
+                    <p style="font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #0a192f; margin-top: 6px;">Arq. Salvador Valdés<br>& Sra. Carmen Berlanga</p>
+                </div>
+                <div class="family-person-card">
+                    <p style="font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gris-texto); font-weight: 700;">Padres del Novio</p>
+                    <p style="font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #0a192f; margin-top: 6px;">Lic. Carlos Arizpe Sr.<br>& Lic. Rosa María Cepeda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Itinerario Saltillo -->
+    <section class="section" data-aos="fade-up">
+        <h2 class="section-heading">Itinerario Nupcial</h2>
+        <p class="section-tagline">Centro Histórico de Saltillo</p>
+        <div class="gold-separator"></div>
+
+        <div class="roadmap-timeline">
+            <!-- Misa -->
+            <div class="roadmap-step" data-aos="fade-left">
+                <div class="roadmap-marker">⛪</div>
+                <div class="roadmap-card">
+                    <div style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: #0a192f; font-weight: 800; margin-bottom: 6px;">6:00 PM — MISA DE MATRIMONIO</div>
+                    <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 4px; color: #0a192f;">Catedral de Santiago Apóstol</div>
+                    <p style="font-size: 0.86rem; color: var(--gris-texto); margin-bottom: 16px;">📍 Calle Bravo y Juárez s/n, Plaza de Armas, Saltillo, Coah.</p>
+                    <a href="https://maps.google.com/?q=Catedral+de+Santiago+Saltillo" target="_blank" class="btn-gps-app">Ver en Google Maps</a>
+                </div>
+            </div>
+
+            <!-- Recepción -->
+            <div class="roadmap-step" data-aos="fade-left" data-aos-delay="200">
+                <div class="roadmap-marker">🥂</div>
+                <div class="roadmap-card">
+                    <div style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: #0a192f; font-weight: 800; margin-bottom: 6px;">8:30 PM — BANQUETE DE GALA</div>
+                    <div style="font-weight: 700; font-size: 1.2rem; margin-bottom: 4px; color: #0a192f;">Casino de Saltillo (Salón Vitrales)</div>
+                    <p style="font-size: 0.86rem; color: var(--gris-texto); margin-bottom: 16px;">📍 Calle Miguel Hidalgo 100, Centro Histórico, Saltillo, Coah.</p>
+                    <a href="https://maps.google.com/?q=Casino+de+Saltillo" target="_blank" class="btn-gps-app">Ver en Google Maps</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Código de Vestimenta -->
+    <section class="dress-code-section">
+        <div class="section" style="padding: 0;" data-aos="zoom-in">
+            <h2 class="section-heading" style="color: var(--oro-suave);">Código de Vestimenta</h2>
+            <p class="section-tagline" style="color: #cbd5e1;">Black Tie / Rigurosa Etiqueta</p>
+            <div class="gold-separator"></div>
+
+            <div class="dress-cards-container">
+                <div class="dress-spec-card">
+                    <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: var(--oro-suave);">Damas</h4>
+                    <p style="font-size: 0.88rem; color: #cbd5e1; margin-top: 8px;">Vestido Largo de Noche</p>
+                    <p style="font-size: 0.75rem; color: #f87171; margin-top: 6px;">* Blanco reservado exclusivamente para la Novia</p>
+                </div>
+                <div class="dress-spec-card">
+                    <h4 style="font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: var(--oro-suave);">Caballeros</h4>
+                    <p style="font-size: 0.88rem; color: #cbd5e1; margin-top: 8px;">Esmoquin o Traje Formal con Pajarita/Corbata</p>
+                </div>
+            </div>
+
+            <br><br>
+            <button onclick="confirmarAsistencia()" class="btn-rsvp-magic">
+                Confirmar Asistencia por WhatsApp ✨
+            </button>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        const CONFIG_EVENTO = {
+            GOOGLE_SHEETS_URL: '',
+            WHATSAPP_PHONE: '528443339988',
+            NOMBRE_NOVIOS: 'Elena & Carlos',
+            FECHA_EVENTO: new Date(2027, 0, 23, 18, 0, 0) // 23 Enero 2027
+        };
+
+        AOS.init({ duration: 900, once: true });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestFamily = urlParams.get('n') ? decodeURIComponent(urlParams.get('n')).trim() : '';
+        const guestSeats = urlParams.get('p') ? decodeURIComponent(urlParams.get('p')).trim() : '';
+
+        if (guestFamily) {
+            document.getElementById('envelopeGuestBadge').style.display = 'block';
+            document.getElementById('envelopeGuestName').innerText = 'Familia ' + guestFamily;
+            document.getElementById('vipPassCard').style.display = 'block';
+            document.getElementById('vipGuestName').innerText = 'Familia ' + guestFamily;
+            document.getElementById('vipSeatsQty').innerText = guestSeats || '2';
+        }
+
+        const audio = document.getElementById('eventoAudio');
+        const musicWidget = document.getElementById('musicWidget');
+
+        function abrirSobreReal() {
+            document.getElementById('royalEnvelopeOverlay').classList.add('opened');
+            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+            audio.play().catch(() => {});
+            musicWidget.classList.add('playing');
+        }
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                musicWidget.classList.add('playing');
+            } else {
+                audio.pause();
+                musicWidget.classList.remove('playing');
+            }
+        }
+
+        function actualizarReloj() {
+            const diff = CONFIG_EVENTO.FECHA_EVENTO.getTime() - new Date().getTime();
+            if (diff > 0) {
+                document.getElementById('cdDays').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById('cdHours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('cdMins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById('cdSecs').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+            }
+        }
+        setInterval(actualizarReloj, 1000);
+        actualizarReloj();
+
+        function confirmarAsistencia() {
+            confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
+            const pasesTxt = guestSeats ? `\n🎟️ Pases: ${guestSeats}` : '';
+            const famTxt = guestFamily ? `\n✨ Familia: ${guestFamily}` : '';
+            const msg = `¡Hola Elena & Carlos! Con gran honor confirmamos nuestra asistencia a su boda en Saltillo.${famTxt}${pasesTxt} 💍 Nos vemos en el Casino de Saltillo.`;
+            setTimeout(() => {
+                window.open(`https://wa.me/${CONFIG_EVENTO.WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

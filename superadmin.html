@@ -35,7 +35,7 @@
             align-items: center;
         }
 
-        .container { max-width: 1050px; width: 100%; }
+        .container { max-width: 1100px; width: 100%; }
 
         header {
             text-align: center; margin-bottom: 35px;
@@ -109,6 +109,7 @@
             background: var(--turquesa); color: white; border: none; padding: 4px 10px;
             border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer;
         }
+        .btn-cp-mini:hover { filter: brightness(1.2); }
     </style>
 </head>
 
@@ -116,9 +117,9 @@
 
     <div class="container">
         <header>
-            <span class="badge-brand">Alva P Company • Business Panel</span>
-            <h1>Super Admin de Eventos</h1>
-            <p class="sub">Panel privado para el vendedor: vincula bases de datos y entrega accesos listos a tus clientes sin que ellos vean la parte técnica.</p>
+            <span class="badge-brand">Alva P Company • Studio</span>
+            <h1>Super Admin Privado</h1>
+            <p class="sub">Panel de administración comercial: copia los enlaces privados para entregarlos a tus clientes.</p>
         </header>
 
         <!-- Herramienta de Conexión y Prueba de Google Sheets -->
@@ -128,7 +129,12 @@
                 <div class="field">
                     <label>Seleccionar Evento / Cliente</label>
                     <select id="selEvento">
-                        <option value="XV/Britney">👑 XV Años — Britney (Activo)</option>
+                        <option value="XV/Valeria">👑 XV Años — Valeria (Villa Ferré)</option>
+                        <option value="XV/Valentina">👑 XV Años — Valentina (Hda. El Mimbre)</option>
+                        <option value="Bodas/Sofia_y_Mateo">💍 Boda — Sofía & Mateo (Hda. Los González)</option>
+                        <option value="Bodas/Elena_y_Carlos">💍 Boda — Elena & Carlos (Casino de Saltillo)</option>
+                        <option value="Fiestas/Alex_Neon_Party">⚡ Fiesta — Alex 25th (Rooftop Parque Centro)</option>
+                        <option value="Fiestas/Lucia_Cocktail_Party">🥂 Fiesta — Lucía 30th (Il Mercato Gentiloni)</option>
                         <option value="XV/Plantilla">👑 XV Años — Plantilla Base</option>
                         <option value="Bodas/Plantilla">💍 Bodas — Plantilla Base</option>
                         <option value="Fiestas/Plantilla">🎉 Fiestas — Plantilla Base</option>
@@ -145,45 +151,155 @@
             <div class="test-status" id="testResult"></div>
         </div>
 
-        <!-- Enlaces Listos para Enviar a los Clientes que Compraron -->
-        <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 20px; color: var(--oro);">📦 Enlaces de Entrega para tus Clientes</h2>
+        <!-- Enlaces Listos para Enviar a los Clientes -->
+        <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 20px; color: var(--oro);">📦 Enlaces Privados de Entrega para Clientes</h2>
 
         <div class="clients-grid">
-            <!-- XV Britney -->
+            <!-- 1. XV Valeria -->
             <div class="client-card">
                 <span class="client-tag">👑 XV Años</span>
-                <div class="client-name">Britney</div>
-                <p style="font-size: 0.8rem; color: var(--texto-sec);">Saltillo, Coahuila • 24 de Julio 2026</p>
+                <div class="client-name">Valeria</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Villa Ferré & Catedral • 17 Octubre 2026</p>
 
                 <div class="links-to-copy">
                     <div class="copy-pill">
-                        <span><strong>Invitación:</strong> para los invitados</span>
-                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Britney/index.html')">Copiar</button>
+                        <span><strong>Invitación:</strong> para invitados</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Valeria/index.html')">Copiar</button>
                     </div>
                     <div class="copy-pill">
                         <span><strong>Panel Cliente:</strong> genera pases WhatsApp</span>
-                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Britney/admin.html')">Copiar</button>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Valeria/admin.html')">Copiar</button>
                     </div>
                     <div class="copy-pill">
-                        <span><strong>Confirmados:</strong> tablero de asistencia</span>
-                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Britney/confirmados.html')">Copiar</button>
+                        <span><strong>Confirmados:</strong> dashboard</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Valeria/confirmados.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. XV Valentina -->
+            <div class="client-card">
+                <span class="client-tag">👑 XV Años</span>
+                <div class="client-name">Valentina</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Hda. El Mimbre • 14 Noviembre 2026</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> para invitados</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Valentina/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> genera pases WhatsApp</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Valentina/admin.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Confirmados:</strong> dashboard</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Valentina/confirmados.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Boda Sofía & Mateo -->
+            <div class="client-card">
+                <span class="client-tag">💍 Boda</span>
+                <div class="client-name">Sofía & Mateo</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Hda. Los González • 5 Diciembre 2026</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> para invitados</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Sofia_y_Mateo/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> genera pases WhatsApp</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Sofia_y_Mateo/admin.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Confirmados:</strong> dashboard</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Sofia_y_Mateo/confirmados.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Boda Elena & Carlos -->
+            <div class="client-card">
+                <span class="client-tag">💍 Boda</span>
+                <div class="client-name">Elena & Carlos</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Casino de Saltillo • 23 Enero 2027</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> para invitados</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Elena_y_Carlos/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> genera pases WhatsApp</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Elena_y_Carlos/admin.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Confirmados:</strong> dashboard</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Elena_y_Carlos/confirmados.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Fiesta Alex -->
+            <div class="client-card">
+                <span class="client-tag">⚡ Fiesta VIP</span>
+                <div class="client-name">Alex 25th Bash</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Rooftop Parque Centro • 28 Noviembre 2026</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> para invitados</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Alex_Neon_Party/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> accesos VIP</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Alex_Neon_Party/admin.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Confirmados:</strong> dashboard</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Alex_Neon_Party/confirmados.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Fiesta Lucía -->
+            <div class="client-card">
+                <span class="client-tag">🥂 Gala Night</span>
+                <div class="client-name">Lucía 30th Gala</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Il Mercato Gentiloni • 12 Diciembre 2026</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> para invitados</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Lucia_Cocktail_Party/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> pases gala</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Lucia_Cocktail_Party/admin.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Confirmados:</strong> dashboard</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Lucia_Cocktail_Party/confirmados.html')">Copiar</button>
                     </div>
                 </div>
             </div>
 
             <!-- Plantilla XV -->
             <div class="client-card">
-                <span class="client-tag">👑 XV Años (Plantilla)</span>
-                <div class="client-name">Plantilla Quinceañeras</div>
-                <p style="font-size: 0.8rem; color: var(--texto-sec);">Sin datos previos • Lista para nuevo cliente</p>
+                <span class="client-tag">👑 Base XV</span>
+                <div class="client-name">Plantilla XV</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Sin datos previos • Duplicar para nuevo cliente</p>
 
                 <div class="links-to-copy">
                     <div class="copy-pill">
-                        <span><strong>Invitación:</strong> [NOMBRE]</span>
+                        <span><strong>Invitación:</strong> Base</span>
                         <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Plantilla/index.html')">Copiar</button>
                     </div>
                     <div class="copy-pill">
-                        <span><strong>Panel Cliente:</strong> Pases</span>
+                        <span><strong>Panel Cliente:</strong> Base</span>
                         <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Plantilla/admin.html')">Copiar</button>
                     </div>
                 </div>
@@ -191,17 +307,17 @@
 
             <!-- Plantilla Bodas -->
             <div class="client-card">
-                <span class="client-tag">💍 Bodas (Plantilla)</span>
+                <span class="client-tag">💍 Base Bodas</span>
                 <div class="client-name">Plantilla Bodas</div>
-                <p style="font-size: 0.8rem; color: var(--texto-sec);">Estilo Nupcial • [NOVIA] & [NOVIO]</p>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Sin datos previos • Duplicar para nueva boda</p>
 
                 <div class="links-to-copy">
                     <div class="copy-pill">
-                        <span><strong>Invitación:</strong> Novios</span>
+                        <span><strong>Invitación:</strong> Base</span>
                         <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Plantilla/index.html')">Copiar</button>
                     </div>
                     <div class="copy-pill">
-                        <span><strong>Panel Cliente:</strong> Pases Nupciales</span>
+                        <span><strong>Panel Cliente:</strong> Base</span>
                         <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Plantilla/admin.html')">Copiar</button>
                     </div>
                 </div>
@@ -209,17 +325,17 @@
 
             <!-- Plantilla Fiestas -->
             <div class="client-card">
-                <span class="client-tag">🎉 Fiestas (Plantilla)</span>
+                <span class="client-tag">🎉 Base Fiestas</span>
                 <div class="client-name">Plantilla Fiestas</div>
-                <p style="font-size: 0.8rem; color: var(--texto-sec);">Cumpleaños & Sociales • [NOMBRE]</p>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Sin datos previos • Duplicar para nueva fiesta</p>
 
                 <div class="links-to-copy">
                     <div class="copy-pill">
-                        <span><strong>Invitación:</strong> Fiesta</span>
+                        <span><strong>Invitación:</strong> Base</span>
                         <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Plantilla/index.html')">Copiar</button>
                     </div>
                     <div class="copy-pill">
-                        <span><strong>Panel Cliente:</strong> Pases VIP</span>
+                        <span><strong>Panel Cliente:</strong> Base</span>
                         <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Plantilla/admin.html')">Copiar</button>
                     </div>
                 </div>
