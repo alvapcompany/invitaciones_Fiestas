@@ -128,7 +128,7 @@
             <div class="form-row">
                 <div class="field">
                     <label>Seleccionar Evento / Cliente</label>
-                    <select id="selEvento">
+                    <select id="selEvento" onchange="cargarUrlGuardada()">
                         <option value="XV/Valeria">👑 XV Años — Valeria (Villa Ferré)</option>
                         <option value="XV/Valentina">👑 XV Años — Valentina (Hda. El Mimbre)</option>
                         <option value="Bodas/Sofia_y_Mateo">💍 Boda — Sofía & Mateo (Hda. Los González)</option>
@@ -146,7 +146,10 @@
                 </div>
             </div>
 
-            <button class="btn-test" onclick="probarConexion()">Probar Conexión con Google Sheets</button>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn-test" style="flex: 1;" onclick="probarConexion()">🔍 Probar Conexión</button>
+                <button class="btn-test" style="flex: 1; background: linear-gradient(135deg, #10b981, #059669);" onclick="guardarYVincularEvento()">💾 Vincular y Guardar para este Evento</button>
+            </div>
 
             <div class="test-status" id="testResult"></div>
         </div>
@@ -401,6 +404,40 @@
             const fullUrl = DOMAIN + path;
             navigator.clipboard.writeText(fullUrl);
             alert('¡Enlace copiado al portapapeles listo para enviar al cliente!\n\n' + fullUrl);
+        }
+
+        
+        function cargarUrlGuardada() {
+            const ev = document.getElementById('selEvento').value.replace('/', '_');
+            const saved = localStorage.getItem('sheets_url_' + ev) || '';
+            document.getElementById('inpScriptUrl').value = saved;
+            const resBox = document.getElementById('testResult');
+            if (saved) {
+                resBox.className = 'test-status ok';
+                resBox.style.display = 'flex';
+                resBox.innerText = `💾 Hay una URL guardada para este evento: ${saved.substring(0, 50)}...`;
+            } else {
+                resBox.style.display = 'none';
+            }
+        }
+
+        function guardarYVincularEvento() {
+            const url = document.getElementById('inpScriptUrl').value.trim();
+            const sel = document.getElementById('selEvento');
+            const evKey = sel.value.replace('/', '_');
+            const evName = sel.options[sel.selectedIndex].text;
+            
+            if (!url) {
+                alert('Pega la URL de Google Apps Script antes de guardar.');
+                return;
+            }
+            
+            localStorage.setItem('sheets_url_' + evKey, url);
+            const resBox = document.getElementById('testResult');
+            resBox.className = 'test-status ok';
+            resBox.style.display = 'flex';
+            resBox.innerText = `✅ ¡URL vinculada exitosamente a ${evName}! Ya está activa para guardar pases y confirmaciones.`;
+            alert(`✅ ¡Google Sheets vinculado con éxito a ${evName}!\n\nAhora abre el Panel del Cliente y verás el indicador verde "Conectado en tiempo real".`);
         }
 
         async function probarConexion() {

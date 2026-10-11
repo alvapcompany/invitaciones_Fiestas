@@ -366,6 +366,8 @@
         AOS.init({ duration: 900, once: true });
 
         const urlParams = new URLSearchParams(window.location.search);
+        const sheetsFromUrl = urlParams.get('s') ? decodeURIComponent(urlParams.get('s')).trim() : '';
+        const EVENT_KEY = 'Bodas_Elena_y_Carlos';
         const guestFamily = urlParams.get('n') ? decodeURIComponent(urlParams.get('n')).trim() : '';
         const guestSeats = urlParams.get('p') ? decodeURIComponent(urlParams.get('p')).trim() : '';
 
@@ -411,9 +413,11 @@
 
         function confirmarAsistencia() {
             confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
-            if (guestFamily && typeof CONFIG_EVENTO !== 'undefined' && CONFIG_EVENTO.GOOGLE_SHEETS_URL) {
-                fetch(CONFIG_EVENTO.GOOGLE_SHEETS_URL, {
+            const targetSheets = sheetsFromUrl || (typeof CONFIG_EVENTO !== 'undefined' ? CONFIG_EVENTO.GOOGLE_SHEETS_URL : '') || localStorage.getItem('sheets_url_' + EVENT_KEY) || '';
+            if (guestFamily && targetSheets) {
+                fetch(targetSheets, {
                     method: 'POST',
+                    mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         nombre: guestFamily,

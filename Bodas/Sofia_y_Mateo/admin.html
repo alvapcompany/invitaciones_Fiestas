@@ -101,6 +101,23 @@
 
     <div class="panel-box">
         <h2 style="font-family: 'Cinzel', serif; font-size: 1.15rem; letter-spacing: 3px; text-transform: uppercase; color: var(--verde-boda); margin-bottom: 24px; text-align: center; font-weight: 800;">✦ Crear Pase Nupcial ✦</h2>
+        <!-- Conexión a Google Sheets en Vivo -->
+        <div id="sheetsStatusBanner" style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 12px 16px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="sheetsDot" style="width: 10px; height: 10px; border-radius: 50%; background: #94a3b8; display: inline-block;"></span>
+                    <span id="sheetsTxt" style="font-size: 0.78rem; font-weight: 700; color: #475569;">Google Sheets: No conectado</span>
+                </div>
+                <button type="button" onclick="toggleConfigSheets()" style="background: none; border: 1px solid #cbd5e1; border-radius: 50px; padding: 4px 12px; font-size: 0.7rem; font-weight: 700; cursor: pointer; color: #334155;">⚙️ Vincular Sheets</button>
+            </div>
+            <div id="sheetsInputRow" style="display: none; margin-top: 12px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+                <label style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: #475569; display: block; margin-bottom: 5px;">Pega tu URL de Apps Script (/exec):</label>
+                <div style="display: flex; gap: 6px;">
+                    <input type="text" id="inpSheetsUrl" placeholder="https://script.google.com/macros/s/.../exec" style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.75rem; font-family: monospace;">
+                    <button type="button" onclick="guardarSheetsUrl()" style="background: #0f172a; color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Guardar</button>
+                </div>
+            </div>
+        </div>
 
         <div class="form-group">
             <label for="inpFamilia">Nombre o Apellido de la Familia / Invitado</label>
@@ -143,7 +160,10 @@
                 <h3 style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--verde-boda); letter-spacing: 2px;">Invitados Registrados</h3>
                 <p style="font-size: 0.75rem; color: var(--plata);">Control de pases para la Boda</p>
             </div>
-            <div style="font-size: 0.75rem; font-weight: 700; color: var(--verde-boda);" id="statFamilias">0 Familias</div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button id="btnSyncSheets" onclick="sincronizarTodoSheets()" style="display: none; background: #e0f2f1; color: #00796b; border: 1px solid #80cbc4; border-radius: 50px; padding: 5px 14px; font-size: 0.72rem; font-weight: 700; cursor: pointer;">☁️ Subir a Sheets</button>
+                <div style="font-size: 0.75rem; font-weight: 700; color: var(--verde-boda);" id="statFamilias">0 Familias</div>
+            </div>
         </div>
 
         <div style="overflow-x: auto;">
@@ -164,6 +184,98 @@
     <div class="toast-popup" id="toastBox">¡Enlace copiado al portapapeles!</div>
 
     <script>
+
+        const EVENT_KEY = 'Bodas_Sofia_y_Mateo';
+        const STORAGE_KEY = 'boda_sofia_mateo_invitados';
+        let GOOGLE_SHEETS_URL = localStorage.getItem('sheets_url_' + EVENT_KEY) || '';
+
+        function getActiveSheetsUrl() {
+            return localStorage.getItem('sheets_url_' + EVENT_KEY) || GOOGLE_SHEETS_URL || '';
+        }
+
+        function updateSheetsBanner() {
+            const url = getActiveSheetsUrl();
+            const dot = document.getElementById('sheetsDot');
+            const txt = document.getElementById('sheetsTxt');
+            const btnSync = document.getElementById('btnSyncSheets');
+            const inp = document.getElementById('inpSheetsUrl');
+            if (inp && url) inp.value = url;
+            
+            if (url) {
+                if (dot) dot.style.background = '#10b981';
+                if (txt) {
+                    txt.style.color = '#065f46';
+                    txt.innerText = 'Google Sheets: Conectado en tiempo real ✅';
+                }
+                if (btnSync) btnSync.style.display = 'inline-block';
+            } else {
+                if (dot) dot.style.background = '#f59e0b';
+                if (txt) {
+                    txt.style.color = '#b45309';
+                    txt.innerText = 'Google Sheets: No vinculado (clic en Vincular) ⚠️';
+                }
+                if (btnSync) btnSync.style.display = 'none';
+            }
+        }
+
+        function toggleConfigSheets() {
+            const row = document.getElementById('sheetsInputRow');
+            if (row) row.style.display = row.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function guardarSheetsUrl() {
+            const val = document.getElementById('inpSheetsUrl').value.trim();
+            if (!val) {
+                alert('Pega la URL de tu Google Apps Script que termina en /exec');
+                return;
+            }
+            localStorage.setItem('sheets_url_' + EVENT_KEY, val);
+            GOOGLE_SHEETS_URL = val;
+            updateSheetsBanner();
+            toggleConfigSheets();
+            alert('¡Google Sheets vinculado con éxito! Los nuevos pases se guardarán automáticamente en tu hoja de cálculo.');
+        }
+
+        async function sincronizarTodoSheets() {
+            const url = getActiveSheetsUrl();
+            if (!url) {
+                alert('Primero vincula la URL de tu Google Sheets en el botón "Vincular Sheets".');
+                toggleConfigSheets();
+                return;
+            }
+            if (invitados.length === 0) {
+                alert('No hay invitados registrados para subir.');
+                return;
+            }
+            const btn = document.getElementById('btnSyncSheets');
+            if (btn) btn.innerText = '⏳ Subiendo...';
+            
+            let exitosos = 0;
+            for (let i = 0; i < invitados.length; i++) {
+                const inv = invitados[i];
+                try {
+                    await fetch(url, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            nombre: inv.familia || inv.nombre,
+                            familia: inv.familia || inv.nombre,
+                            pases: inv.pases || 1,
+                            confirmado: inv.confirmado || 'Pendiente',
+                            link_invitacion: inv.link || ''
+                        })
+                    });
+                    exitosos++;
+                } catch(err) {
+                    console.warn(err);
+                }
+            }
+            
+            if (btn) btn.innerText = '☁️ Subir a Sheets';
+            alert(`✅ ¡Se subieron ${exitosos} invitados a tu Google Sheets!\n\nAbre tu hoja de Google Drive y verás todas las filas registradas.`);
+        }
+
         const GOOGLE_SHEETS_URL = '';
         const NOMBRE_EVENTO = 'Boda Sofía & Mateo';
 
@@ -185,7 +297,9 @@
 
             currentFamilia = familia;
             currentPases = pases;
-            currentLink = `${BASE_INVITE_URL}?n=${encodeURIComponent(familia)}&p=${pases}`;
+            const sheetsUrl = getActiveSheetsUrl();
+            const sParam = sheetsUrl ? `&s=${encodeURIComponent(sheetsUrl)}` : '';
+            currentLink = `${BASE_INVITE_URL}?n=${encodeURIComponent(familia)}&p=${pases}${sParam}`;
 
             document.getElementById('resFamilia').innerText = familia;
             document.getElementById('resPases').innerText = pases;
@@ -196,9 +310,10 @@
             invitados.unshift({ familia, pases, link: currentLink, confirmado: 'Pendiente' });
             localStorage.setItem('boda_sofia_mateo_invitados', JSON.stringify(invitados));
             renderTabla();
-            if (typeof GOOGLE_SHEETS_URL !== 'undefined' && GOOGLE_SHEETS_URL) {
-                fetch(GOOGLE_SHEETS_URL, {
+            if (sheetsUrl) {
+                fetch(sheetsUrl, {
                     method: 'POST',
+                    mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         nombre: familia,
@@ -245,6 +360,7 @@
             });
         }
         renderTabla();
+        updateSheetsBanner();
     </script>
 </body>
 

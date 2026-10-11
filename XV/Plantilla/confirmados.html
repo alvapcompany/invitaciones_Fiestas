@@ -279,6 +279,10 @@
     </div>
 
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const sheetsFromUrl = urlParams.get('s') ? decodeURIComponent(urlParams.get('s')).trim() : '';
+        const EVENT_KEY = 'XV_Plantilla';
+        const GOOGLE_SHEETS_URL = sheetsFromUrl || localStorage.getItem('sheets_url_' + EVENT_KEY) || '';
         // =========================================================================
         // 🔒 CONFIGURACIÓN INTERNA
         // =========================================================================

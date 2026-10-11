@@ -133,7 +133,11 @@
     </div>
 
     <script>
-        const GOOGLE_SHEETS_URL = ''; // Pega aquí la URL de Google Apps Script del cliente (/exec)
+        const urlParams = new URLSearchParams(window.location.search);
+        const sheetsFromUrl = urlParams.get('s') ? decodeURIComponent(urlParams.get('s')).trim() : '';
+        const EVENT_KEY = 'Fiestas_Lucia_Cocktail_Party';
+        const GOOGLE_SHEETS_URL = sheetsFromUrl || localStorage.getItem('sheets_url_' + EVENT_KEY) || '';
+         // Pega aquí la URL de Google Apps Script del cliente (/exec)
         const LOCAL_STORAGE_KEY = 'fiesta_lucia_invitados';
         let registros = [];
 
