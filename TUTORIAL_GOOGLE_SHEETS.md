@@ -83,7 +83,18 @@ Copia y pega este código completo (también está guardado en el archivo `codig
  * ============================================================================
  */
 
+// 🟢 FUNCIÓN DE PRUEBA Y CREACIÓN DE COLUMNAS (Para el botón "▷ Run" / "▷ Ejecutar")
+function inicializarHoja() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  setupHeadersIfEmpty(sheet);
+  Logger.log("✅ ¡Conexión exitosa! Las 5 columnas quedaron configuradas en tu hoja de Google Sheets.");
+}
+
+// Crea las 5 columnas automáticamente si la hoja está vacía
 function setupHeadersIfEmpty(sheet) {
+  if (!sheet) {
+    sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  }
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(["Nombre", "Pases", "Confirmado", "Fecha_Confirmacion", "Link_Invitacion"]);
     sheet.getRange("A1:E1").setFontWeight("bold").setBackground("#fef08a").setFontColor("#1a1202");

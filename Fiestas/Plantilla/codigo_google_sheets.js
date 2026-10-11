@@ -8,20 +8,28 @@
  * Funciona para: XV Años, Bodas y Fiestas Sociales.
  * Detecta automáticamente si la hoja está vacía y crea las 5 columnas con estilo.
  * 
- * PASOS PARA INSTALAR EN GOOGLE DRIVE (2 MINUTOS):
- * ----------------------------------------------------------------------------
- * 1. En tu hoja de Google Sheets, ve al menú: Extensiones > Apps Script.
- * 2. Borra todo el código que veas y pega este archivo completo.
- * 3. Clic en "Implementar" (botón azul arriba) > "Nueva implementación".
- *    - Tipo: Aplicación web (Web app).
- *    - Ejecutar como: Yo (tu correo).
- *    - Quién tiene acceso: Cualquier persona (Anyone). <--- ¡OBLIGATORIO!
- * 4. Clic en "Implementar" y copia la URL que termina en "/exec".
- * 5. ¡Listo! Pruébala en superadmin.html o vincúlala a tu evento.
+ * INSTRUCCIONES:
+ * 1. Pega este código en Extensiones > Apps Script.
+ * 2. Si quieres probarlo aquí mismo, presiona "▷ Run" (Ejecutar) con la función 
+ *    "inicializarHoja" y verás que en tu hoja se crean los encabezados en amarillo.
+ * 3. Para conectarlo a tu web: Haz clic en "Implementar" (botón azul arriba) 
+ *    > "Nueva implementación" > Tipo "Aplicación web" > Quién tiene acceso: "Cualquier persona" (Anyone).
+ * 4. Copia la URL que termina en "/exec".
  * ============================================================================
  */
 
+// 🟢 FUNCIÓN DE PRUEBA Y CREACIÓN DE COLUMNAS (Para el botón "▷ Run" / "▷ Ejecutar")
+function inicializarHoja() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  setupHeadersIfEmpty(sheet);
+  Logger.log("✅ ¡Conexión exitosa! Las 5 columnas quedaron configuradas en tu hoja de Google Sheets.");
+}
+
+// Crea las 5 columnas automáticamente si la hoja está vacía
 function setupHeadersIfEmpty(sheet) {
+  if (!sheet) {
+    sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  }
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(["Nombre", "Pases", "Confirmado", "Fecha_Confirmacion", "Link_Invitacion"]);
     sheet.getRange("A1:E1").setFontWeight("bold").setBackground("#fef08a").setFontColor("#1a1202");
@@ -29,7 +37,7 @@ function setupHeadersIfEmpty(sheet) {
   }
 }
 
-// LECTURA DE INVITADOS (GET) -> Lee la hoja para el Panel Admin y Confirmados
+// 📥 LECTURA DE INVITADOS (GET) -> Lee la hoja para el Panel Admin y Confirmados
 function doGet(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -72,11 +80,18 @@ function doGet(e) {
   }
 }
 
-// ESCRITURA Y ACTUALIZACIÓN (POST) -> Guarda pases generados o confirmaciones
+// 📤 ESCRITURA Y ACTUALIZACIÓN (POST) -> Guarda pases generados o confirmaciones
 function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     setupHeadersIfEmpty(sheet);
+    
+    // Si se corre de prueba en el editor sin datos postData
+    if (!e || !e.postData || !e.postData.contents) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "success", message: "Servicio doPost activo y listo para recibir datos." }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
     
     var data = JSON.parse(e.postData.contents);
     var nombre = (data.nombre || data.familia || "").toString().trim();
@@ -94,7 +109,7 @@ function doPost(e) {
     var rows = sheet.getDataRange().getValues();
     var encontrada = false;
     
-    // Buscar si el invitado ya existe para actualizarlo
+    // Buscar si el invitado ya existe para actualizarlo sin duplicar
     for (var i = 1; i < rows.length; i++) {
       if (rows[i][0] && rows[i][0].toString().trim().toLowerCase() === nombre.toLowerCase()) {
         if (data.pases) {
@@ -114,7 +129,7 @@ function doPost(e) {
       }
     }
     
-    // Si no existía, agregar una nueva fila al final
+    // Si no existía, agregar una nueva fila al final con las 5 columnas
     if (!encontrada) {
       sheet.appendRow([nombre, pases, confirmado, fecha, link]);
     }
