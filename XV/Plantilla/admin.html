@@ -252,10 +252,87 @@
             if (navigator.clipboard) navigator.clipboard.writeText(currentLink);
             const toast = document.getElementById('toastBox');
             if (toast) {
+                toast.innerText = '¡Enlace copiado al portapapeles!';
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 3000);
             } else {
                 alert('¡Enlace copiado al portapapeles!');
+            }
+        }
+
+        function copiarLinkInvitado(link) {
+            if (navigator.clipboard) navigator.clipboard.writeText(link);
+            const toast = document.getElementById('toastBox');
+            if (toast) {
+                toast.innerText = '¡Enlace copiado al portapapeles!';
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            } else {
+                alert('¡Enlace copiado al portapapeles!');
+            }
+        }
+
+        // ✏️ Cambiar estado (Sí / No / Pendiente) desde la tabla y actualizar Sheets
+        function cambiarEstadoInvitado(index, nuevoEstado) {
+            if (!invitados[index]) return;
+            const inv = invitados[index];
+            inv.confirmado = nuevoEstado;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(invitados));
+            renderTabla();
+
+            const sheetsUrl = getActiveSheetsUrl();
+            if (sheetsUrl) {
+                fetch(sheetsUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'update_status',
+                        nombre: inv.familia || inv.nombre,
+                        familia: inv.familia || inv.nombre,
+                        pases: inv.pases || 1,
+                        confirmado: nuevoEstado,
+                        fecha_confirmacion: nuevoEstado.includes('Sí') ? new Date().toLocaleString('es-MX') : (nuevoEstado.includes('No') ? new Date().toLocaleString('es-MX') + ' (Declinó)' : '')
+                    })
+                }).catch(function(){});
+            }
+        }
+
+        // 🗑️ Eliminar pase de la lista y de Google Sheets
+        function eliminarInvitado(index) {
+            if (!invitados[index]) return;
+            const inv = invitados[index];
+            const nombre = inv.familia || inv.nombre;
+
+            if (!confirm(`¿Estás seguro de que deseas eliminar a "${nombre}"? Se borrará de tu lista y de Google Sheets.`)) {
+                return;
+            }
+
+            const sheetsUrl = getActiveSheetsUrl();
+            if (sheetsUrl) {
+                fetch(sheetsUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'delete',
+                        nombre: nombre,
+                        familia: nombre
+                    })
+                }).catch(function(){});
+            }
+
+            invitados.splice(index, 1);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(invitados));
+            renderTabla();
+
+            const toast = document.getElementById('toastBox');
+            if (toast) {
+                toast.innerText = `Pase de "${nombre}" eliminado.`;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            } else {
+                alert(`Pase de "${nombre}" eliminado.`);
             }
         }
 
@@ -284,13 +361,37 @@ Pueden ver los detalles de la fiesta, ubicación y confirmar aquí:
                 return;
             }
 
-            invitados.forEach(inv => {
+            invitados.forEach((inv, index) => {
                 const tr = document.createElement('tr');
+                const isSi = inv.confirmado && inv.confirmado.toLowerCase().includes('sí');
+                const isNo = inv.confirmado && inv.confirmado.toLowerCase().includes('no');
+                
                 tr.innerHTML = `
-                    <td style="font-weight: 600;">${inv.familia}</td>
+                    <td style="font-weight: 600; color: #0f172a;">${inv.familia}</td>
                     <td><strong>${inv.pases}</strong></td>
-                    <td><span style="background: #fff8e1; color: #f57f17; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700;">${inv.confirmado}</span></td>
-                    <td><button style="padding: 5px 12px; border-radius: 50px; border: none; background: #e0f7fa; color: #0097a7; font-weight: 700; cursor: pointer;" onclick="navigator.clipboard.writeText('${inv.link}'); alert('¡Enlace copiado!');">📋 Copiar</button></td>
+                    <td>
+                        <select onchange="cambiarEstadoInvitado(${index}, this.value)" style="
+                            padding: 4px 10px;
+                            border-radius: 50px;
+                            font-size: 0.72rem;
+                            font-weight: 700;
+                            border: 1.5px solid ${isSi ? '#86efac' : isNo ? '#fca5a5' : '#fde047'};
+                            background: ${isSi ? '#f0fdf4' : isNo ? '#fef2f2' : '#fefce8'};
+                            color: ${isSi ? '#15803d' : isNo ? '#b91c1c' : '#a16207'};
+                            cursor: pointer;
+                            outline: none;
+                        ">
+                            <option value="Pendiente" ${!isSi && !isNo ? 'selected' : ''}>⏳ Pendiente</option>
+                            <option value="Sí ✅" ${isSi ? 'selected' : ''}>✅ Sí</option>
+                            <option value="No ❌" ${isNo ? 'selected' : ''}>❌ No</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <button style="padding: 5px 12px; border-radius: 50px; border: none; background: #e0f7fa; color: #0097a7; font-weight: 700; font-size: 0.72rem; cursor: pointer;" onclick="copiarLinkInvitado('${inv.link}')">📋 Copiar</button>
+                            <button style="padding: 5px 10px; border-radius: 50px; border: 1px solid #fee2e2; background: #fff1f2; color: #e11d48; font-weight: 700; font-size: 0.72rem; cursor: pointer;" onclick="eliminarInvitado(${index})" title="Eliminar pase">🗑️</button>
+                        </div>
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });

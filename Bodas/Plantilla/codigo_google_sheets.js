@@ -1,28 +1,34 @@
 /**
  * ============================================================================
  * 📋 CÓDIGO MAESTRO DE GOOGLE APPS SCRIPT PARA GOOGLE SHEETS
- * Estructura de 5 Columnas:
- * [Nombre] | [Pases] | [Confirmado] | [Fecha_Confirmacion] | [Link_Invitacion]
+ * Estructura de 5 Columnas con Validación de Casillas y Eliminación:
+ * [Nombre] | [Pases] | [Confirmado: Sí ✅ / No ❌ / Pendiente] | [Fecha_Confirmacion] | [Link_Invitacion]
  * ============================================================================
  * 
  * Funciona para: XV Años, Bodas y Fiestas Sociales.
- * Detecta automáticamente si la hoja está vacía y crea las 5 columnas con estilo.
- * 
- * INSTRUCCIONES:
- * 1. Pega este código en Extensiones > Apps Script.
- * 2. Si quieres probarlo aquí mismo, presiona "▷ Run" (Ejecutar) con la función 
- *    "inicializarHoja" y verás que en tu hoja se crean los encabezados en amarillo.
- * 3. Para conectarlo a tu web: Haz clic en "Implementar" (botón azul arriba) 
- *    > "Nueva implementación" > Tipo "Aplicación web" > Quién tiene acceso: "Cualquier persona" (Anyone).
- * 4. Copia la URL que termina en "/exec".
- * ============================================================================
+ * Crea automáticamente las 5 columnas, configura la Columna C como lista
+ * desplegable interactiva (Sí / No / Pendiente) y permite eliminar/actualizar pases.
  */
 
-// 🟢 FUNCIÓN DE PRUEBA Y CREACIÓN DE COLUMNAS (Para el botón "▷ Run" / "▷ Ejecutar")
+// 🟢 FUNCIÓN PARA EL BOTÓN "▷ Run" (Crea las columnas y casillas desplegables)
 function inicializarHoja() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   setupHeadersIfEmpty(sheet);
-  Logger.log("✅ ¡Conexión exitosa! Las 5 columnas quedaron configuradas en tu hoja de Google Sheets.");
+  aplicarValidaciones(sheet);
+  Logger.log("✅ ¡Conexión exitosa! Las 5 columnas y las casillas desplegables (Sí / No / Pendiente) quedaron configuradas en tu hoja.");
+}
+
+// Configura la Columna C como casilla de lista desplegable (Sí / No / Pendiente)
+function aplicarValidaciones(sheet) {
+  try {
+    var rule = SpreadsheetApp.newDataValidation()
+      .requireValueInList(["Sí ✅", "No ❌", "Pendiente"], true)
+      .setAllowInvalid(true)
+      .build();
+    sheet.getRange("C2:C1000").setDataValidation(rule);
+  } catch (err) {
+    Logger.log("Nota: " + err.toString());
+  }
 }
 
 // Crea las 5 columnas automáticamente si la hoja está vacía
@@ -34,6 +40,9 @@ function setupHeadersIfEmpty(sheet) {
     sheet.appendRow(["Nombre", "Pases", "Confirmado", "Fecha_Confirmacion", "Link_Invitacion"]);
     sheet.getRange("A1:E1").setFontWeight("bold").setBackground("#fef08a").setFontColor("#1a1202");
     sheet.setFrozenRows(1);
+    aplicarValidaciones(sheet);
+  } else {
+    aplicarValidaciones(sheet);
   }
 }
 
@@ -46,20 +55,18 @@ function doGet(e) {
     var rows = sheet.getDataRange().getValues();
     var result = [];
     
-    // Si solo están los encabezados en la fila 1
     if (rows.length <= 1) {
       return ContentService
         .createTextOutput(JSON.stringify([]))
         .setMimeType(ContentService.MimeType.JSON);
     }
     
-    // Recorremos desde la fila 2
     for (var i = 1; i < rows.length; i++) {
       var nom = rows[i][0] ? rows[i][0].toString().trim() : "";
       if (nom !== "") {
         result.push({
           nombre: nom,
-          familia: nom, // Compatibilidad con ambos nombres
+          familia: nom,
           pases: rows[i][1] ? parseInt(rows[i][1]) || 1 : 1,
           confirmado: rows[i][2] ? rows[i][2].toString().trim() : "Pendiente",
           fecha_confirmacion: rows[i][3] ? rows[i][3].toString() : "",
@@ -80,13 +87,12 @@ function doGet(e) {
   }
 }
 
-// 📤 ESCRITURA Y ACTUALIZACIÓN (POST) -> Guarda pases generados o confirmaciones
+// 📤 ESCRITURA, ACTUALIZACIÓN Y ELIMINACIÓN (POST)
 function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     setupHeadersIfEmpty(sheet);
     
-    // Si se corre de prueba en el editor sin datos postData
     if (!e || !e.postData || !e.postData.contents) {
       return ContentService
         .createTextOutput(JSON.stringify({ status: "success", message: "Servicio doPost activo y listo para recibir datos." }))
@@ -95,41 +101,48 @@ function doPost(e) {
     
     var data = JSON.parse(e.postData.contents);
     var nombre = (data.nombre || data.familia || "").toString().trim();
-    var pases = data.pases ? parseInt(data.pases) : 1;
-    var confirmado = (data.confirmado || "Sí ✅").toString().trim();
-    var fecha = data.fecha_confirmacion || (confirmado.toLowerCase().includes("sí") ? new Date().toLocaleString("es-MX") : "");
-    var link = (data.link_invitacion || data.link || "").toString().trim();
     
     if (!nombre) {
       return ContentService
         .createTextOutput(JSON.stringify({ status: "error", message: "Nombre no especificado" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
-    
+
     var rows = sheet.getDataRange().getValues();
-    var encontrada = false;
+
+    // 🗑️ ACCIÓN 1: ELIMINAR INVITADO DE LA HOJA
+    if (data.action === "delete" || data.eliminar) {
+      var borrado = false;
+      for (var i = rows.length - 1; i >= 1; i--) {
+        if (rows[i][0] && rows[i][0].toString().trim().toLowerCase() === nombre.toLowerCase()) {
+          sheet.deleteRow(i + 1);
+          borrado = true;
+        }
+      }
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "success", action: "delete", nombre: nombre, borrado: borrado }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // ✏️ ACCIÓN 2: GUARDAR O ACTUALIZAR
+    var pases = data.pases ? parseInt(data.pases) : 1;
+    var confirmado = (data.confirmado || "Sí ✅").toString().trim();
+    var fecha = data.fecha_confirmacion || (confirmado.toLowerCase().includes("sí") ? new Date().toLocaleString("es-MX") : (confirmado.toLowerCase().includes("no") ? new Date().toLocaleString("es-MX") + " (Declinó)" : ""));
+    var link = (data.link_invitacion || data.link || "").toString().trim();
     
-    // Buscar si el invitado ya existe para actualizarlo sin duplicar
+    var encontrada = false;
     for (var i = 1; i < rows.length; i++) {
       if (rows[i][0] && rows[i][0].toString().trim().toLowerCase() === nombre.toLowerCase()) {
-        if (data.pases) {
-          sheet.getRange(i + 1, 2).setValue(pases);
-        }
-        if (data.confirmado) {
-          sheet.getRange(i + 1, 3).setValue(confirmado);
-        }
-        if (fecha) {
-          sheet.getRange(i + 1, 4).setValue(fecha);
-        }
-        if (link) {
-          sheet.getRange(i + 1, 5).setValue(link);
-        }
+        if (data.pases) sheet.getRange(i + 1, 2).setValue(pases);
+        if (data.confirmado) sheet.getRange(i + 1, 3).setValue(confirmado);
+        if (data.fecha_confirmacion || fecha) sheet.getRange(i + 1, 4).setValue(fecha);
+        if (link) sheet.getRange(i + 1, 5).setValue(link);
         encontrada = true;
         break;
       }
     }
     
-    // Si no existía, agregar una nueva fila al final con las 5 columnas
+    // Si no existía, agregar fila con las 5 columnas
     if (!encontrada) {
       sheet.appendRow([nombre, pases, confirmado, fecha, link]);
     }
