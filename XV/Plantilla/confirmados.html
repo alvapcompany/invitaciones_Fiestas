@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Confirmados — XV Britney</title>
+    <title>Lista de Confirmados — Mis XV Años</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -225,7 +225,7 @@
 <body>
 
     <header>
-        <h1>Britney</h1>
+        <h1>[NOMBRE]</h1>
         <p>Dashboard de Confirmaciones en Tiempo Real</p>
         <div class="nav-pills">
             <a href="index.html" class="pill-btn" target="_blank">👁️ Invitación Digital</a>
@@ -278,11 +278,10 @@
 
     <script>
         // =========================================================================
-        // 📝 CONFIGURACIÓN DE GOOGLE APPS SCRIPT
-        // Modifica la siguiente URL cuando utilices este panel para otro cliente:
+        // 🔒 CONFIGURACIÓN INTERNA
         // =========================================================================
         const CONFIG_DASHBOARD = {
-            GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzt82an0oeBTjo4TncRopBnd85Yvm5AaUqfQKWCSJwy_ZhN8G5wBvWGoJXBl3h61ZAWSg/exec'
+            GOOGLE_SHEETS_URL: '' // Pega aquí la URL de Google Apps Script del cliente (/exec)
         };
         // =========================================================================
 
@@ -307,7 +306,7 @@
                 console.warn('Conexión Sheets fallida, cargando memoria local:', e);
             }
 
-            const local = JSON.parse(localStorage.getItem('xv_britney_invitados') || '[]');
+            const local = JSON.parse(localStorage.getItem('xv_plantilla_invitados') || '[]');
             registros = local;
             render();
         }
@@ -369,7 +368,7 @@
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `confirmados_XV_Britney_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `confirmados_XV_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
         }
 

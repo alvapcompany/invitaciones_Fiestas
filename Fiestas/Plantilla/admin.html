@@ -4,537 +4,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control — XV Britney</title>
+    <title>Generador de Pases — Gran Fiesta</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --azul-profundo: #041220;
-            --turquesa: #0097a7;
-            --turquesa-oscuro: #00838f;
-            --cyan-glow: #4dd0e1;
-            --oro: #d4af37;
-            --exito: #2e7d32;
-            --alerta: #f57f17;
-            --peligro: #c62828;
-            --plata-texto: #64748b;
+            --bg-dark: #0f172a;
+            --purpura: #7c3aed;
+            --rosa: #ec4899;
+            --texto: #f8fafc;
+            --plata: #94a3b8;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #e6f6f9 0%, #d4f1f7 50%, #e6f6f9 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 40px 16px 80px;
-            color: var(--azul-profundo);
+            color: var(--texto);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            width: 100%;
-            max-width: 760px;
-        }
+        header { text-align: center; margin-bottom: 30px; width: 100%; max-width: 680px; }
+        header h1 { font-size: 2.8rem; font-weight: 800; color: white; line-height: 1.1; text-transform: uppercase; letter-spacing: 2px; }
+        header p { font-size: 0.85rem; letter-spacing: 3px; color: var(--rosa); text-transform: uppercase; font-weight: 700; margin-top: 6px; }
 
-        header h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.8rem;
-            color: var(--turquesa);
-            text-shadow: 0 2px 10px rgba(0, 151, 167, 0.2);
-            line-height: 1.1;
-        }
-
-        header p {
-            font-family: 'Cinzel', serif;
-            font-size: 0.82rem;
-            letter-spacing: 4px;
-            color: var(--turquesa-oscuro);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-top: 5px;
-        }
-
-        .header-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
+        .header-links { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
         .link-pill {
-            background: white;
-            border: 1.5px solid var(--cyan-glow);
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 0.74rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--turquesa);
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0, 151, 167, 0.08);
-            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.08); border: 1.5px solid var(--purpura); padding: 8px 20px; border-radius: 50px;
+            font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: white; text-decoration: none;
         }
 
-        .link-pill:hover {
-            background: var(--turquesa);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* --- BARRA DE CONEXIÓN EN VIVO CON GOOGLE SHEETS --- */
-        .sheets-sync-bar {
-            background: white;
-            border-radius: 20px;
-            padding: 16px 22px;
-            width: 100%;
-            max-width: 620px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 30px rgba(0, 115, 130, 0.08);
-            border-left: 5px solid var(--turquesa);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .sync-status-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .sync-badge {
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .sync-badge.loading { color: var(--alerta); }
-        .sync-badge.connected { color: var(--exito); }
-        .sync-badge.error { color: var(--peligro); }
-
-        .sheets-url-input-wrap {
-            display: flex;
-            gap: 8px;
-        }
-
-        .sheets-url-input {
-            flex: 1;
-            padding: 9px 14px;
-            border: 1.5px solid #b2ebf2;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-family: monospace;
-            outline: none;
-            color: var(--azul-profundo);
-        }
-
-        .sheets-url-input:focus {
-            border-color: var(--turquesa);
-        }
-
-        .btn-sync-action {
-            background: var(--turquesa);
-            color: white;
-            border: none;
-            padding: 9px 16px;
-            border-radius: 8px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .btn-sync-action:hover {
-            background: var(--turquesa-oscuro);
-        }
-
-        /* --- Panel de Creación de Pases --- */
         .panel-box {
-            background: white;
-            border-radius: 26px;
-            padding: 38px 32px;
-            width: 100%;
-            max-width: 620px;
-            box-shadow: 0 20px 45px rgba(0, 115, 130, 0.12);
-            border-top: 6px solid var(--turquesa);
-            margin-bottom: 30px;
+            background: rgba(30, 41, 59, 0.95); border-radius: 26px; padding: 38px 32px; width: 100%; max-width: 580px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4); border-top: 6px solid var(--rosa); margin-bottom: 30px;
         }
 
-        .panel-heading {
-            font-family: 'Cinzel', serif;
-            font-size: 1.15rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--turquesa);
-            margin-bottom: 24px;
-            text-align: center;
-            font-weight: 800;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--turquesa-oscuro);
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e0f2f1;
-            border-radius: 14px;
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--turquesa);
-            box-shadow: 0 0 0 4px rgba(77, 208, 225, 0.2);
-        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--rosa); margin-bottom: 8px; font-weight: 700; }
+        .form-group input { width: 100%; padding: 14px 18px; border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 14px; font-size: 1rem; outline: none; font-family: inherit; background: rgba(15, 23, 42, 0.6); color: white; }
 
         .btn-generate {
-            width: 100%;
-            background: linear-gradient(135deg, var(--turquesa), var(--turquesa-oscuro));
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0, 151, 167, 0.3);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            width: 100%; background: linear-gradient(135deg, var(--purpura), var(--rosa));
+            color: white; border: none; padding: 16px; border-radius: 50px; font-size: 0.9rem;
+            font-weight: 800; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
         }
 
-        .btn-generate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(0, 151, 167, 0.45);
-        }
-
-        /* --- Resultado de Invitación --- */
         #resultCard {
-            display: none;
-            background: white;
-            border-radius: 26px;
-            padding: 35px 28px;
-            width: 100%;
-            max-width: 620px;
-            box-shadow: 0 20px 50px rgba(0, 115, 130, 0.15);
-            border-top: 6px solid #2e7d32;
-            margin-bottom: 35px;
-            text-align: center;
-            animation: fadeIn 0.4s ease;
+            display: none; background: rgba(30, 41, 59, 0.95); border-radius: 26px; padding: 35px 28px; width: 100%; max-width: 580px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); border-top: 6px solid #2e7d32; margin-bottom: 35px; text-align: center;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .preview-box { background: rgba(15, 23, 42, 0.6); border: 2px dashed var(--rosa); border-radius: 20px; padding: 24px; margin: 20px 0; }
+        .link-output { background: #0f172a; border: 1px solid var(--purpura); border-radius: 12px; padding: 12px; font-size: 0.78rem; word-break: break-all; color: var(--rosa); margin: 14px 0 20px; font-family: monospace; }
 
-        .preview-box {
-            background: #f0fbfc;
-            border: 2px dashed var(--cyan-glow);
-            border-radius: 20px;
-            padding: 24px;
-            margin: 20px 0;
-        }
+        .actions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .btn-act { padding: 13px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; cursor: pointer; border: none; text-decoration: none; text-align: center; }
+        .btn-copy { background: rgba(255, 255, 255, 0.1); color: white; }
+        .btn-view { background: #e8f5e9; color: #2e7d32; }
+        .btn-wa { background: #25d366; color: white; grid-column: span 2; font-size: 0.85rem; padding: 15px; }
 
-        .link-output {
-            background: #eef8fa;
-            border: 1px solid #b2ebf2;
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 0.78rem;
-            word-break: break-all;
-            color: var(--turquesa-oscuro);
-            margin: 14px 0 20px;
-            font-family: monospace;
-            cursor: pointer;
-        }
-
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .btn-act {
-            padding: 12px;
-            border-radius: 50px;
-            font-size: 0.74rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.25s;
-            text-decoration: none;
-        }
-
-        .btn-copy { background: #e0f7fa; color: var(--turquesa); }
-        .btn-view { background: #e8f5e9; color: var(--exito); }
-        .btn-wa { background: #25d366; color: white; grid-column: span 2; }
-        .btn-wa:hover { background: #1eb956; }
-
-        /* --- Tabla de Invitados --- */
-        .guests-table-panel {
-            width: 100%;
-            max-width: 900px;
-            background: white;
-            border-radius: 26px;
-            padding: 35px 28px;
-            box-shadow: 0 20px 45px rgba(0, 115, 130, 0.1);
-        }
-
-        .table-head-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #e0f2f1;
-            padding-bottom: 16px;
-        }
-
-        .table-badges {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .badge-stat {
-            background: #f0fbfc;
-            border: 1px solid #b2ebf2;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--turquesa-oscuro);
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 12px 18px;
-            border: 2px solid #e0f2f1;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            outline: none;
-            margin-bottom: 20px;
-            font-family: inherit;
-        }
-
-        .guests-tbl {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-
-        .guests-tbl th {
-            text-align: left;
-            padding: 12px 14px;
-            background: #f7fcfd;
-            color: var(--turquesa-oscuro);
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #e0f2f1;
-        }
-
-        .guests-tbl td {
-            padding: 14px;
-            border-bottom: 1px solid #f0f4f5;
-        }
-
-        .pill-status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .pill-status.confirmed { background: #e8f5e9; color: var(--exito); }
-        .pill-status.pending { background: #fff8e1; color: var(--alerta); }
-
-        .btn-tbl-sm {
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            margin-right: 4px;
-        }
-
-        .btn-tbl-cp { background: #e0f7fa; color: var(--turquesa); }
-        .btn-tbl-del { background: #ffebee; color: var(--peligro); }
-
-        .toast-popup {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--azul-profundo);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-            z-index: 999;
-        }
-
-        .toast-popup.show { transform: translateX(-50%) translateY(0); }
+        .guests-table-panel { width: 100%; max-width: 900px; background: rgba(30, 41, 59, 0.95); border-radius: 26px; padding: 35px 28px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3); }
+        .table-head-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 16px; }
+        .guests-tbl { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .guests-tbl th { text-align: left; padding: 12px 14px; background: rgba(15, 23, 42, 0.5); color: var(--rosa); font-size: 0.72rem; text-transform: uppercase; border-bottom: 2px solid rgba(255, 255, 255, 0.1); }
+        .guests-tbl td { padding: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
     </style>
 </head>
 
 <body>
 
     <header>
-        <h1>Britney</h1>
-        <p>Generador de Pases VIP & Sincronización Google Sheets</p>
+        <h1>Gran Fiesta</h1>
+        <p>Generador de Pases VIP & WhatsApp</p>
         <div class="header-links">
             <a href="index.html" class="link-pill" target="_blank">👁️ Ver Invitación</a>
-            <a href="confirmados.html" class="link-pill">📊 Dashboard de Confirmados</a>
+            <a href="confirmados.html" class="link-pill">📊 Lista de Confirmados</a>
         </div>
     </header>
 
-    <!-- BARRA DE CONEXIÓN CON GOOGLE SHEETS -->
-    <div class="sheets-sync-bar">
-        <div class="sync-status-row">
-            <span class="sync-badge" id="syncStatusBadge">⏳ Verificando Google Sheets...</span>
-            <button class="btn-sync-action" onclick="cargarDesdeGoogleSheets(true)">🔄 Recargar de Sheets</button>
-        </div>
-        <div class="sheets-url-input-wrap">
-            <input type="text" id="inpSheetsUrl" class="sheets-url-input" placeholder="Pega aquí la URL de tu Google Apps Script (/exec)...">
-            <button class="btn-sync-action" onclick="guardarNuevaUrlSheets()">Guardar URL</button>
-        </div>
-    </div>
-
-    <!-- Panel de creación -->
     <div class="panel-box">
-        <h2 class="panel-heading">✦ Nuevo Pase de Invitado ✦</h2>
+        <h2 style="font-size: 1.15rem; letter-spacing: 2px; text-transform: uppercase; color: var(--rosa); margin-bottom: 24px; text-align: center; font-weight: 800;">✦ Crear Pase VIP ✦</h2>
 
         <div class="form-group">
-            <label for="inpFamilia">Familia o Invitado</label>
-            <input type="text" id="inpFamilia" placeholder="Ej: Familia Morales Rodríguez" autocomplete="off">
+            <label for="inpFamilia">Nombre o Familia del Invitado</label>
+            <input type="text" id="inpFamilia" placeholder="Ej: Amigos del Trabajo / Familia Pérez" autocomplete="off">
         </div>
 
         <div class="form-group">
-            <label for="inpPases">Lugares Reservados</label>
+            <label for="inpPases">Número de Lugares Reservados</label>
             <input type="number" id="inpPases" placeholder="Ej: 2" min="1" max="20" value="2">
         </div>
 
         <button class="btn-generate" onclick="crearPase()">
-            <span>✨ Generar Invitación Digital</span>
+            <span>🎉 Generar Pase VIP</span>
         </button>
     </div>
 
-    <!-- Resultado Generado -->
     <div id="resultCard">
-        <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e7d32; letter-spacing: 2px;">¡Invitación Creada con Éxito!</h3>
+        <h3 style="font-size: 1.1rem; color: #2e7d32; letter-spacing: 2px;">¡Invitación Lista para Compartir!</h3>
 
         <div class="preview-box">
-            <p style="font-size: 0.72rem; letter-spacing: 2px; color: var(--turquesa-oscuro); text-transform: uppercase;">Invitación Reservada Para:</p>
-            <div id="resFamilia" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--azul-profundo); margin: 6px 0;">Familia —</div>
-            <p style="font-size: 0.78rem; color: var(--plata-texto);">Lugares reservados:</p>
-            <div id="resPases" style="font-family: 'Cinzel', serif; font-size: 2.8rem; font-weight: 800; color: var(--turquesa); line-height: 1;">2</div>
+            <p style="font-size: 0.72rem; letter-spacing: 2px; color: var(--rosa); text-transform: uppercase;">Invitación para:</p>
+            <div id="resFamilia" style="font-size: 1.8rem; font-weight: 800; color: white; margin: 6px 0;">Familia —</div>
+            <p style="font-size: 0.78rem; color: var(--plata);">Lugares reservados:</p>
+            <div id="resPases" style="font-size: 2.8rem; font-weight: 800; color: var(--purpura); line-height: 1;">2</div>
         </div>
 
-        <p style="font-size: 0.72rem; letter-spacing: 1px; color: var(--plata-texto); text-transform: uppercase;">Enlace personalizado (Toca para copiar):</p>
+        <p style="font-size: 0.72rem; letter-spacing: 1px; color: var(--plata); text-transform: uppercase;">Enlace personalizado:</p>
         <div class="link-output" id="resLink" onclick="copiarEnlace()">—</div>
 
         <div class="actions-grid">
             <button class="btn-act btn-copy" onclick="copiarEnlace()">📋 Copiar Link</button>
-            <a href="#" id="btnVer" class="btn-act btn-view" target="_blank">👁️ Abrir</a>
-            <button class="btn-act btn-wa" onclick="compartirWhatsApp()">💬 Compartir Invitación por WhatsApp</button>
+            <a href="#" id="btnVer" class="btn-act btn-view" target="_blank">👁️ Ver</a>
+            <button class="btn-act btn-wa" onclick="compartirWhatsApp()">💬 Enviar Invitación por WhatsApp</button>
         </div>
     </div>
 
-    <!-- Tabla de Invitados -->
     <div class="guests-table-panel">
         <div class="table-head-bar">
             <div>
-                <h3 style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--turquesa); letter-spacing: 2px;">Lista de Invitados</h3>
-                <p style="font-size: 0.75rem; color: var(--plata-texto);">Sincronizada con Google Sheets</p>
+                <h3 style="font-size: 1.15rem; color: white; letter-spacing: 2px;">Invitados Registrados</h3>
+                <p style="font-size: 0.75rem; color: var(--plata);">Control de accesos a la fiesta</p>
             </div>
-            <div class="table-badges">
-                <span class="badge-stat" id="statFamilias">0 Familias</span>
-                <span class="badge-stat" id="statPases">0 Pases</span>
-                <span class="badge-stat" style="background: #e8f5e9; color: #2e7d32;" id="statConfirmados">0 Confirmados</span>
-            </div>
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--rosa);" id="statFamilias">0 Invitados</div>
         </div>
-
-        <input type="text" id="inpBuscar" class="search-bar" placeholder="🔍 Buscar por familia o invitado..." oninput="filtrarLista()">
 
         <div style="overflow-x: auto;">
             <table class="guests-tbl">
                 <thead>
                     <tr>
-                        <th>Familia / Invitado</th>
-                        <th>Pases</th>
+                        <th>Invitado / Familia</th>
+                        <th>Lugares</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody id="guestsBody">
-                    <!-- Dinámico -->
-                </tbody>
+                <tbody id="guestsBody"></tbody>
             </table>
         </div>
     </div>
 
-    <div class="toast-popup" id="toastBox">¡Enlace copiado al portapapeles!</div>
-
     <script>
         // =========================================================================
-        // 📝 CONFIGURACIÓN DE GOOGLE APPS SCRIPT
+        // 🔒 CONFIGURACIÓN INTERNA
         // =========================================================================
-        const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzt82an0oeBTjo4TncRopBnd85Yvm5AaUqfQKWCSJwy_ZhN8G5wBvWGoJXBl3h61ZAWSg/exec';
-        
-        let SHEETS_URL = localStorage.getItem('xv_sheets_url_custom') || DEFAULT_SHEETS_URL;
-        document.getElementById('inpSheetsUrl').value = SHEETS_URL;
+        const GOOGLE_SHEETS_URL = ''; // Pega aquí la URL de Apps Script del cliente
+        const NOMBRE_EVENTO = 'Gran Fiesta';
+        // =========================================================================
 
         function getBaseUrl() {
             const href = window.location.href;
@@ -542,69 +165,15 @@
         }
 
         const BASE_INVITE_URL = getBaseUrl();
-        let invitados = [];
+        let invitados = JSON.parse(localStorage.getItem('fiesta_plantilla_invitados') || '[]');
         let currentLink = '';
         let currentFamilia = '';
-        let currentPases = 1;
-
-        function guardarNuevaUrlSheets() {
-            const nueva = document.getElementById('inpSheetsUrl').value.trim();
-            if (!nueva) {
-                alert('Ingresa una URL válida de Google Apps Script');
-                return;
-            }
-            SHEETS_URL = nueva;
-            localStorage.setItem('xv_sheets_url_custom', nueva);
-            mostrarToast('URL de Google Sheets guardada');
-            cargarDesdeGoogleSheets(true);
-        }
-
-        // CARGA AUTOMÁTICA DESDE GOOGLE SHEETS
-        async function cargarDesdeGoogleSheets(manual = false) {
-            const badge = document.getElementById('syncStatusBadge');
-            badge.className = 'sync-badge loading';
-            badge.innerText = '⏳ Conectando con Google Sheets...';
-
-            try {
-                if (SHEETS_URL && SHEETS_URL.includes('script.google.com')) {
-                    const resp = await fetch(SHEETS_URL);
-                    const data = await resp.json();
-
-                    if (Array.isArray(data)) {
-                        invitados = data.map(item => ({
-                            familia: item.familia || item.Familia || '',
-                            pases: parseInt(item.pases || item.Pases) || 1,
-                            confirmado: item.confirmado || item.Confirmado || 'Pendiente',
-                            link: `${BASE_INVITE_URL}?n=${encodeURIComponent(item.familia || item.Familia)}&p=${item.pases || item.Pases || 1}`
-                        })).filter(i => i.familia !== '');
-
-                        localStorage.setItem('xv_britney_invitados', JSON.stringify(invitados));
-                        badge.className = 'sync-badge connected';
-                        badge.innerText = `🟢 Conectado a Sheets: ${invitados.length} invitados cargados`;
-                        renderTabla();
-                        if (manual) mostrarToast('¡Datos sincronizados con Google Sheets!');
-                        return;
-                    }
-                }
-            } catch (err) {
-                console.warn('Error leyendo Google Sheets, cargando memoria local:', err);
-            }
-
-            // Fallback a localStorage
-            invitados = JSON.parse(localStorage.getItem('xv_britney_invitados') || '[]');
-            badge.className = 'sync-badge error';
-            badge.innerText = `⚠️ Modo Local (${invitados.length} invitados). Verifica tu Apps Script.`;
-            renderTabla();
-        }
+        let currentPases = 2;
 
         function crearPase() {
             const familia = document.getElementById('inpFamilia').value.trim();
-            const pases = parseInt(document.getElementById('inpPases').value) || 1;
-
-            if (!familia) {
-                alert('Por favor ingresa el nombre de la familia o invitado.');
-                return;
-            }
+            const pases = parseInt(document.getElementById('inpPases').value) || 2;
+            if (!familia) return alert('Por favor ingresa el nombre del invitado.');
 
             currentFamilia = familia;
             currentPases = pases;
@@ -615,133 +184,52 @@
             document.getElementById('resLink').innerText = currentLink;
             document.getElementById('btnVer').href = currentLink;
             document.getElementById('resultCard').style.display = 'block';
-            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-            // Actualizar local
-            const idx = invitados.findIndex(i => i.familia.toLowerCase() === familia.toLowerCase());
-            if (idx >= 0) {
-                invitados[idx].pases = pases;
-                invitados[idx].link = currentLink;
-            } else {
-                invitados.unshift({
-                    familia: familia,
-                    pases: pases,
-                    link: currentLink,
-                    confirmado: 'Pendiente'
-                });
-            }
-
-            localStorage.setItem('xv_britney_invitados', JSON.stringify(invitados));
+            invitados.unshift({ familia, pases, link: currentLink, confirmado: 'Pendiente' });
+            localStorage.setItem('fiesta_plantilla_invitados', JSON.stringify(invitados));
             renderTabla();
 
-            // ENVIAR A GOOGLE SHEETS
-            if (SHEETS_URL && SHEETS_URL.includes('script.google.com')) {
-                const payload = JSON.stringify({
-                    familia: familia,
-                    pases: pases,
-                    confirmado: 'Pendiente'
-                });
-
-                fetch(SHEETS_URL, {
+            if (GOOGLE_SHEETS_URL) {
+                fetch(GOOGLE_SHEETS_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: payload
-                }).catch(err => {
-                    fetch(SHEETS_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: payload
-                    }).catch(e => console.log('Sync error:', e));
-                });
+                    body: JSON.stringify({ familia, pases, confirmado: 'Pendiente' })
+                }).catch(() => {});
             }
         }
 
         function copiarEnlace() {
             if (navigator.clipboard) navigator.clipboard.writeText(currentLink);
-            mostrarToast('¡Enlace copiado al portapapeles!');
+            alert('¡Enlace copiado al portapapeles!');
         }
 
         function compartirWhatsApp() {
-            const msg = `✨ ¡Hola Familia ${currentFamilia}! ✨\n\nCon mucha alegría los invito a celebrar mis XV Años ❄️👑.\n\nHemos reservado especialmente para ustedes *${currentPases} pase${currentPases > 1 ? 's' : ''}*.\n\nPueden ver su pase VIP, itinerario y confirmar aquí:\n👉 ${currentLink}\n\n¡Será un honor compartir esta noche con ustedes!`;
+            const msg = `🎉 ¡Hola ${currentFamilia}! ✨\n\nTe invito a celebrar en grande mi fiesta 🍸🎵.\n\nReservé para ti *${currentPases} lugares*.\n\nPuedes ver la ubicación, fecha y confirmar tu asistencia aquí:\n👉 ${currentLink}\n\n¡Ven listo para divertirte!`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function renderTabla(filtro = '') {
+        function renderTabla() {
             const tbody = document.getElementById('guestsBody');
             tbody.innerHTML = '';
+            document.getElementById('statFamilias').innerText = `${invitados.length} Invitados`;
 
-            let totalPases = 0;
-            let totalConfirmados = 0;
-
-            const filtrados = invitados.filter(i => 
-                i.familia.toLowerCase().includes(filtro.toLowerCase())
-            );
-
-            invitados.forEach(i => {
-                const num = parseInt(i.pases) || 0;
-                totalPases += num;
-                if (i.confirmado && i.confirmado.toLowerCase().includes('sí')) {
-                    totalConfirmados += num;
-                }
-            });
-
-            document.getElementById('statFamilias').innerText = `${invitados.length} Familias`;
-            document.getElementById('statPases').innerText = `${totalPases} Pases`;
-            document.getElementById('statConfirmados').innerText = `${totalConfirmados} Confirmados`;
-
-            if (filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #94a3b8; padding: 25px;">No hay invitados registrados aún. Escribe arriba para agregar uno o pulsa "Recargar de Sheets".</td></tr>`;
+            if (invitados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #94a3b8; padding: 25px;">No hay invitados registrados aún. Escribe arriba para generar el primer pase.</td></tr>`;
                 return;
             }
 
-            filtrados.forEach(inv => {
+            invitados.forEach(inv => {
                 const tr = document.createElement('tr');
-                const esConf = inv.confirmado && inv.confirmado.toLowerCase().includes('sí');
                 tr.innerHTML = `
                     <td style="font-weight: 600;">${inv.familia}</td>
                     <td><strong>${inv.pases}</strong></td>
-                    <td>
-                        <span class="pill-status ${esConf ? 'confirmed' : 'pending'}">
-                            ${esConf ? 'Confirmado ✅' : 'Pendiente ⏳'}
-                        </span>
-                    </td>
-                    <td>
-                        <button class="btn-tbl-sm btn-tbl-cp" onclick="copiarFila('${inv.link}')">📋 Copiar</button>
-                        <button class="btn-tbl-sm btn-tbl-del" onclick="eliminarFila('${inv.familia}')">🗑️</button>
-                    </td>
+                    <td><span style="background: #fff8e1; color: #f57f17; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 700;">${inv.confirmado}</span></td>
+                    <td><button style="padding: 5px 12px; border-radius: 50px; border: none; background: rgba(255,255,255,0.1); color: white; font-weight: 700; cursor: pointer;" onclick="navigator.clipboard.writeText('${inv.link}'); alert('Enlace copiado!');">📋 Copiar</button></td>
                 `;
                 tbody.appendChild(tr);
             });
         }
-
-        function filtrarLista() {
-            renderTabla(document.getElementById('inpBuscar').value);
-        }
-
-        function copiarFila(url) {
-            if (navigator.clipboard) navigator.clipboard.writeText(url);
-            mostrarToast('¡Enlace copiado!');
-        }
-
-        function eliminarFila(fam) {
-            if (confirm(`¿Eliminar a "${fam}" de la lista local?`)) {
-                invitados = invitados.filter(i => i.familia !== fam);
-                localStorage.setItem('xv_britney_invitados', JSON.stringify(invitados));
-                renderTabla();
-                mostrarToast('Invitado eliminado');
-            }
-        }
-
-        function mostrarToast(txt) {
-            const toast = document.getElementById('toastBox');
-            toast.innerText = txt;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Cargar en cuanto cargue el DOM
-        cargarDesdeGoogleSheets();
+        renderTabla();
     </script>
 </body>
 

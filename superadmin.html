@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin — Alva P Company Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #070d17;
+            --bg-card: #0f172a;
+            --turquesa: #0097a7;
+            --cyan: #38bdf8;
+            --oro: #d4af37;
+            --exito: #22c55e;
+            --alerta: #f59e0b;
+            --peligro: #ef4444;
+            --texto-sec: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 10% 10%, #0f172a 0%, #070d17 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+            padding: 40px 20px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { max-width: 1050px; width: 100%; }
+
+        header {
+            text-align: center; margin-bottom: 35px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 25px;
+        }
+
+        .badge-brand {
+            font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 5px;
+            text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; display: inline-block;
+        }
+
+        h1 { font-family: 'Cinzel', serif; font-size: 2.4rem; font-weight: 800; letter-spacing: 2px; }
+
+        p.sub { font-size: 0.9rem; color: var(--texto-sec); margin-top: 6px; }
+
+        /* Panel de Conexión de Base de Datos */
+        .admin-box {
+            background: var(--bg-card); border-radius: 24px; padding: 32px;
+            border: 1.5px solid rgba(56, 189, 248, 0.2); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+            margin-bottom: 35px;
+        }
+
+        .box-title {
+            font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--oro);
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+        }
+
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 18px; }
+
+        .field label { display: block; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; font-weight: 700; }
+        .field input, .field select {
+            width: 100%; padding: 12px 16px; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.15);
+            background: rgba(7, 13, 23, 0.8); color: white; font-family: inherit; font-size: 0.9rem; outline: none;
+        }
+        .field input:focus, .field select:focus { border-color: var(--cyan); }
+
+        .btn-test {
+            background: linear-gradient(135deg, var(--turquesa), var(--cyan));
+            color: #070d17; border: none; padding: 14px 26px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-test:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        .test-status {
+            margin-top: 14px; padding: 12px 18px; border-radius: 12px; font-size: 0.82rem; font-weight: 600;
+            display: none; align-items: center; gap: 8px;
+        }
+        .test-status.ok { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid #22c55e; display: flex; }
+        .test-status.fail { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; display: flex; }
+
+        /* Lista de Clientes & Entregas */
+        .clients-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+
+        .client-card {
+            background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; padding: 26px; display: flex; flex-direction: column; gap: 14px;
+        }
+
+        .client-tag { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); }
+        .client-name { font-size: 1.35rem; font-weight: 800; color: white; }
+
+        .links-to-copy { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+
+        .copy-pill {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px; padding: 10px 14px; font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .btn-cp-mini {
+            background: var(--turquesa); color: white; border: none; padding: 4px 10px;
+            border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <span class="badge-brand">Alva P Company • Business Panel</span>
+            <h1>Super Admin de Eventos</h1>
+            <p class="sub">Panel privado para el vendedor: vincula bases de datos y entrega accesos listos a tus clientes sin que ellos vean la parte técnica.</p>
+        </header>
+
+        <!-- Herramienta de Conexión y Prueba de Google Sheets -->
+        <div class="admin-box">
+            <h2 class="box-title">⚡ Vincular / Probar Google Sheets con un Cliente</h2>
+            <div class="form-row">
+                <div class="field">
+                    <label>Seleccionar Evento / Cliente</label>
+                    <select id="selEvento">
+                        <option value="XV/Britney">👑 XV Años — Britney (Activo)</option>
+                        <option value="XV/Plantilla">👑 XV Años — Plantilla Base</option>
+                        <option value="Bodas/Plantilla">💍 Bodas — Plantilla Base</option>
+                        <option value="Fiestas/Plantilla">🎉 Fiestas — Plantilla Base</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>URL de Google Apps Script (/exec)</label>
+                    <input type="text" id="inpScriptUrl" placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+            </div>
+
+            <button class="btn-test" onclick="probarConexion()">Probar Conexión con Google Sheets</button>
+
+            <div class="test-status" id="testResult"></div>
+        </div>
+
+        <!-- Enlaces Listos para Enviar a los Clientes que Compraron -->
+        <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 20px; color: var(--oro);">📦 Enlaces de Entrega para tus Clientes</h2>
+
+        <div class="clients-grid">
+            <!-- XV Britney -->
+            <div class="client-card">
+                <span class="client-tag">👑 XV Años</span>
+                <div class="client-name">Britney</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Saltillo, Coahuila • 24 de Julio 2026</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> para los invitados</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Britney/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> genera pases WhatsApp</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Britney/admin.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Confirmados:</strong> tablero de asistencia</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Britney/confirmados.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plantilla XV -->
+            <div class="client-card">
+                <span class="client-tag">👑 XV Años (Plantilla)</span>
+                <div class="client-name">Plantilla Quinceañeras</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Sin datos previos • Lista para nuevo cliente</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> [NOMBRE]</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Plantilla/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> Pases</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('XV/Plantilla/admin.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plantilla Bodas -->
+            <div class="client-card">
+                <span class="client-tag">💍 Bodas (Plantilla)</span>
+                <div class="client-name">Plantilla Bodas</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Estilo Nupcial • [NOVIA] & [NOVIO]</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> Novios</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Plantilla/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> Pases Nupciales</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Bodas/Plantilla/admin.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plantilla Fiestas -->
+            <div class="client-card">
+                <span class="client-tag">🎉 Fiestas (Plantilla)</span>
+                <div class="client-name">Plantilla Fiestas</div>
+                <p style="font-size: 0.8rem; color: var(--texto-sec);">Cumpleaños & Sociales • [NOMBRE]</p>
+
+                <div class="links-to-copy">
+                    <div class="copy-pill">
+                        <span><strong>Invitación:</strong> Fiesta</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Plantilla/index.html')">Copiar</button>
+                    </div>
+                    <div class="copy-pill">
+                        <span><strong>Panel Cliente:</strong> Pases VIP</span>
+                        <button class="btn-cp-mini" onclick="copiarLinkRelativo('Fiestas/Plantilla/admin.html')">Copiar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DOMAIN = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+
+        function copiarLinkRelativo(path) {
+            const fullUrl = DOMAIN + path;
+            navigator.clipboard.writeText(fullUrl);
+            alert('¡Enlace copiado al portapapeles listo para enviar al cliente!\n\n' + fullUrl);
+        }
+
+        async function probarConexion() {
+            const url = document.getElementById('inpScriptUrl').value.trim();
+            const resBox = document.getElementById('testResult');
+
+            if (!url) {
+                alert('Pega la URL de Google Apps Script que termina en /exec');
+                return;
+            }
+
+            resBox.className = 'test-status ok';
+            resBox.style.display = 'flex';
+            resBox.innerText = '⏳ Conectando con Google Sheets...';
+
+            try {
+                const resp = await fetch(url);
+                const data = await resp.json();
+
+                if (Array.isArray(data)) {
+                    resBox.className = 'test-status ok';
+                    resBox.innerText = `✅ ¡Conexión exitosa con Google Sheets! Se detectaron ${data.length} filas leídas.`;
+                } else if (data.status === 'success') {
+                    resBox.className = 'test-status ok';
+                    resBox.innerText = `✅ ¡Conexión exitosa con Google Apps Script!`;
+                } else {
+                    resBox.className = 'test-status ok';
+                    resBox.innerText = `✅ Respuesta recibida de Google Sheets.`;
+                }
+            } catch (err) {
+                resBox.className = 'test-status fail';
+                resBox.innerText = `❌ Error de conexión: Asegúrate de haber publicado en Google Apps Script con acceso "Cualquiera" (Anyone) y que la URL termine en /exec.`;
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -4,20 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Confirmados — XV Britney</title>
+    <title>Lista de Confirmados — Gran Fiesta</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --azul-profundo: #041220;
-            --turquesa: #0097a7;
-            --turquesa-oscuro: #00838f;
-            --cyan-glow: #4dd0e1;
-            --exito: #2e7d32;
-            --alerta: #f57f17;
-            --plata-texto: #64748b;
+            --bg-dark: #0f172a;
+            --purpura: #7c3aed;
+            --rosa: #ec4899;
+            --cyan: #38bdf8;
+            --exito: #22c55e;
+            --alerta: #f59e0b;
+            --texto: #f8fafc;
+            --plata: #94a3b8;
         }
 
         * {
@@ -28,13 +29,13 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #e6f6f9 0%, #d6f2f8 50%, #e6f6f9 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 40px 16px 80px;
-            color: var(--azul-profundo);
+            color: var(--texto);
         }
 
         header {
@@ -45,21 +46,22 @@
         }
 
         header h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.8rem;
-            color: var(--turquesa);
-            text-shadow: 0 2px 10px rgba(0, 151, 167, 0.2);
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: white;
             line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
         }
 
         header p {
-            font-family: 'Cinzel', serif;
             font-size: 0.85rem;
-            letter-spacing: 4px;
-            color: var(--turquesa-oscuro);
+            letter-spacing: 3px;
+            color: var(--rosa);
             text-transform: uppercase;
             font-weight: 700;
-            margin-top: 5px;
+            margin-top: 6px;
         }
 
         .nav-pills {
@@ -71,23 +73,21 @@
         }
 
         .pill-btn {
-            background: white;
-            border: 1.5px solid var(--cyan-glow);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid var(--purpura);
             padding: 8px 18px;
             border-radius: 50px;
             font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--turquesa);
+            color: white;
             text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0, 151, 167, 0.08);
             transition: all 0.3s;
         }
 
         .pill-btn:hover {
-            background: var(--turquesa);
-            color: white;
+            background: var(--purpura);
             transform: translateY(-2px);
         }
 
@@ -101,12 +101,14 @@
         }
 
         .stat-card {
-            background: white;
+            background: rgba(30, 41, 59, 0.7);
             border-radius: 20px;
             padding: 24px 18px;
             text-align: center;
-            box-shadow: 0 12px 30px rgba(0, 115, 130, 0.08);
-            border-top: 5px solid var(--turquesa);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border-top: 5px solid var(--rosa);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s;
         }
 
@@ -128,17 +130,18 @@
             font-size: 0.72rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--plata-texto);
+            color: var(--plata);
             font-weight: 700;
         }
 
         .panel-table-wrap {
-            background: white;
+            background: rgba(30, 41, 59, 0.7);
             border-radius: 26px;
             padding: 35px 28px;
             width: 100%;
             max-width: 840px;
-            box-shadow: 0 20px 45px rgba(0, 115, 130, 0.1);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .tools-bar {
@@ -154,54 +157,54 @@
             flex: 1;
             min-width: 240px;
             padding: 12px 18px;
-            border: 2px solid #e0f2f1;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
             border-radius: 50px;
             font-size: 0.85rem;
             outline: none;
             font-family: inherit;
         }
 
-        .search-in:focus {
-            border-color: var(--turquesa);
-        }
+        .search-in:focus { border-color: var(--rosa); }
 
-        .btn-tool {
-            background: #e0f7fa;
-            color: var(--turquesa);
-            border: 1.5px solid var(--cyan-glow);
-            padding: 10px 18px;
+        .btn-exp {
+            background: linear-gradient(135deg, var(--purpura), var(--rosa));
+            color: white;
+            border: none;
+            padding: 12px 22px;
             border-radius: 50px;
             font-size: 0.75rem;
             font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all 0.3s;
         }
 
-        .btn-tool:hover {
-            background: var(--turquesa);
-            color: white;
-        }
+        .btn-exp:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-        .table-data {
+        .guests-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
         }
 
-        .table-data th {
+        .guests-table th {
             text-align: left;
-            padding: 12px 14px;
-            background: #f7fcfd;
-            color: var(--turquesa-oscuro);
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.5);
+            color: var(--rosa);
             font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #e0f2f1;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            font-weight: 700;
         }
 
-        .table-data td {
-            padding: 14px;
-            border-bottom: 1px solid #f0f4f5;
+        .guests-table td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .pill-badge {
@@ -213,8 +216,8 @@
             text-transform: uppercase;
         }
 
-        .pill-badge.si { background: #e8f5e9; color: var(--exito); }
-        .pill-badge.no { background: #fff8e1; color: var(--alerta); }
+        .pill-badge.si { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+        .pill-badge.no { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid #f59e0b; }
 
         @media (max-width: 650px) {
             .stats-grid { grid-template-columns: 1fr; }
@@ -225,8 +228,8 @@
 <body>
 
     <header>
-        <h1>Britney</h1>
-        <p>Dashboard de Confirmaciones en Tiempo Real</p>
+        <h1>[NOMBRE]</h1>
+        <p>Dashboard de Asistencia & Accesos VIP</p>
         <div class="nav-pills">
             <a href="index.html" class="pill-btn" target="_blank">👁️ Invitación Digital</a>
             <a href="admin.html" class="pill-btn">⚙️ Generador de Pases</a>
@@ -237,36 +240,33 @@
         <div class="stat-card confirmed">
             <div class="stat-title">Pases Confirmados</div>
             <div class="stat-num" id="statConf">0</div>
-            <span style="font-size: 0.72rem; color: #2e7d32; font-weight: 600;">Asistirán al evento</span>
+            <span style="font-size: 0.72rem; color: #4ade80; font-weight: 600;">Asistirán al evento</span>
         </div>
-
         <div class="stat-card pending">
             <div class="stat-title">Pases Pendientes</div>
             <div class="stat-num" id="statPend">0</div>
-            <span style="font-size: 0.72rem; color: #f57f17; font-weight: 600;">Por confirmar</span>
+            <span style="font-size: 0.72rem; color: #fcd34d; font-weight: 600;">Por confirmar</span>
         </div>
-
         <div class="stat-card">
             <div class="stat-title">Total de Pases</div>
             <div class="stat-num" id="statTot">0</div>
-            <span style="font-size: 0.72rem; color: var(--turquesa-oscuro); font-weight: 600;">En lista</span>
+            <span style="font-size: 0.72rem; color: var(--plata); font-weight: 600;">Reservados en total</span>
         </div>
     </div>
 
     <div class="panel-table-wrap">
         <div class="tools-bar">
-            <input type="text" id="inpSearch" class="search-in" placeholder="🔍 Buscar familia o invitado..." oninput="filtrar()">
-            <button class="btn-tool" onclick="cargarRegistros()">🔄 Actualizar de Sheets</button>
-            <button class="btn-tool" onclick="descargarCSV()">📥 Descargar CSV</button>
+            <input type="text" class="search-in" id="inpSearch" placeholder="🔍 Buscar invitado..." onkeyup="filtrar()">
+            <button class="btn-exp" onclick="descargarCSV()">📥 Exportar a Excel (CSV)</button>
         </div>
 
         <div style="overflow-x: auto;">
-            <table class="table-data">
+            <table class="guests-table">
                 <thead>
                     <tr>
-                        <th>Familia / Invitado</th>
-                        <th>Lugares</th>
-                        <th>Estado</th>
+                        <th>Invitado / Familia</th>
+                        <th>Pases</th>
+                        <th>Estado de Asistencia</th>
                     </tr>
                 </thead>
                 <tbody id="rowsBody">
@@ -278,11 +278,10 @@
 
     <script>
         // =========================================================================
-        // 📝 CONFIGURACIÓN DE GOOGLE APPS SCRIPT
-        // Modifica la siguiente URL cuando utilices este panel para otro cliente:
+        // 🔒 CONFIGURACIÓN INTERNA
         // =========================================================================
         const CONFIG_DASHBOARD = {
-            GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzt82an0oeBTjo4TncRopBnd85Yvm5AaUqfQKWCSJwy_ZhN8G5wBvWGoJXBl3h61ZAWSg/exec'
+            GOOGLE_SHEETS_URL: '' // Pega aquí la URL de Google Apps Script del cliente (/exec)
         };
         // =========================================================================
 
@@ -307,7 +306,7 @@
                 console.warn('Conexión Sheets fallida, cargando memoria local:', e);
             }
 
-            const local = JSON.parse(localStorage.getItem('xv_britney_invitados') || '[]');
+            const local = JSON.parse(localStorage.getItem('fiesta_plantilla_invitados') || '[]');
             registros = local;
             render();
         }
@@ -369,7 +368,7 @@
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `confirmados_XV_Britney_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `confirmados_Fiesta_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
         }
 
