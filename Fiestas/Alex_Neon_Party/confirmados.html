@@ -110,6 +110,7 @@
     <div class="panel-table-wrap">
         <div class="tools-bar">
             <input type="text" class="search-in" id="inpSearch" placeholder="🔍 Buscar invitado..." onkeyup="filtrar()">
+            <button class="btn-exp" onclick="cargarRegistros()" style="margin-right:8px;">🔄 Actualizar de Sheets</button>
             <button class="btn-exp" onclick="descargarCSV()">📥 Exportar a Excel (CSV)</button>
         </div>
 
@@ -119,7 +120,11 @@
                     <tr>
                         <th>Invitado / Grupo</th>
                         <th>Accesos</th>
-                        <th>Estado de Asistencia</th>
+                        <th>Estado</th>
+                        <th>Fecha Confirmación</th>
+                        <th>Invitación</th>
+                        <th>Fecha Confirmación</th>
+                        <th>Invitación</th>
                     </tr>
                 </thead>
                 <tbody id="rowsBody"></tbody>
@@ -128,8 +133,34 @@
     </div>
 
     <script>
-        const local = JSON.parse(localStorage.getItem('fiesta_alex_invitados') || '[]');
-        let registros = local;
+        const GOOGLE_SHEETS_URL = ''; // Pega aquí la URL de Google Apps Script del cliente (/exec)
+        const LOCAL_STORAGE_KEY = 'fiesta_alex_invitados';
+        let registros = [];
+
+        async function cargarRegistros() {
+            try {
+                if (GOOGLE_SHEETS_URL) {
+                    const res = await fetch(GOOGLE_SHEETS_URL);
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        registros = data.map(item => ({
+                            familia: item.nombre || item.familia || 'Invitado',
+                            pases: parseInt(item.pases || 1),
+                            confirmado: item.confirmado || 'Pendiente',
+                            fecha: item.fecha_confirmacion || '',
+                            link: item.link_invitacion || item.link || ''
+                        }));
+                        render();
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('Conexión Sheets fallida, cargando local:', e);
+            }
+
+            registros = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '[]');
+            render();
+        }
 
         function render(filtro = '') {
             const tbody = document.getElementById('rowsBody');
@@ -139,45 +170,57 @@
             registros.forEach(item => {
                 const n = parseInt(item.pases) || 1;
                 total += n;
-                if (item.confirmado && item.confirmado.toLowerCase().includes('sí')) conf += n;
+                const isSi = item.confirmado && item.confirmado.toLowerCase().includes('sí');
+                if (isSi) conf += n;
                 else pend += n;
             });
 
-            document.getElementById('statTot').innerText = total;
-            document.getElementById('statConf').innerText = conf;
-            document.getElementById('statPend').innerText = pend;
+            if (document.getElementById('statTot')) document.getElementById('statTot').innerText = total;
+            if (document.getElementById('statConf')) document.getElementById('statConf').innerText = conf;
+            if (document.getElementById('statPend')) document.getElementById('statPend').innerText = pend;
 
-            const filtrados = registros.filter(r => r.familia.toLowerCase().includes(filtro.toLowerCase()));
+            const filtrados = registros.filter(r => (r.familia || '').toLowerCase().includes(filtro.toLowerCase()));
 
             if (filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #94a3b8; padding: 25px;">No hay registros disponibles.</td></tr>`;
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #94a3b8; padding: 25px;">No hay registros disponibles.</td></tr>';
                 return;
             }
 
             filtrados.forEach(r => {
                 const tr = document.createElement('tr');
                 const isSi = r.confirmado && r.confirmado.toLowerCase().includes('sí');
+                const fechaTxt = r.fecha || '—';
+                const linkBtn = r.link ? `<button style="padding: 4px 10px; border-radius: 50px; border: none; background: #e0f2f1; color: #00796b; font-weight: 700; font-size: 0.72rem; cursor: pointer;" onclick="navigator.clipboard.writeText('${r.link}'); alert('¡Enlace copiado!');">📋 Copiar</button>` : '—';
                 tr.innerHTML = `
                     <td style="font-weight: 600;">${r.familia}</td>
                     <td><strong>${r.pases}</strong></td>
-                    <td><span style="background: ${isSi ? 'rgba(34,197,94,0.2)' : 'rgba(245,158,11,0.2)'}; color: ${isSi ? '#4ade80' : '#fcd34d'}; padding: 4px 12px; border-radius: 50px; font-weight: 700; font-size: 0.72rem;">${isSi ? 'Confirmado ✅' : 'Pendiente ⏳'}</span></td>
+                    <td><span style="background: ${isSi ? '#e8f5e9' : '#fef3c7'}; color: ${isSi ? '#2e7d32' : '#b45309'}; padding: 4px 12px; border-radius: 50px; font-weight: 700; font-size: 0.72rem;">${isSi ? 'Confirmado ✅' : 'Pendiente ⏳'}</span></td>
+                    <td style="font-size: 0.75rem; color: #64748b;">${fechaTxt}</td>
+                    <td>${linkBtn}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function filtrar() { render(document.getElementById('inpSearch').value); }
+        function filtrar() {
+            render(document.getElementById('inpSearch').value);
+        }
 
         function descargarCSV() {
-            let csv = 'Invitado,Accesos,Confirmado\n';
-            registros.forEach(r => { csv += `"${r.familia}",${r.pases},"${r.confirmado}"\n`; });
+            let csv = 'Nombre,Pases,Confirmado,Fecha_Confirmacion,Link_Invitacion
+';
+            registros.forEach(r => {
+                csv += `"${r.familia}",${r.pases},"${r.confirmado}","${r.fecha || ''}","${r.link || ''}"
+`;
+            });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `confirmados_Fiesta_Alex_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `confirmados_${LOCAL_STORAGE_KEY}_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
         }
-        render();
+
+        cargarRegistros();
     </script>
 </body>
 

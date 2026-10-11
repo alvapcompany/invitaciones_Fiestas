@@ -410,13 +410,21 @@
 
         function confirmarAsistencia() {
             confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
-            if (guestFamily && CONFIG_EVENTO.GOOGLE_SHEETS_URL) {
+            if (guestFamily && typeof CONFIG_EVENTO !== 'undefined' && CONFIG_EVENTO.GOOGLE_SHEETS_URL) {
                 fetch(CONFIG_EVENTO.GOOGLE_SHEETS_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ familia: guestFamily, confirmado: 'Sí ✅' })
-                }).catch(() => {});
+                    body: JSON.stringify({
+                        nombre: guestFamily,
+                        familia: guestFamily,
+                        pases: parseInt(guestSeats) || 1,
+                        confirmado: 'Sí ✅',
+                        fecha_confirmacion: new Date().toLocaleString('es-MX'),
+                        link_invitacion: window.location.href
+                    })
+                }).catch(function() {});
             }
+            
             const pasesTxt = guestSeats ? `\n🎟️ Pases: ${guestSeats}` : '';
             const famTxt = guestFamily ? `\n✨ Familia: ${guestFamily}` : '';
             const msg = `¡Hola! Confirmo con mucho gusto mi asistencia a los XV Años de ${CONFIG_EVENTO.NOMBRE_FESTEJADA}.${famTxt}${pasesTxt} 👑`;

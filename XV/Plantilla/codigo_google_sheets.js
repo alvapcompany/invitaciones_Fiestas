@@ -1,40 +1,35 @@
 /**
  * ============================================================================
  * 📋 CÓDIGO MAESTRO DE GOOGLE APPS SCRIPT PARA GOOGLE SHEETS
- * (Funciona para XV Años, Bodas y Fiestas)
+ * Estructura de 5 Columnas:
+ * [Nombre] | [Pases] | [Confirmado] | [Fecha_Confirmacion] | [Link_Invitacion]
  * ============================================================================
  * 
- * Este código detecta automáticamente tu hoja, crea los encabezados si está vacía,
- * lee los invitados para el panel Admin y guarda las confirmaciones en tiempo real.
+ * Funciona para: XV Años, Bodas y Fiestas Sociales.
+ * Detecta automáticamente si la hoja está vacía y crea las 5 columnas con estilo.
  * 
- * PASOS RÁPIDOS (SOLO COPIAR Y PEGAR):
+ * PASOS PARA INSTALAR EN GOOGLE DRIVE (2 MINUTOS):
  * ----------------------------------------------------------------------------
- * 1. En tu Google Spreadsheet (Hoja de cálculo):
- *    Ve al menú superior: Extensiones > Apps Script
- * 
- * 2. Borra TODO lo que haya en la pantalla y pega este archivo completo.
- * 
- * 3. Haz clic en "Implementar" (botón azul arriba a la derecha) -> "Nueva implementación".
- *    - Tipo: Aplicación web
- *    - Descripción: API Invitaciones
- *    - Ejecutar como: Yo (tu correo)
- *    - Quién tiene acceso: Cualquier persona (Anyone)  <--- ¡MUY IMPORTANTE!
- * 
- * 4. Haz clic en "Implementar", autoriza los permisos y copia la "URL de la aplicación web"
- *    (la que termina en "/exec").
- * 
- * 5. Pega esa URL en tu Panel Admin o en la variable GOOGLE_SHEETS_URL. ¡Listo!
+ * 1. En tu hoja de Google Sheets, ve al menú: Extensiones > Apps Script.
+ * 2. Borra todo el código que veas y pega este archivo completo.
+ * 3. Clic en "Implementar" (botón azul arriba) > "Nueva implementación".
+ *    - Tipo: Aplicación web (Web app).
+ *    - Ejecutar como: Yo (tu correo).
+ *    - Quién tiene acceso: Cualquier persona (Anyone). <--- ¡OBLIGATORIO!
+ * 4. Clic en "Implementar" y copia la URL que termina en "/exec".
+ * 5. ¡Listo! Pruébala en superadmin.html o vincúlala a tu evento.
  * ============================================================================
  */
 
 function setupHeadersIfEmpty(sheet) {
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(["Familia", "Pases", "Confirmado", "Fecha_Confirmacion"]);
-    sheet.getRange("A1:D1").setFontWeight("bold").setBackground("#e0f7fa");
+    sheet.appendRow(["Nombre", "Pases", "Confirmado", "Fecha_Confirmacion", "Link_Invitacion"]);
+    sheet.getRange("A1:E1").setFontWeight("bold").setBackground("#fef08a").setFontColor("#1a1202");
+    sheet.setFrozenRows(1);
   }
 }
 
-// LECTURA DE INVITADOS (GET) -> Alimenta el Panel Admin y Confirmados
+// LECTURA DE INVITADOS (GET) -> Lee la hoja para el Panel Admin y Confirmados
 function doGet(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -43,22 +38,25 @@ function doGet(e) {
     var rows = sheet.getDataRange().getValues();
     var result = [];
     
-    // Si solo está el encabezado
+    // Si solo están los encabezados en la fila 1
     if (rows.length <= 1) {
       return ContentService
         .createTextOutput(JSON.stringify([]))
         .setMimeType(ContentService.MimeType.JSON);
     }
     
-    // Recorremos las filas desde la fila 2
+    // Recorremos desde la fila 2
     for (var i = 1; i < rows.length; i++) {
-      var fam = rows[i][0] ? rows[i][0].toString().trim() : "";
-      if (fam !== "") {
+      var nom = rows[i][0] ? rows[i][0].toString().trim() : "";
+      if (nom !== "") {
         result.push({
-          familia: fam,
+          nombre: nom,
+          familia: nom, // Compatibilidad con ambos nombres
           pases: rows[i][1] ? parseInt(rows[i][1]) || 1 : 1,
           confirmado: rows[i][2] ? rows[i][2].toString().trim() : "Pendiente",
-          fecha_confirmacion: rows[i][3] ? rows[i][3].toString() : ""
+          fecha_confirmacion: rows[i][3] ? rows[i][3].toString() : "",
+          link_invitacion: rows[i][4] ? rows[i][4].toString().trim() : "",
+          link: rows[i][4] ? rows[i][4].toString().trim() : ""
         });
       }
     }
@@ -74,49 +72,61 @@ function doGet(e) {
   }
 }
 
-// ESCRITURA Y ACTUALIZACIÓN (POST) -> Guarda nuevos invitados o confirmaciones
+// ESCRITURA Y ACTUALIZACIÓN (POST) -> Guarda pases generados o confirmaciones
 function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     setupHeadersIfEmpty(sheet);
     
     var data = JSON.parse(e.postData.contents);
-    var familia = (data.familia || "").toString().trim();
+    var nombre = (data.nombre || data.familia || "").toString().trim();
     var pases = data.pases ? parseInt(data.pases) : 1;
     var confirmado = (data.confirmado || "Sí ✅").toString().trim();
-    var fecha = data.fecha_confirmacion || new Date().toLocaleString("es-MX");
+    var fecha = data.fecha_confirmacion || (confirmado.toLowerCase().includes("sí") ? new Date().toLocaleString("es-MX") : "");
+    var link = (data.link_invitacion || data.link || "").toString().trim();
     
-    if (!familia) {
+    if (!nombre) {
       return ContentService
-        .createTextOutput(JSON.stringify({ status: "error", message: "Familia no especificada" }))
+        .createTextOutput(JSON.stringify({ status: "error", message: "Nombre no especificado" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
     
     var rows = sheet.getDataRange().getValues();
     var encontrada = false;
     
-    // Buscar si ya existe la familia para actualizarla
+    // Buscar si el invitado ya existe para actualizarlo
     for (var i = 1; i < rows.length; i++) {
-      if (rows[i][0] && rows[i][0].toString().trim().toLowerCase() === familia.toLowerCase()) {
+      if (rows[i][0] && rows[i][0].toString().trim().toLowerCase() === nombre.toLowerCase()) {
         if (data.pases) {
           sheet.getRange(i + 1, 2).setValue(pases);
         }
         if (data.confirmado) {
           sheet.getRange(i + 1, 3).setValue(confirmado);
         }
-        sheet.getRange(i + 1, 4).setValue(fecha);
+        if (fecha) {
+          sheet.getRange(i + 1, 4).setValue(fecha);
+        }
+        if (link) {
+          sheet.getRange(i + 1, 5).setValue(link);
+        }
         encontrada = true;
         break;
       }
     }
     
-    // Si no existía, agregarla al final
+    // Si no existía, agregar una nueva fila al final
     if (!encontrada) {
-      sheet.appendRow([familia, pases, confirmado, fecha]);
+      sheet.appendRow([nombre, pases, confirmado, fecha, link]);
     }
     
     return ContentService
-      .createTextOutput(JSON.stringify({ status: "success", familia: familia, confirmado: confirmado }))
+      .createTextOutput(JSON.stringify({
+        status: "success",
+        nombre: nombre,
+        pases: pases,
+        confirmado: confirmado,
+        link_invitacion: link
+      }))
       .setMimeType(ContentService.MimeType.JSON);
       
   } catch (err) {

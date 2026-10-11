@@ -288,9 +288,11 @@
                     const data = await res.json();
                     if (Array.isArray(data) && data.length > 0) {
                         registros = data.map(item => ({
-                            familia: item.familia || item.Familia || 'Invitado',
+                            familia: item.nombre || item.familia || item.Familia || 'Invitado',
                             pases: parseInt(item.pases || item.Pases || 1),
-                            confirmado: item.confirmado || item.Confirmado || 'Pendiente'
+                            confirmado: item.confirmado || item.Confirmado || 'Pendiente',
+                            fecha: item.fecha_confirmacion || item.fecha || '',
+                            link: item.link_invitacion || item.link || ''
                         }));
                         render();
                         return;
@@ -330,13 +332,15 @@
             );
 
             if (filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #94a3b8; padding: 25px;">No se encontraron registros.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94a3b8; padding: 25px;">No se encontraron registros.</td></tr>`;
                 return;
             }
 
             filtrados.forEach(r => {
                 const tr = document.createElement('tr');
                 const isSi = r.confirmado && r.confirmado.toLowerCase().includes('sí');
+                const fechaTxt = r.fecha || '—';
+                const linkBtn = r.link ? `<button style="padding: 4px 10px; border-radius: 50px; border: none; background: #e0f2f1; color: #00796b; font-weight: 700; font-size: 0.72rem; cursor: pointer;" onclick="navigator.clipboard.writeText('${r.link}'); alert('¡Enlace copiado!');">📋 Copiar</button>` : '—';
                 tr.innerHTML = `
                     <td style="font-weight: 600;">${r.familia}</td>
                     <td><strong>${r.pases}</strong></td>
@@ -345,6 +349,8 @@
                             ${isSi ? 'Confirmado ✅' : 'Pendiente ⏳'}
                         </span>
                     </td>
+                    <td style="font-size: 0.75rem; color: #64748b;">${fechaTxt}</td>
+                    <td>${linkBtn}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -355,9 +361,9 @@
         }
 
         function descargarCSV() {
-            let csv = 'Familia,Pases,Confirmado\n';
+            let csv = 'Nombre,Pases,Confirmado,Fecha_Confirmacion,Link_Invitacion\n';
             registros.forEach(r => {
-                csv += `"${r.familia}",${r.pases},"${r.confirmado}"\n`;
+                csv += `"${r.familia}",${r.pases},"${r.confirmado}","${r.fecha || ''}","${r.link || ''}"\n`;
             });
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a');

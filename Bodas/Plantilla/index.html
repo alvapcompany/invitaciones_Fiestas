@@ -373,6 +373,20 @@
 
         function confirmarAsistenciaBoda() {
             confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
+            if (guestFamily && typeof CONFIG_EVENTO !== 'undefined' && CONFIG_EVENTO.GOOGLE_SHEETS_URL) {
+                fetch(CONFIG_EVENTO.GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        nombre: guestFamily,
+                        familia: guestFamily,
+                        pases: parseInt(guestSeats) || 1,
+                        confirmado: 'Sí ✅',
+                        fecha_confirmacion: new Date().toLocaleString('es-MX'),
+                        link_invitacion: window.location.href
+                    })
+                }).catch(function() {});
+            }
             if (guestFamily && CONFIG_BODA.GOOGLE_SHEETS_URL) {
                 fetch(CONFIG_BODA.GOOGLE_SHEETS_URL, {
                     method: 'POST',

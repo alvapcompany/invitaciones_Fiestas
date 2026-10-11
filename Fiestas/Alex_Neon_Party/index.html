@@ -378,6 +378,20 @@
 
         function confirmarAsistencia() {
             confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
+            if (guestFamily && typeof CONFIG_EVENTO !== 'undefined' && CONFIG_EVENTO.GOOGLE_SHEETS_URL) {
+                fetch(CONFIG_EVENTO.GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        nombre: guestFamily,
+                        familia: guestFamily,
+                        pases: parseInt(guestSeats) || 1,
+                        confirmado: 'Sí ✅',
+                        fecha_confirmacion: new Date().toLocaleString('es-MX'),
+                        link_invitacion: window.location.href
+                    })
+                }).catch(function() {});
+            }
             const pasesTxt = guestSeats ? `\n🎟️ Accesos: ${guestSeats}` : '';
             const famTxt = guestFamily ? `\n✨ Invitado: ${guestFamily}` : '';
             const msg = `¡Qué onda Alex! Confirmo mi asistencia a tu 25th Birthday Bash en Parque Centro Saltillo.${famTxt}${pasesTxt} ⚡ ¡Listo para la fiesta!`;

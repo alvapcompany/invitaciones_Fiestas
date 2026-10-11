@@ -423,6 +423,20 @@
 
         function confirmarAsistencia() {
             confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
+            if (guestFamily && typeof CONFIG_EVENTO !== 'undefined' && CONFIG_EVENTO.GOOGLE_SHEETS_URL) {
+                fetch(CONFIG_EVENTO.GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        nombre: guestFamily,
+                        familia: guestFamily,
+                        pases: parseInt(guestSeats) || 1,
+                        confirmado: 'Sí ✅',
+                        fecha_confirmacion: new Date().toLocaleString('es-MX'),
+                        link_invitacion: window.location.href
+                    })
+                }).catch(function() {});
+            }
             const pasesTxt = guestSeats ? `\n🎟️ Pases: ${guestSeats}` : '';
             const famTxt = guestFamily ? `\n✨ Familia: ${guestFamily}` : '';
             const msg = `¡Hola Valentina! Confirmo con mucho gusto mi asistencia a tus XV Años en Saltillo.${famTxt}${pasesTxt} 👑 Nos vemos en Hacienda El Mimbre.`;

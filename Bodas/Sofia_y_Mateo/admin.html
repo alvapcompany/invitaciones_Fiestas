@@ -196,6 +196,19 @@
             invitados.unshift({ familia, pases, link: currentLink, confirmado: 'Pendiente' });
             localStorage.setItem('boda_sofia_mateo_invitados', JSON.stringify(invitados));
             renderTabla();
+            if (typeof GOOGLE_SHEETS_URL !== 'undefined' && GOOGLE_SHEETS_URL) {
+                fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        nombre: familia,
+                        familia: familia,
+                        pases: pases,
+                        confirmado: 'Pendiente',
+                        link_invitacion: currentLink
+                    })
+                }).catch(function() {});
+            }
         }
 
         function copiarEnlace() {

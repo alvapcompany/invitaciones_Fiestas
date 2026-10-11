@@ -151,6 +151,49 @@
             <div class="test-status" id="testResult"></div>
         </div>
 
+        
+        <!-- Estructura de 5 Columnas y Código Maestro -->
+        <div class="admin-box" style="border-color: rgba(212, 175, 55, 0.4);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                <h2 class="box-title" style="margin-bottom: 0;">📋 Estructura Oficial de Google Sheets (5 Columnas)</h2>
+                <button class="btn-test" style="width: auto; padding: 10px 20px; font-size: 0.8rem; background: linear-gradient(135deg, #d4af37, #b8860b);" onclick="copiarCodigoScript()">📋 Copiar Código Apps Script</button>
+            </div>
+            
+            <p style="font-size: 0.85rem; color: var(--texto-sec); margin-bottom: 16px;">Tu hoja de cálculo solo necesita 1 pestaña y no requiere configuración manual de columnas. El código Apps Script crea y gestiona estas 5 columnas en automático:</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 18px;">
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--borde); border-radius: 12px; padding: 12px;">
+                    <span style="font-size: 0.7rem; color: var(--oro); font-weight: 700;">COLUMNA A</span>
+                    <h4 style="color: #fff; margin: 4px 0;">Nombre</h4>
+                    <p style="font-size: 0.75rem; color: var(--texto-sec);">Familia o persona invitada.</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--borde); border-radius: 12px; padding: 12px;">
+                    <span style="font-size: 0.7rem; color: var(--oro); font-weight: 700;">COLUMNA B</span>
+                    <h4 style="color: #fff; margin: 4px 0;">Pases</h4>
+                    <p style="font-size: 0.75rem; color: var(--texto-sec);">Boletos asignados (ej. 2 o 4).</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--borde); border-radius: 12px; padding: 12px;">
+                    <span style="font-size: 0.7rem; color: var(--oro); font-weight: 700;">COLUMNA C</span>
+                    <h4 style="color: #fff; margin: 4px 0;">Confirmado</h4>
+                    <p style="font-size: 0.75rem; color: var(--texto-sec);">"Pendiente" o "Sí ✅".</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--borde); border-radius: 12px; padding: 12px;">
+                    <span style="font-size: 0.7rem; color: var(--oro); font-weight: 700;">COLUMNA D</span>
+                    <h4 style="color: #fff; margin: 4px 0;">Fecha_Confirmacion</h4>
+                    <p style="font-size: 0.75rem; color: var(--texto-sec);">Hora exacta al confirmar.</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--borde); border-radius: 12px; padding: 12px;">
+                    <span style="font-size: 0.7rem; color: var(--oro); font-weight: 700;">COLUMNA E</span>
+                    <h4 style="color: #fff; margin: 4px 0;">Link_Invitacion</h4>
+                    <p style="font-size: 0.75rem; color: var(--texto-sec);">Enlace web directo del pase.</p>
+                </div>
+            </div>
+            
+            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 16px; font-size: 0.8rem; color: #a7f3d0;">
+                💡 <strong>¿Cómo instalarlo en 1 minuto?</strong> En tu Google Sheets ve a <em>Extensiones &gt; Apps Script</em>, borra todo, presiona el botón <strong>"Copiar Código Apps Script"</strong> arriba, pégalo, haz clic en <em>Implementar &gt; Nueva implementación &gt; Aplicación web &gt; Quién tiene acceso: Cualquier persona</em> y copia la URL terminada en <code>/exec</code>.
+            </div>
+        </div>
+
         <!-- Enlaces Listos para Enviar a los Clientes -->
         <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 20px; color: var(--oro);">📦 Enlaces Privados de Entrega para Clientes</h2>
 
@@ -344,6 +387,14 @@
     </div>
 
     <script>
+        
+        const APPS_SCRIPT_CODE = "/**\n * ============================================================================\n * \ud83d\udccb C\u00d3DIGO MAESTRO DE GOOGLE APPS SCRIPT PARA GOOGLE SHEETS\n * Estructura de 5 Columnas:\n * [Nombre] | [Pases] | [Confirmado] | [Fecha_Confirmacion] | [Link_Invitacion]\n * ============================================================================\n * \n * Funciona para: XV A\u00f1os, Bodas y Fiestas Sociales.\n * Detecta autom\u00e1ticamente si la hoja est\u00e1 vac\u00eda y crea las 5 columnas con estilo.\n * \n * PASOS PARA INSTALAR EN GOOGLE DRIVE (2 MINUTOS):\n * ----------------------------------------------------------------------------\n * 1. En tu hoja de Google Sheets, ve al men\u00fa: Extensiones > Apps Script.\n * 2. Borra todo el c\u00f3digo que veas y pega este archivo completo.\n * 3. Clic en \"Implementar\" (bot\u00f3n azul arriba) > \"Nueva implementaci\u00f3n\".\n *    - Tipo: Aplicaci\u00f3n web (Web app).\n *    - Ejecutar como: Yo (tu correo).\n *    - Qui\u00e9n tiene acceso: Cualquier persona (Anyone). <--- \u00a1OBLIGATORIO!\n * 4. Clic en \"Implementar\" y copia la URL que termina en \"/exec\".\n * 5. \u00a1Listo! Pru\u00e9bala en superadmin.html o vinc\u00falala a tu evento.\n * ============================================================================\n */\n\nfunction setupHeadersIfEmpty(sheet) {\n  if (sheet.getLastRow() === 0) {\n    sheet.appendRow([\"Nombre\", \"Pases\", \"Confirmado\", \"Fecha_Confirmacion\", \"Link_Invitacion\"]);\n    sheet.getRange(\"A1:E1\").setFontWeight(\"bold\").setBackground(\"#fef08a\").setFontColor(\"#1a1202\");\n    sheet.setFrozenRows(1);\n  }\n}\n\n// LECTURA DE INVITADOS (GET) -> Lee la hoja para el Panel Admin y Confirmados\nfunction doGet(e) {\n  try {\n    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();\n    setupHeadersIfEmpty(sheet);\n    \n    var rows = sheet.getDataRange().getValues();\n    var result = [];\n    \n    // Si solo est\u00e1n los encabezados en la fila 1\n    if (rows.length <= 1) {\n      return ContentService\n        .createTextOutput(JSON.stringify([]))\n        .setMimeType(ContentService.MimeType.JSON);\n    }\n    \n    // Recorremos desde la fila 2\n    for (var i = 1; i < rows.length; i++) {\n      var nom = rows[i][0] ? rows[i][0].toString().trim() : \"\";\n      if (nom !== \"\") {\n        result.push({\n          nombre: nom,\n          familia: nom, // Compatibilidad con ambos nombres\n          pases: rows[i][1] ? parseInt(rows[i][1]) || 1 : 1,\n          confirmado: rows[i][2] ? rows[i][2].toString().trim() : \"Pendiente\",\n          fecha_confirmacion: rows[i][3] ? rows[i][3].toString() : \"\",\n          link_invitacion: rows[i][4] ? rows[i][4].toString().trim() : \"\",\n          link: rows[i][4] ? rows[i][4].toString().trim() : \"\"\n        });\n      }\n    }\n    \n    return ContentService\n      .createTextOutput(JSON.stringify(result))\n      .setMimeType(ContentService.MimeType.JSON);\n      \n  } catch (err) {\n    return ContentService\n      .createTextOutput(JSON.stringify({ error: err.toString() }))\n      .setMimeType(ContentService.MimeType.JSON);\n  }\n}\n\n// ESCRITURA Y ACTUALIZACI\u00d3N (POST) -> Guarda pases generados o confirmaciones\nfunction doPost(e) {\n  try {\n    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();\n    setupHeadersIfEmpty(sheet);\n    \n    var data = JSON.parse(e.postData.contents);\n    var nombre = (data.nombre || data.familia || \"\").toString().trim();\n    var pases = data.pases ? parseInt(data.pases) : 1;\n    var confirmado = (data.confirmado || \"S\u00ed \u2705\").toString().trim();\n    var fecha = data.fecha_confirmacion || (confirmado.toLowerCase().includes(\"s\u00ed\") ? new Date().toLocaleString(\"es-MX\") : \"\");\n    var link = (data.link_invitacion || data.link || \"\").toString().trim();\n    \n    if (!nombre) {\n      return ContentService\n        .createTextOutput(JSON.stringify({ status: \"error\", message: \"Nombre no especificado\" }))\n        .setMimeType(ContentService.MimeType.JSON);\n    }\n    \n    var rows = sheet.getDataRange().getValues();\n    var encontrada = false;\n    \n    // Buscar si el invitado ya existe para actualizarlo\n    for (var i = 1; i < rows.length; i++) {\n      if (rows[i][0] && rows[i][0].toString().trim().toLowerCase() === nombre.toLowerCase()) {\n        if (data.pases) {\n          sheet.getRange(i + 1, 2).setValue(pases);\n        }\n        if (data.confirmado) {\n          sheet.getRange(i + 1, 3).setValue(confirmado);\n        }\n        if (fecha) {\n          sheet.getRange(i + 1, 4).setValue(fecha);\n        }\n        if (link) {\n          sheet.getRange(i + 1, 5).setValue(link);\n        }\n        encontrada = true;\n        break;\n      }\n    }\n    \n    // Si no exist\u00eda, agregar una nueva fila al final\n    if (!encontrada) {\n      sheet.appendRow([nombre, pases, confirmado, fecha, link]);\n    }\n    \n    return ContentService\n      .createTextOutput(JSON.stringify({\n        status: \"success\",\n        nombre: nombre,\n        pases: pases,\n        confirmado: confirmado,\n        link_invitacion: link\n      }))\n      .setMimeType(ContentService.MimeType.JSON);\n      \n  } catch (err) {\n    return ContentService\n      .createTextOutput(JSON.stringify({ status: \"error\", error: err.toString() }))\n      .setMimeType(ContentService.MimeType.JSON);\n  }\n}\n";
+
+        function copiarCodigoScript() {
+            navigator.clipboard.writeText(APPS_SCRIPT_CODE);
+            alert('¡Código Maestro de Google Apps Script (5 Columnas) copiado al portapapeles!\n\nPégalo en Extensiones > Apps Script de tu Google Sheet.');
+        }
+
         const DOMAIN = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
 
         function copiarLinkRelativo(path) {
