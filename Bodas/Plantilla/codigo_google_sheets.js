@@ -3,34 +3,30 @@
  * 📋 CÓDIGO DE GOOGLE APPS SCRIPT PARA GOOGLE SHEETS
  * ============================================================================
  * 
- * INSTRUCCIONES PARA VINCULAR TU GOOGLE SHEETS:
+ * GUÍA DE 3 PASOS PARA VINCULAR TU GOOGLE SHEETS:
  * ----------------------------------------------------------------------------
- * 1. En Google Drive, crea una nueva hoja de cálculo llamada por ejemplo:
+ * 1. En Google Drive, crea una hoja de cálculo llamada por ejemplo:
  *    "Invitados XV Britney" (o el nombre de tu cliente).
  * 
- * 2. En la fila 1 de la hoja, crea las siguientes columnas:
+ * 2. En la fila 1 de la hoja, coloca las siguientes 4 columnas:
  *    Columna A: Familia
  *    Columna B: Pases
  *    Columna C: Confirmado
  *    Columna D: Fecha_Confirmacion
  * 
- * 3. En la barra superior de Google Sheets, ve a:
+ * 3. En el menú superior de Google Sheets, ve a:
  *    Extensiones -> Apps Script
+ *    - Borra el código existente y pega este archivo completo.
+ *    - Haz clic en "Implementar" (arriba a la derecha) -> "Nueva implementación".
+ *    - Selecciona tipo: "Aplicación web".
+ *    - Ejecutar como: "Yo".
+ *    - Quién tiene acceso: "Cualquiera" (Anyone)  <-- ¡IMPORTANTE!
+ *    - Haz clic en "Implementar" y copia la URL terminada en `/exec`.
  * 
- * 4. Borra todo el código que aparezca y pega este código completo.
- * 
- * 5. Haz clic en "Implementar" (botón azul arriba a la derecha) -> "Nueva implementación".
- *    - Tipo: Aplicación web
- *    - Descripción: API Invitaciones
- *    - Ejecutar como: Yo (tu correo)
- *    - Quién tiene acceso: Cualquier persona (Cualquiera / Anyone)  <-- ¡IMPORTANTE!
- * 
- * 6. Copia la "URL de la aplicación web" que termina en `/exec`.
- * 
- * 7. Pega esa URL en la constante `GOOGLE_SHEETS_URL` dentro de:
- *    - XV_Britney/index.html
- *    - XV_Britney/admin.html
- *    - XV_Britney/confirmados.html
+ * 4. Pega esa URL en `GOOGLE_SHEETS_URL` dentro de:
+ *    - index.html
+ *    - admin.html
+ *    - confirmados.html
  * ============================================================================
  */
 
@@ -39,7 +35,6 @@ function doPost(e) {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     var data = JSON.parse(e.postData.contents);
     
-    // Obtener todas las filas existentes
     var rows = sheet.getDataRange().getValues();
     var familia = (data.familia || "").toString().trim();
     var confirmado = (data.confirmado || "Sí ✅").toString().trim();
@@ -48,7 +43,7 @@ function doPost(e) {
     
     var encontrada = false;
     
-    // Buscar si la familia ya existe en la lista (recorremos a partir de la fila 2)
+    // Buscar si ya existe la familia
     for (var i = 1; i < rows.length; i++) {
       if (rows[i][0] && rows[i][0].toString().trim().toLowerCase() === familia.toLowerCase()) {
         sheet.getRange(i + 1, 3).setValue(confirmado);
@@ -58,7 +53,7 @@ function doPost(e) {
       }
     }
     
-    // Si no existía, agregarla al final
+    // Si no existía, agregar fila
     if (!encontrada) {
       sheet.appendRow([familia, pases, confirmado, fecha]);
     }
@@ -80,7 +75,6 @@ function doGet(e) {
     var rows = sheet.getDataRange().getValues();
     var result = [];
     
-    // Leer filas omitiendo el encabezado
     for (var i = 1; i < rows.length; i++) {
       if (rows[i][0]) {
         result.push({

@@ -1,75 +1,89 @@
 # 💌 Invitaciones_Fiestas — Alva P Company
 
-Repositorio oficial de invitaciones digitales interactivas para eventos sociales (XV Años, Bodas, Bautizos, Aniversarios), desplegado mediante **GitHub Pages**.
+Plataforma oficial de invitaciones digitales de alta gama (XV Años, Bodas y Fiestas Sociales), hospedada y desplegada globalmente en **GitHub Pages**.
 
-🔗 **URL del Sitio Web (GitHub Pages):**  
+🔗 **URL del Sitio Web en Vivo (GitHub Pages):**  
 👉 **[https://alvapcompany.github.io/invitaciones_Fiestas/](https://alvapcompany.github.io/invitaciones_Fiestas/)**
 
 ---
 
-## 📂 Estructura del Repositorio
+## 📂 Arquitectura Organizada por Categoría
 
-El proyecto está diseñado de forma modular por cliente/evento:
+El repositorio está distribuido en 3 categorías principales para una gestión limpia, ordenada y escalable:
 
 ```text
-├── index.html                   # Portal principal que lista las invitaciones activas
-├── .gitignore                   # Ignora archivos temporales del editor
-├── XV_Britney/                  # ⭐ NUEVA VERSIÓN MEJORADA (XV Britney)
-│   ├── index.html               # Invitación digital con animaciones de gala, música y RSVP
-│   ├── admin.html               # Generador de pases personalizados para WhatsApp
-│   ├── confirmados.html         # Tablero en tiempo real de asistencia conectada a Sheets
-│   ├── codigo_google_sheets.js  # Script de Google Apps Script listo para copiar y pegar
-│   ├── musica.mp3               # Audio de fondo
-│   └── fotos/                   # Galería de fotos (portada, fotos 1 a 7)
-└── XV/                          # Versión previa / de respaldo
-    ├── index.html
-    ├── admin.html
-    ├── confirmados.html
-    ├── musica.mp3
-    └── fotos/
+├── index.html                   # 🏛️ Portal Principal con filtros (XV, Bodas, Fiestas) y buscador
+├── .gitignore                   # Exclusiones de archivos del editor y temporales
+├── README.md                    # Documentación completa
+│
+├── XV/                          # 👑 CATEGORÍA: QUINCEAÑERAS
+│   ├── Britney/                 # ⭐ EVENTO PRINCIPAL ACTIVO (XV Britney)
+│   │   ├── index.html           # Invitación con Sello Real 3D, música, pase VIP, itinerario y RSVP
+│   │   ├── admin.html           # Generador de pases personalizados para WhatsApp
+│   │   ├── confirmados.html     # Dashboard en tiempo real conectado a Google Sheets
+│   │   ├── codigo_google_sheets.js # Código listo para Apps Script
+│   │   ├── musica.mp3           # Canción de fondo
+│   │   └── fotos/               # Galería fotográfica (portada, foto1 a foto7)
+│   └── Plantilla/               # 📋 Plantilla lista para duplicar para nuevas quinceañeras
+│
+├── Bodas/                       # 💍 CATEGORÍA: BODAS & MATRIMONIOS
+│   └── Plantilla/               # 📋 Plantilla base para duplicar para nuevos clientes de bodas
+│
+└── Fiestas/                     # 🎉 CATEGORÍA: CUMPLEAÑOS & EVENTOS SOCIALES
+    └── Plantilla/               # 📋 Plantilla base para duplicar para fiestas y aniversarios
 ```
 
 ---
 
 ## 🚀 Enlaces Directos del Evento (XV Britney)
 
-- **Invitación Digital:**  
-  `https://alvapcompany.github.io/invitaciones_Fiestas/XV_Britney/`
-- **Pase Personalizado (Ejemplo con Familia y Pases):**  
-  `https://alvapcompany.github.io/invitaciones_Fiestas/XV_Britney/?n=Morales&p=3`
-- **Panel de Pases & Generador WhatsApp:**  
-  `https://alvapcompany.github.io/invitaciones_Fiestas/XV_Britney/admin.html`
-- **Tablero de Confirmados:**  
-  `https://alvapcompany.github.io/invitaciones_Fiestas/XV_Britney/confirmados.html`
+- **Invitación Digital de Gala:**  
+  `https://alvapcompany.github.io/invitaciones_Fiestas/XV/Britney/`
+- **Pase Personalizado VIP (Ejemplo con Familia y Lugares):**  
+  `https://alvapcompany.github.io/invitaciones_Fiestas/XV/Britney/?n=Morales&p=3`
+- **Generador de Pases & Enlaces WhatsApp:**  
+  `https://alvapcompany.github.io/invitaciones_Fiestas/XV/Britney/admin.html`
+- **Dashboard de Confirmados en Vivo:**  
+  `https://alvapcompany.github.io/invitaciones_Fiestas/XV/Britney/confirmados.html`
 
 ---
 
-## 📝 Guía Rápida: Cómo Crear una Nueva Invitación para Otro Cliente
+## 📝 Guía Paso a Paso: Cómo Agregar un Nuevo Cliente
 
-Para crear una nueva invitación (por ejemplo para una boda o unos nuevos XV años):
+Para agregar un nuevo cliente en menos de 3 minutos:
 
-1. **Duplica una carpeta existente**:
-   - Copia la carpeta `XV_Britney` y cámbiale el nombre a `Boda_Carlos_Ana` o `XV_Valeria`.
+1. **Selecciona la categoría adecuada**:
+   - Para Quince Años: entra a `XV/`
+   - Para Bodas: entra a `Bodas/`
+   - Para Fiestas o Cumpleaños: entra a `Fiestas/`
 
-2. **Reemplaza fotos y música**:
-   - En la subcarpeta `fotos/`, coloca las nuevas imágenes (conservando los nombres o actualizándolos en `index.html`).
-   - Reemplaza `musica.mp3` con la canción deseada.
+2. **Duplica la carpeta `Plantilla`**:
+   - Cámbiale el nombre a la nueva carpeta por el del cliente (ejemplo: `XV/Valeria/` o `Bodas/Carlos_y_Ana/`).
 
-3. **Configura Google Sheets**:
-   - Crea una nueva hoja en Google Sheets con las columnas: `Familia`, `Pases`, `Confirmado`, `Fecha_Confirmacion`.
-   - Ve a **Extensiones > Apps Script**, pega el código de `codigo_google_sheets.js`.
-   - Haz clic en **Implementar > Nueva implementación**, elige **Aplicación Web**, acceso para **Cualquiera**, y copia la URL terminada en `/exec`.
+3. **Reemplaza fotos y música**:
+   - En la carpeta `fotos/`, guarda las imágenes del cliente.
+   - En `musica.mp3`, coloca su canción favorita.
 
-4. **Actualiza la URL y datos en el código**:
-   - Abre `index.html`, `admin.html` y `confirmados.html` del nuevo cliente.
-   - En la parte superior de `<script>`, busca el bloque:
+4. **Conecta Google Sheets (Opcional pero Recomendado)**:
+   - Crea una hoja de Google Sheets con las columnas: `Familia`, `Pases`, `Confirmado`, `Fecha_Confirmacion`.
+   - Ve a **Extensiones > Apps Script** en tu hoja, pega el código de `codigo_google_sheets.js`.
+   - Haz clic en **Implementar > Nueva implementación**, selecciona **Aplicación Web**, elige acceso para **Cualquiera**, y copia la URL terminada en `/exec`.
+
+5. **Actualiza las variables de configuración**:
+   - Abre `index.html` del nuevo cliente y edita el bloque superior:
      ```javascript
-     const CONFIG_INVITACION = {
-         GOOGLE_SHEETS_URL: 'TU_NUEVA_URL_DE_APPS_SCRIPT_AQUI',
+     const CONFIG_EVENTO = {
+         GOOGLE_SHEETS_URL: 'TU_NUEVA_URL_APPS_SCRIPT_AQUI',
          WHATSAPP_PHONE: '52XXXXXXXXXX',
          NOMBRE_FESTEJADA: 'Nombre del Cliente',
-         FECHA_EVENTO: new Date(2026, 11, 15, 18, 0, 0)
+         FECHA_EVENTO: new Date(2026, 11, 20, 18, 0, 0)
      };
      ```
-   - ¡Listo! Sube los cambios con `git push` y la nueva invitación estará disponible en:  
-     `https://alvapcompany.github.io/invitaciones_Fiestas/Nombre_Carpeta/`
+
+6. **Sube los cambios a GitHub**:
+   ```bash
+   git add .
+   git commit -m "feat: agregar invitacion de nuevo cliente"
+   git push
+   ```
+   ¡Tu cliente tendrá su invitación lista en segundos en `https://alvapcompany.github.io/invitaciones_Fiestas/Categoria/Nombre_Cliente/`!
