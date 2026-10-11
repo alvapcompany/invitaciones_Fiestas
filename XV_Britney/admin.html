@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control — XV Britney</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --azul-profundo: #071527;
+            --azul-turquesa: #0097a7;
+            --azul-claro: #4dd0e1;
+            --azul-gala: #00838f;
+            --plata-fondo: #e6f6f9;
+            --plata-medio: #cbd5e1;
+            --plata-oscuro: #64748b;
+            --exito: #2e7d32;
+            --alerta: #f57f17;
+            --peligro: #c62828;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #e6f6f9 0%, #d4f1f7 50%, #e6f6f9 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 16px 80px;
+            color: var(--azul-profundo);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 720px;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.8rem;
+            color: var(--azul-turquesa);
+            text-shadow: 0 2px 10px rgba(0, 151, 167, 0.2);
+            line-height: 1.1;
+        }
+
+        header p {
+            font-family: 'Cinzel', serif;
+            font-size: 0.82rem;
+            letter-spacing: 4px;
+            color: var(--azul-gala);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 1.5px solid var(--azul-claro);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--azul-turquesa);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0, 151, 167, 0.08);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--azul-turquesa);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- Panel de Generación --- */
+        .panel {
+            background: white;
+            border-radius: 26px;
+            padding: 38px 32px;
+            width: 100%;
+            max-width: 540px;
+            box-shadow: 0 20px 45px rgba(0, 115, 130, 0.12);
+            border-top: 6px solid var(--azul-turquesa);
+            margin-bottom: 30px;
+        }
+
+        .panel-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--azul-turquesa);
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--azul-gala);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .field-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0f2f1;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--azul-profundo);
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .field-group input:focus {
+            border-color: var(--azul-turquesa);
+            box-shadow: 0 0 0 4px rgba(77, 208, 225, 0.2);
+            background: #faffff;
+        }
+
+        .btn-principal {
+            width: 100%;
+            background: linear-gradient(135deg, var(--azul-turquesa), var(--azul-gala));
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 151, 167, 0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .btn-principal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 151, 167, 0.4);
+            filter: brightness(1.05);
+        }
+
+        /* --- Resultado de Invitación Generada --- */
+        #resultadoCard {
+            display: none;
+            background: white;
+            border-radius: 26px;
+            padding: 35px 28px;
+            width: 100%;
+            max-width: 540px;
+            box-shadow: 0 20px 50px rgba(0, 115, 130, 0.15);
+            border-top: 6px solid #2e7d32;
+            margin-bottom: 35px;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .preview-box {
+            background: #f0fbfc;
+            border: 2px dashed var(--azul-claro);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .preview-familia {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--azul-profundo);
+            font-weight: 700;
+            margin: 6px 0;
+        }
+
+        .preview-pases {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--azul-turquesa);
+            line-height: 1;
+        }
+
+        .link-output {
+            background: #eef8fa;
+            border: 1px solid #b2ebf2;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.78rem;
+            word-break: break-all;
+            color: var(--azul-gala);
+            margin: 14px 0 20px;
+            font-family: monospace;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .link-output:hover {
+            background: #e0f7fa;
+        }
+
+        .btn-grid-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .btn-sub {
+            padding: 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.25s;
+            text-decoration: none;
+        }
+
+        .btn-copy { background: #e0f7fa; color: var(--azul-turquesa); }
+        .btn-copy:hover { background: #b2ebf2; }
+
+        .btn-view { background: #e8f5e9; color: var(--exito); }
+        .btn-view:hover { background: #c8e6c9; }
+
+        .btn-wa { background: #25d366; color: white; grid-column: span 2; }
+        .btn-wa:hover { background: #1eb956; }
+
+        /* --- Tabla de Invitados y Filtros --- */
+        .guests-section {
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 26px;
+            padding: 35px 28px;
+            box-shadow: 0 20px 45px rgba(0, 115, 130, 0.1);
+        }
+
+        .guests-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #e0f2f1;
+            padding-bottom: 18px;
+        }
+
+        .stats-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: #f0fbfc;
+            border: 1px solid #b2ebf2;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--azul-gala);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 18px;
+            border: 2px solid #e0f2f1;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--azul-turquesa);
+        }
+
+        .guests-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .guests-table th {
+            text-align: left;
+            padding: 12px 14px;
+            background: #f7fcfd;
+            color: var(--azul-gala);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #e0f2f1;
+        }
+
+        .guests-table td {
+            padding: 14px;
+            border-bottom: 1px solid #f0f4f5;
+        }
+
+        .guests-table tr:hover {
+            background: #faffff;
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pill.confirmed { background: #e8f5e9; color: var(--exito); }
+        .status-pill.pending { background: #fff8e1; color: var(--alerta); }
+
+        .btn-table-action {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-right: 4px;
+        }
+
+        .btn-tb-copy { background: #e0f7fa; color: var(--azul-turquesa); }
+        .btn-tb-del { background: #ffebee; color: var(--peligro); }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--azul-profundo);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            z-index: 999;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Britney</h1>
+        <p>Panel de Administración & Pases</p>
+        <div class="header-nav">
+            <a href="index.html" class="nav-btn" target="_blank">👁️ Ver Invitación</a>
+            <a href="confirmados.html" class="nav-btn">📊 Lista de Confirmados</a>
+        </div>
+    </header>
+
+    <!-- Generador de Invitaciones -->
+    <div class="panel">
+        <h2 class="panel-title">✦ Crear Pase de Invitado ✦</h2>
+
+        <div class="field-group">
+            <label for="inpFamilia">Nombre o Apellido de la Familia</label>
+            <input type="text" id="inpFamilia" placeholder="Ej: Familia Morales Rodríguez" autocomplete="off">
+        </div>
+
+        <div class="field-group">
+            <label for="inpPases">Número de Lugares Reservados</label>
+            <input type="number" id="inpPases" placeholder="Ej: 2" min="1" max="20" value="2">
+        </div>
+
+        <button class="btn-principal" onclick="generarInvitacion()">
+            <span>✨ Generar Invitación Digital</span>
+        </button>
+    </div>
+
+    <!-- Resultado Generado -->
+    <div id="resultadoCard">
+        <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: #2e7d32; letter-spacing: 2px;">¡Invitación Lista!</h3>
+
+        <div class="preview-box">
+            <p style="font-size: 0.72rem; letter-spacing: 2px; color: var(--azul-gala); text-transform: uppercase;">Invitación para:</p>
+            <div class="preview-familia" id="resFamilia">Familia Morales</div>
+            <p style="font-size: 0.78rem; color: var(--plata-oscuro); margin-top: 4px;">Lugares reservados:</p>
+            <div class="preview-pases" id="resPases">2</div>
+        </div>
+
+        <p style="font-size: 0.72rem; letter-spacing: 1px; color: var(--plata-oscuro); text-transform: uppercase;">Enlace Personalizado (Toca para copiar):</p>
+        <div class="link-output" id="resLink" onclick="copiarLinkResultado()">—</div>
+
+        <div class="btn-grid-actions">
+            <button class="btn-sub btn-copy" onclick="copiarLinkResultado()">📋 Copiar Link</button>
+            <a href="#" id="resBtnVer" class="btn-sub btn-view" target="_blank">👁️ Ver Invitación</a>
+            <button class="btn-sub btn-wa" onclick="enviarWhatsAppResultado()">💬 Enviar Invitación por WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- Listado de Invitados Guardados -->
+    <div class="guests-section">
+        <div class="guests-header">
+            <div>
+                <h3 style="font-family: 'Cinzel', serif; font-size: 1.15rem; color: var(--azul-turquesa); letter-spacing: 2px;">Lista de Invitados</h3>
+                <p style="font-size: 0.75rem; color: var(--plata-oscuro);">Pases generados y estado de confirmación</p>
+            </div>
+            <div class="stats-badges">
+                <span class="stat-badge" id="badgeTotalFamilias">0 Familias</span>
+                <span class="stat-badge" id="badgeTotalPases">0 Pases en Total</span>
+                <span class="stat-badge" style="background: #e8f5e9; color: #2e7d32;" id="badgeTotalConfirmados">0 Confirmados</span>
+            </div>
+        </div>
+
+        <input type="text" id="inpBuscar" class="search-box" placeholder="🔍 Buscar por nombre o familia..." oninput="filtrarInvitados()">
+
+        <div style="overflow-x: auto;">
+            <table class="guests-table">
+                <thead>
+                    <tr>
+                        <th>Familia / Invitado</th>
+                        <th>Lugares</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="guestsTbody">
+                    <!-- Dinámico -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">¡Enlace copiado al portapapeles!</div>
+
+    <script>
+        // =========================================================================
+        // 📝 CONFIGURACIÓN DE APPS SCRIPT Y WHATSAPP PARA ESTE CLIENTE
+        // Modifica estos valores cuando uses este panel con otro cliente:
+        // =========================================================================
+        const CONFIG_PANEL = {
+            // URL de Google Apps Script vinculada a Google Sheets:
+            GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzt82an0oeBTjo4TncRopBnd85Yvm5AaUqfQKWCSJwy_ZhN8G5wBvWGoJXBl3h61ZAWSg/exec',
+            
+            // Teléfono para recibir confirmaciones:
+            WHATSAPP_HOST: '528446082601',
+            
+            // Nombre de la quinceañera / evento:
+            EVENTO: 'Mis XV Años | Britney'
+        };
+        // =========================================================================
+
+        // Obtener la URL base de la invitación (soporta tanto GitHub Pages como local)
+        function getInvitationBaseUrl() {
+            const currentHref = window.location.href;
+            const basePath = currentHref.substring(0, currentHref.lastIndexOf('/') + 1);
+            return basePath + 'index.html';
+        }
+
+        const INVITATION_BASE_URL = getInvitationBaseUrl();
+
+        // Invitados guardados en localStorage
+        let invitados = JSON.parse(localStorage.getItem('xv_britney_invitados') || '[]');
+        let linkActual = '';
+        let familiaActual = '';
+        let pasesActual = 1;
+
+        // Renderizar lista al cargar
+        renderizarTabla();
+
+        function generarInvitacion() {
+            const familia = document.getElementById('inpFamilia').value.trim();
+            const pases = parseInt(document.getElementById('inpPases').value) || 1;
+
+            if (!familia) {
+                alert('Por favor ingresa el apellido o nombre de la familia.');
+                return;
+            }
+
+            familiaActual = familia;
+            pasesActual = pases;
+            linkActual = `${INVITATION_BASE_URL}?n=${encodeURIComponent(familia)}&p=${pases}`;
+
+            // Mostrar resultado
+            document.getElementById('resFamilia').innerText = familia;
+            document.getElementById('resPases').innerText = pases;
+            document.getElementById('resLink').innerText = linkActual;
+            document.getElementById('resBtnVer').href = linkActual;
+            document.getElementById('resultadoCard').style.display = 'block';
+            document.getElementById('resultadoCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Guardar en la lista si no existe
+            const index = invitados.findIndex(i => i.familia.toLowerCase() === familia.toLowerCase());
+            if (index >= 0) {
+                invitados[index].pases = pases;
+                invitados[index].link = linkActual;
+            } else {
+                invitados.push({
+                    familia: familia,
+                    pases: pases,
+                    link: linkActual,
+                    confirmado: 'Pendiente'
+                });
+            }
+
+            guardarInvitados();
+            renderizarTabla();
+
+            // Sincronizar nuevo invitado en Google Sheets
+            sincronizarConSheets(familia, pases, 'Pendiente');
+        }
+
+        function sincronizarConSheets(familia, pases, confirmado) {
+            if (!CONFIG_PANEL.GOOGLE_SHEETS_URL) return;
+
+            const payload = JSON.stringify({
+                action: 'add_guest',
+                familia: familia,
+                pases: pases,
+                confirmado: confirmado
+            });
+
+            fetch(CONFIG_PANEL.GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: payload
+            }).catch(err => {
+                fetch(CONFIG_PANEL.GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: payload
+                }).catch(e => console.log('Sheets Sync Error:', e));
+            });
+        }
+
+        function guardarInvitados() {
+            localStorage.setItem('xv_britney_invitados', JSON.stringify(invitados));
+        }
+
+        function copiarLinkResultado() {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(linkActual);
+            }
+            mostrarToast('¡Enlace copiado al portapapeles!');
+        }
+
+        function enviarWhatsAppResultado() {
+            const mensaje = `✨ ¡Hola Familia ${familiaActual}! ✨\n\nCon mucha alegría los invito a celebrar mis XV Años ❄️👑.\n\nHemos reservado especialmente para ustedes *${pasesActual} pase${pasesActual > 1 ? 's' : ''}*.\n\nPueden ver los detalles del evento, itinerario y confirmar su asistencia aquí:\n👉 ${linkActual}\n\n¡Será un honor contar con su compañía!`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`, '_blank');
+        }
+
+        function renderizarTabla(filtro = '') {
+            const tbody = document.getElementById('guestsTbody');
+            tbody.innerHTML = '';
+
+            let totalPases = 0;
+            let totalConfirmados = 0;
+
+            const filtrados = invitados.filter(item => 
+                item.familia.toLowerCase().includes(filtro.toLowerCase())
+            );
+
+            invitados.forEach(i => {
+                totalPases += parseInt(i.pases) || 0;
+                if (i.confirmado && i.confirmado.toLowerCase().includes('sí')) {
+                    totalConfirmados += parseInt(i.pases) || 0;
+                }
+            });
+
+            document.getElementById('badgeTotalFamilias').innerText = `${invitados.length} Familias`;
+            document.getElementById('badgeTotalPases').innerText = `${totalPases} Pases Reservados`;
+            document.getElementById('badgeTotalConfirmados').innerText = `${totalConfirmados} Confirmados`;
+
+            if (filtrados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #94a3b8; padding: 25px;">No hay invitados que coincidan con la búsqueda.</td></tr>`;
+                return;
+            }
+
+            filtrados.forEach((invitado, index) => {
+                const tr = document.createElement('tr');
+                const esConfirmado = invitado.confirmado && invitado.confirmado.toLowerCase().includes('sí');
+
+                tr.innerHTML = `
+                    <td style="font-weight: 600; color: #071527;">${invitado.familia}</td>
+                    <td><strong>${invitado.pases}</strong></td>
+                    <td>
+                        <span class="status-pill ${esConfirmado ? 'confirmed' : 'pending'}">
+                            ${esConfirmado ? 'Confirmado ✅' : 'Pendiente ⏳'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn-table-action btn-tb-copy" onclick="copiarLinkFila('${invitado.link}')">📋 Copiar</button>
+                        <button class="btn-table-action btn-tb-del" onclick="eliminarInvitado('${invitado.familia}')">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filtrarInvitados() {
+            const query = document.getElementById('inpBuscar').value;
+            renderizarTabla(query);
+        }
+
+        function copiarLinkFila(link) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(link);
+            }
+            mostrarToast('¡Enlace copiado!');
+        }
+
+        function eliminarInvitado(familia) {
+            if (confirm(`¿Deseas eliminar a "${familia}" de la lista local?`)) {
+                invitados = invitados.filter(i => i.familia !== familia);
+                guardarInvitados();
+                renderizarTabla();
+                mostrarToast('Invitado eliminado');
+            }
+        }
+
+        function mostrarToast(txt) {
+            const toast = document.getElementById('toast');
+            toast.innerText = txt;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

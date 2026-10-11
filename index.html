@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Invitaciones Digitales — Alva P Company</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --azul-profundo: #071527;
+            --azul-noche: #0b1e36;
+            --azul-turquesa: #0097a7;
+            --azul-claro: #4dd0e1;
+            --azul-gala: #00838f;
+            --plata-claro: #f0fbfc;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 10% 20%, #071527 0%, #0b1e36 40%, #061322 100%);
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Destellos de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(77, 208, 225, 0.25), transparent 70%);
+            top: 10%;
+            left: 15%;
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 151, 167, 0.2), transparent 70%);
+            bottom: 10%;
+            right: 15%;
+            filter: blur(50px);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .header-tag {
+            font-family: 'Cinzel', serif;
+            font-size: 0.82rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--azul-claro);
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 30%, #4dd0e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            max-width: 580px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        /* --- Cuadrícula de Invitaciones / Clientes --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            text-align: left;
+            margin-bottom: 45px;
+        }
+
+        .client-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(77, 208, 225, 0.2);
+            border-radius: 24px;
+            padding: 32px 28px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .client-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--azul-claro);
+            box-shadow: 0 25px 60px rgba(0, 151, 167, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .badge-destacado {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #0097a7, #4dd0e1);
+            color: #071527;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            padding: 5px 12px;
+            border-radius: 50px;
+            text-transform: uppercase;
+        }
+
+        .client-category {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--azul-claro);
+            margin-bottom: 6px;
+        }
+
+        .client-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.2rem;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 6px;
+        }
+
+        .client-date {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .client-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-launch {
+            background: linear-gradient(135deg, var(--azul-turquesa), var(--azul-gala));
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(0, 151, 167, 0.3);
+            transition: all 0.3s;
+        }
+
+        .btn-launch:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 25px rgba(0, 151, 167, 0.5);
+        }
+
+        .btn-sublink {
+            background: rgba(255, 255, 255, 0.08);
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-sublink:hover {
+            background: rgba(255, 255, 255, 0.16);
+            color: var(--azul-claro);
+            border-color: var(--azul-claro);
+        }
+
+        footer {
+            font-size: 0.75rem;
+            color: #64748b;
+            letter-spacing: 1px;
+        }
+
+        footer a {
+            color: var(--azul-claro);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <span class="header-tag">Colección Exclusiva</span>
+        <h1>Invitaciones Digitales</h1>
+        <p class="subtitle">Plataforma interactiva para eventos de gala. Cada invitación cuenta con su pase VIP, mapa GPS, música en vivo y confirmación conectada a Google Sheets & WhatsApp.</p>
+
+        <div class="cards-grid">
+            <!-- Tarjeta XV Britney (Versión Mejorada) -->
+            <div class="client-card">
+                <span class="badge-destacado">⭐ Nueva Versión</span>
+                <p class="client-category">Quince Años</p>
+                <h2 class="client-title">Britney</h2>
+                <p class="client-date">📅 24 de Julio de 2026 • Saltillo, Coahuila</p>
+                <div class="client-links">
+                    <a href="XV_Britney/index.html" class="btn-launch">
+                        <span>✨ Ver Invitación Digital</span>
+                    </a>
+                    <a href="XV_Britney/admin.html" class="btn-sublink">
+                        <span>⚙️ Generador de Pases & WhatsApp</span>
+                    </a>
+                    <a href="XV_Britney/confirmados.html" class="btn-sublink">
+                        <span>📊 Dashboard de Confirmados</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tarjeta XV Clásico -->
+            <div class="client-card" style="opacity: 0.85;">
+                <p class="client-category">Quince Años (Versión Anterior)</p>
+                <h2 class="client-title">Britney (Classic)</h2>
+                <p class="client-date">📅 24 de Julio de 2026 • Edición Clásica</p>
+                <div class="client-links">
+                    <a href="XV/index.html" class="btn-launch" style="background: linear-gradient(135deg, #00838f, #006064);">
+                        <span>Ver Versión Clásica</span>
+                    </a>
+                    <a href="XV/admin.html" class="btn-sublink">
+                        <span>Panel Clásico</span>
+                    </a>
+                    <a href="XV/confirmados.html" class="btn-sublink">
+                        <span>Confirmados Clásico</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Repositorio administrado por <strong>alvapcompany</strong> • Hospedado en GitHub Pages</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>
